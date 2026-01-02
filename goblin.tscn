@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://jl2tjjs4dknn"]
+[gd_scene load_steps=29 format=3 uid="uid://jl2tjjs4dknn"]
 
 [ext_resource type="Texture2D" uid="uid://blowlwsg6d6ps" path="res://resources/characters/goblin.png" id="1_dl46o"]
+[ext_resource type="Script" uid="uid://dvljsmbb3vpjp" path="res://goblin.gd" id="1_u6mjv"]
 
 [sub_resource type="Animation" id="Animation_u6mjv"]
 resource_name = "run_left"
@@ -236,12 +237,30 @@ tracks/3/keys = {
 "values": [Vector2(14, -10)]
 }
 
+[sub_resource type="Animation" id="Animation_3s2j4"]
+resource_name = "idle"
+length = 0.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GoblinSprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_macxp"]
 _data = {
 &"RESET": SubResource("Animation_vu5tg"),
 &"attack_left": SubResource("Animation_eyhpr"),
 &"attack_right": SubResource("Animation_utad2"),
 &"die": SubResource("Animation_macxp"),
+&"idle": SubResource("Animation_3s2j4"),
 &"run_left": SubResource("Animation_u6mjv"),
 &"run_right": SubResource("Animation_dl46o")
 }
@@ -251,19 +270,64 @@ radius = 2.0
 height = 12.0
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_u6mjv"]
-animation = &"run_left"
+animation = &"attack_left"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_vu5tg"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vu5tg"]
+animation = &"attack_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_macxp"]
 blend_point_0/node = SubResource("AnimationNodeAnimation_u6mjv")
 blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_vu5tg")
+blend_point_1/pos = 1.0
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u6mjv"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eyhpr"]
+animation = &"run_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_utad2"]
+animation = &"run_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_3s2j4"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_eyhpr")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_utad2")
+blend_point_1/pos = 1.0
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dl46o"]
+animation = &"die"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6nebt"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_macxp"]
+switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ixvp6"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mq4fs"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g7r1m"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3x2od"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gut4f"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_macxp"]
-states/RunState/node = SubResource("AnimationNodeBlendSpace1D_vu5tg")
-states/RunState/position = Vector2(402, 100)
-transitions = ["Start", "RunState", SubResource("AnimationNodeStateMachineTransition_u6mjv")]
+states/AttackState/node = SubResource("AnimationNodeBlendSpace1D_macxp")
+states/AttackState/position = Vector2(431, 222)
+states/ChaseState/node = SubResource("AnimationNodeBlendSpace1D_3s2j4")
+states/ChaseState/position = Vector2(431, 100)
+states/Start/position = Vector2(78, 100)
+states/die/node = SubResource("AnimationNodeAnimation_dl46o")
+states/die/position = Vector2(630, 99)
+states/idle/node = SubResource("AnimationNodeAnimation_6nebt")
+states/idle/position = Vector2(238, 100)
+transitions = ["die", "End", SubResource("AnimationNodeStateMachineTransition_macxp"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_ixvp6"), "idle", "ChaseState", SubResource("AnimationNodeStateMachineTransition_mq4fs"), "ChaseState", "AttackState", SubResource("AnimationNodeStateMachineTransition_g7r1m"), "AttackState", "ChaseState", SubResource("AnimationNodeStateMachineTransition_3x2od"), "ChaseState", "die", SubResource("AnimationNodeStateMachineTransition_gut4f")]
+graph_offset = Vector2(-121, -7)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_eyhpr"]
 nodes/output/position = Vector2(520, 220)
@@ -275,6 +339,7 @@ node_connections = [&"output", 0, &"StateMachine"]
 height = 20.0
 
 [node name="Goblin" type="CharacterBody2D"]
+script = ExtResource("1_u6mjv")
 
 [node name="GoblinSprite" type="Sprite2D" parent="."]
 position = Vector2(0, -11)
@@ -295,7 +360,8 @@ shape = SubResource("CapsuleShape2D_dl46o")
 tree_root = SubResource("AnimationNodeBlendTree_eyhpr")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/StateMachine/RunState/blend_position = -0.93303573
+parameters/StateMachine/AttackState/blend_position = 0.0
+parameters/StateMachine/ChaseState/blend_position = 0.0
 
 [node name="AttackArea2D" type="Area2D" parent="."]
 

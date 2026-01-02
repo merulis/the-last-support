@@ -3,7 +3,7 @@ extends CharacterBody2D
 const SPEED = 100.0
 
 var input_vector: = Vector2.ZERO
-var last_input_vector: = Vector2.DOWN
+var last_input_vector: = Vector2.RIGHT
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var playback = animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback

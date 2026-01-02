@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=7 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="PackedScene" uid="uid://cxptp3vk0vh06" path="res://player.tscn" id="1_f3sb7"]
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://jl2tjjs4dknn" path="res://goblin.tscn" id="2_aqk2v"]
 [ext_resource type="Script" uid="uid://b7tlrwr5p6lgk" path="res://camera_2d.gd" id="3_tlwt5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
@@ -11,6 +12,7 @@ size = Vector2(624, 19)
 size = Vector2(625.5, 20)
 
 [node name="game" type="Node2D"]
+y_sort_enabled = true
 
 [node name="world" type="Node2D" parent="."]
 
@@ -49,3 +51,6 @@ drag_bottom_margin = 0.45
 editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource("3_tlwt5")
+
+[node name="Goblin" parent="." instance=ExtResource("2_aqk2v")]
+position = Vector2(325, 145)
