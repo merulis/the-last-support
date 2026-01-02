@@ -1,7 +1,9 @@
-[gd_scene load_steps=29 format=3 uid="uid://jl2tjjs4dknn"]
+[gd_scene load_steps=32 format=3 uid="uid://jl2tjjs4dknn"]
 
 [ext_resource type="Texture2D" uid="uid://blowlwsg6d6ps" path="res://resources/characters/goblin.png" id="1_dl46o"]
 [ext_resource type="Script" uid="uid://dvljsmbb3vpjp" path="res://goblin.gd" id="1_u6mjv"]
+[ext_resource type="Script" uid="uid://cgw0q7jt2j0ja" path="res://damage_boxes/hitbox.gd" id="3_macxp"]
+[ext_resource type="Script" uid="uid://c3on600laajva" path="res://damage_boxes/hurtbox.gd" id="4_eyhpr"]
 
 [sub_resource type="Animation" id="Animation_u6mjv"]
 resource_name = "run_left"
@@ -62,7 +64,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("AttackArea2D/AttackShape:disabled")
+tracks/2/path = NodePath("HitboxArea/Hitbox:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -74,7 +76,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("AttackArea2D/AttackShape:position")
+tracks/3/path = NodePath("HitboxArea/Hitbox:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -162,7 +164,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("AttackArea2D/AttackShape:disabled")
+tracks/2/path = NodePath("HitboxArea/Hitbox:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -174,7 +176,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("AttackArea2D/AttackShape:position")
+tracks/3/path = NodePath("HitboxArea/Hitbox:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -215,7 +217,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("AttackArea2D/AttackShape:disabled")
+tracks/2/path = NodePath("HitboxArea/Hitbox:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -227,7 +229,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("AttackArea2D/AttackShape:position")
+tracks/3/path = NodePath("HitboxArea/Hitbox:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -338,6 +340,10 @@ node_connections = [&"output", 0, &"StateMachine"]
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_utad2"]
 height = 20.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u6mjv"]
+radius = 6.0
+height = 20.0
+
 [node name="Goblin" type="CharacterBody2D"]
 script = ExtResource("1_u6mjv")
 
@@ -363,10 +369,23 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/StateMachine/AttackState/blend_position = 0.0
 parameters/StateMachine/ChaseState/blend_position = 0.0
 
-[node name="AttackArea2D" type="Area2D" parent="."]
+[node name="HitboxArea" type="Area2D" parent="."]
+script = ExtResource("3_macxp")
+metadata/_custom_type_script = "uid://cgw0q7jt2j0ja"
 
-[node name="AttackShape" type="CollisionShape2D" parent="AttackArea2D"]
+[node name="Hitbox" type="CollisionShape2D" parent="HitboxArea"]
 position = Vector2(-14, -10)
 shape = SubResource("CapsuleShape2D_utad2")
 disabled = true
 debug_color = Color(1, 0, 0, 0.41960785)
+
+[node name="HurtboxArea" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("4_eyhpr")
+metadata/_custom_type_script = "uid://c3on600laajva"
+
+[node name="Hurtbox" type="CollisionShape2D" parent="HurtboxArea"]
+position = Vector2(0, -9)
+shape = SubResource("CapsuleShape2D_u6mjv")
+debug_color = Color(0, 1, 0, 0.41960785)
