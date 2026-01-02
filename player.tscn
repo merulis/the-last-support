@@ -457,9 +457,10 @@ height = 36.0
 radius = 7.0
 height = 22.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_onrkg")
+metadata/_custom_type_script = "uid://dw1601xf483hx"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -25,6 +25,10 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
 window/vsync/vsync_mode=3
 
+[global_group]
+
+player=""
+
 [input]
 
 move_left={

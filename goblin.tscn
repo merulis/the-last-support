@@ -267,10 +267,6 @@ _data = {
 &"run_right": SubResource("Animation_dl46o")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dl46o"]
-radius = 2.0
-height = 12.0
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_u6mjv"]
 animation = &"attack_left"
 
@@ -309,6 +305,8 @@ advance_mode = 2
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mq4fs"]
+advance_mode = 2
+advance_expression = "is_player()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g7r1m"]
 
@@ -337,6 +335,10 @@ nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_macxp")
 nodes/StateMachine/position = Vector2(240, 140)
 node_connections = [&"output", 0, &"StateMachine"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dl46o"]
+radius = 2.0
+height = 12.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_utad2"]
 height = 20.0
 
@@ -358,16 +360,16 @@ libraries = {
 &"": SubResource("AnimationLibrary_macxp")
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-rotation = 1.5707964
-shape = SubResource("CapsuleShape2D_dl46o")
-
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeBlendTree_eyhpr")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 parameters/StateMachine/AttackState/blend_position = 0.0
-parameters/StateMachine/ChaseState/blend_position = 0.0
+parameters/StateMachine/ChaseState/blend_position = 0.08825672
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_dl46o")
 
 [node name="HitboxArea" type="Area2D" parent="."]
 script = ExtResource("3_macxp")
