@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2yiax47l701r"
-path="res://.godot/imported/Orc.png-dbce465fe581604417aeee9da32d0fe3.ctex"
+uid="uid://blowlwsg6d6ps"
+path="res://.godot/imported/goblin.png-dd22273b056acd0ab36129d0caae788e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/characters/Orc.png"
-dest_files=["res://.godot/imported/Orc.png-dbce465fe581604417aeee9da32d0fe3.ctex"]
+source_file="res://resources/characters/goblin.png"
+dest_files=["res://.godot/imported/goblin.png-dd22273b056acd0ab36129d0caae788e.ctex"]
 
 [params]
 
