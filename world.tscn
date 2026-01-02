@@ -1,9 +1,17 @@
-[gd_scene load_steps=3 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=7 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="PackedScene" uid="uid://cxptp3vk0vh06" path="res://player.tscn" id="1_f3sb7"]
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://jl2tjjs4dknn" path="res://goblin.tscn" id="2_aqk2v"]
+[ext_resource type="Script" uid="uid://b7tlrwr5p6lgk" path="res://camera_2d.gd" id="3_tlwt5"]
 
-[node name="World" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
+size = Vector2(624, 19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aqk2v"]
+size = Vector2(625.5, 20)
+
+[node name="game" type="Node2D"]
 
 [node name="world" type="Node2D" parent="."]
 
@@ -14,8 +22,34 @@ tile_set = ExtResource("1_fj7yv")
 [node name="floor" type="TileMapLayer" parent="world"]
 tile_set = ExtResource("1_fj7yv")
 
-[node name="Player" parent="." instance=ExtResource("1_f3sb7")]
-position = Vector2(138, 73)
+[node name="StaticBody2D" type="StaticBody2D" parent="world"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(9, 6)
+[node name="top" type="CollisionShape2D" parent="world/StaticBody2D"]
+position = Vector2(248, 82)
+shape = SubResource("RectangleShape2D_tlwt5")
+
+[node name="botton" type="CollisionShape2D" parent="world/StaticBody2D"]
+position = Vector2(249.25, 234)
+shape = SubResource("RectangleShape2D_aqk2v")
+
+[node name="Goblin" parent="world" instance=ExtResource("2_aqk2v")]
+position = Vector2(93, 126)
+
+[node name="Player" parent="." instance=ExtResource("1_f3sb7")]
+position = Vector2(226, 113)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(-1, -1)
+process_callback = 0
+limit_top = 0
+limit_bottom = 224
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+drag_horizontal_enabled = true
+drag_left_margin = 0.35
+drag_top_margin = 0.45
+drag_right_margin = 0.35
+drag_bottom_margin = 0.45
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource("3_tlwt5")

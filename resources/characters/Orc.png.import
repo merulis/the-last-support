@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clj6i53c8jjrd"
-path="res://.godot/imported/tmw-concrete_walls-019-test.png-4d4cb26ede03fa0664730cb58f0bd87e.ctex"
+uid="uid://2yiax47l701r"
+path="res://.godot/imported/Orc.png-dbce465fe581604417aeee9da32d0fe3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://temp_tileset/tmw-concrete_walls-019-test.png"
-dest_files=["res://.godot/imported/tmw-concrete_walls-019-test.png-4d4cb26ede03fa0664730cb58f0bd87e.ctex"]
+source_file="res://resources/characters/Orc.png"
+dest_files=["res://.godot/imported/Orc.png-dbce465fe581604417aeee9da32d0fe3.ctex"]
 
 [params]
 
