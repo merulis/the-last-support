@@ -395,10 +395,12 @@ advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 parameters/StateMachine/AttackState/blend_position = 0.4813187
 parameters/StateMachine/DeathState/blend_position = -0.84175825
-parameters/StateMachine/MoveState/RunState/blend_position = -0.068131864
-parameters/StateMachine/MoveState/StandState/blend_position = -0.09854853
+parameters/StateMachine/MoveState/RunState/blend_position = 0.0
+parameters/StateMachine/MoveState/StandState/blend_position = 0.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(52, 71)
+process_callback = 0
 limit_enabled = false
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
