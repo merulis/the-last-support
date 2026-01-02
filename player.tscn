@@ -179,10 +179,10 @@ parameters/StateMachine/MoveState/RunState/blend_position = 0.0
 parameters/StateMachine/MoveState/StandState/blend_position = 0.0
 
 [node name="Dwarf" type="Sprite2D" parent="."]
-position = Vector2(-1, -13)
+position = Vector2(-1, -12)
 texture = ExtResource("2_onrkg")
-hframes = 5
-vframes = 2
+hframes = 4
+vframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(7.1054274e-15, 0)
