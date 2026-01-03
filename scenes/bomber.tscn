@@ -486,7 +486,7 @@ states/run/position = Vector2(371, 186)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_whflb"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_u06wj"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_kfnh0"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_jylt5"), "idle", "boom", SubResource("AnimationNodeStateMachineTransition_0hyo2"), "run", "boom", SubResource("AnimationNodeStateMachineTransition_imesv"), "boom", "End", SubResource("AnimationNodeStateMachineTransition_1635p"), "death", "End", SubResource("AnimationNodeStateMachineTransition_h2syg"), "boom", "death", SubResource("AnimationNodeStateMachineTransition_tw1wn"), "run", "death", SubResource("AnimationNodeStateMachineTransition_crrut")]
 graph_offset = Vector2(-98, 38)
 
-[node name="Bomber" type="CharacterBody2D"]
+[node name="Bomber" type="CharacterBody2D" groups=["characters"]]
 motion_mode = 1
 script = ExtResource("1_4mnhm")
 bomb = ExtResource("2_7e12w")
@@ -502,8 +502,8 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_m36wj")
 
 [node name="HitArea" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 0
+collision_layer = 4
+collision_mask = 2
 
 [node name="HitBox" type="CollisionShape2D" parent="HitArea"]
 position = Vector2(-4, -7)
@@ -512,8 +512,8 @@ disabled = true
 debug_color = Color(0.9803918, 0.13403192, 0.102286376, 0.41960785)
 
 [node name="HurtArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
+collision_layer = 4
+collision_mask = 2
 
 [node name="HurtBox" type="CollisionShape2D" parent="HurtArea"]
 position = Vector2(0, -9)

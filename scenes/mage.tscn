@@ -311,7 +311,7 @@ height = 24.0
 radius = 3.0
 height = 14.0
 
-[node name="mage" type="CharacterBody2D"]
+[node name="mage" type="CharacterBody2D" groups=["characters"]]
 script = ExtResource("1_y6d06")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -335,8 +335,8 @@ parameters/run/blend_position = 0.0
 script = ExtResource("3_t2cfv")
 
 [node name="HurtArea" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 4
+collision_layer = 4
+collision_mask = 2
 
 [node name="Hurtbox" type="CollisionShape2D" parent="HurtArea"]
 position = Vector2(0, -11)

@@ -3,6 +3,10 @@ class_name Player extends CharacterBody2D
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var playback = animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
 
+@onready var size_timer: Timer = $SizeTimer
+
+@export var bonus_increase_scale: float = 1.7
+
 signal dead()
 
 enum PlayerState {
@@ -70,11 +74,37 @@ func death_state(_delta: float) -> void:
 
 ################################################################################
 
+func apply_bonus(bonus_name):
+	match bonus_name:
+		"red": 
+			start_timer(size_timer)
+			apply_size_bonus()
+
+func start_timer(timer: Timer):
+	timer.start()
+
+func apply_size_bonus():
+	reset_size_bonus()
+	scale *= bonus_increase_scale
+
+func reset_size_bonus():
+	scale = Vector2(1,1)
+
+func _on_size_timer_timeout() -> void:
+	reset_size_bonus()
+
+################################################################################
+
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name.begins_with("attack"):
 		state = PlayerState.idle
 	elif anim_name.begins_with("death"):
 		dead.emit()
 
-func _on_hurtbox_area_area_entered(_area: Area2D) -> void:
-	state = PlayerState.death
+func _on_hurtbox_area_area_entered(area: Area2D) -> void:
+	if area.name.begins_with("Hit"):
+		state = PlayerState.death
+	elif area.name.begins_with("Bonus"):
+		pass
+
+################################################################################

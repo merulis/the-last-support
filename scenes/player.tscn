@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dw1601xf483hx" path="res://scripts/player.gd" id="1_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://bfs5duln75tic" path="res://resources/characters/dwarf.png" id="2_dqkch"]
 [ext_resource type="Script" uid="uid://ttkswwycvhig" path="res://scripts/player_animation_tree.gd" id="2_qlg0r"]
-[ext_resource type="Script" uid="uid://cgw0q7jt2j0ja" path="res://damage_boxes/hitbox.gd" id="3_qlg0r"]
+[ext_resource type="Script" uid="uid://cgw0q7jt2j0ja" path="res://boxes/hitbox.gd" id="3_qlg0r"]
 
 [sub_resource type="Animation" id="Animation_i3pqv"]
 length = 0.001
@@ -493,7 +493,7 @@ shape = SubResource("CapsuleShape2D_onrkg")
 
 [node name="HurtboxArea" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 4
 
 [node name="Hurtbox" type="CollisionShape2D" parent="HurtboxArea"]
 position = Vector2(0, -11)
@@ -501,8 +501,8 @@ shape = SubResource("CapsuleShape2D_hqtel")
 debug_color = Color(0, 1, 0, 0.41960785)
 
 [node name="HitboxArea" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 0
+collision_layer = 2
+collision_mask = 20
 script = ExtResource("3_qlg0r")
 metadata/_custom_type_script = "uid://cgw0q7jt2j0ja"
 
@@ -512,5 +512,10 @@ shape = SubResource("CapsuleShape2D_i3pqv")
 disabled = true
 debug_color = Color(1, 0, 0, 0.41960785)
 
+[node name="SizeTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="area_entered" from="HurtboxArea" to="." method="_on_hurtbox_area_area_entered"]
+[connection signal="timeout" from="SizeTimer" to="." method="_on_size_timer_timeout"]

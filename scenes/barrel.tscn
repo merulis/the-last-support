@@ -201,7 +201,7 @@ graph_offset = Vector2(-125, -18)
 radius = 6.0
 height = 18.0
 
-[node name="barrel" type="CharacterBody2D"]
+[node name="barrel" type="CharacterBody2D" groups=["characters"]]
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("1_ptqd7")
@@ -223,8 +223,8 @@ disabled = true
 debug_color = Color(0.96168846, 1.540184e-06, 0.51167804, 0.41960785)
 
 [node name="HurtArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 12
+collision_layer = 4
+collision_mask = 10
 
 [node name="Hurtbox" type="CollisionShape2D" parent="HurtArea"]
 position = Vector2(0, -10)
