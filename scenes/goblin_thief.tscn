@@ -431,7 +431,7 @@ states/idle/position = Vector2(419, 100)
 states/run/node = SubResource("AnimationNodeBlendSpace1D_eqlk4")
 states/run/position = Vector2(419, 241)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_d5w6v"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_414yw"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_ni78q"), "attack", "run", SubResource("AnimationNodeStateMachineTransition_jmxtw"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_5wdr0"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_o6apq"), "run", "attack", SubResource("AnimationNodeStateMachineTransition_s0tp4"), "death", "End", SubResource("AnimationNodeStateMachineTransition_e87wc"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_jerfj"), "run", "death", SubResource("AnimationNodeStateMachineTransition_qaejk"), "attack", "death", SubResource("AnimationNodeStateMachineTransition_l3jis")]
-graph_offset = Vector2(-68, 16)
+graph_offset = Vector2(-28, 51)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2e45m"]
 radius = 2.0
@@ -459,7 +459,7 @@ libraries = {
 }
 autoplay = "idle_left"
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="." groups=["characters"]]
 tree_root = SubResource("AnimationNodeStateMachine_abaxk")
 anim_player = NodePath("../AnimationPlayer")
 parameters/attack/blend_position = 0.6164179
