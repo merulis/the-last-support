@@ -45,7 +45,7 @@ func idle_state(_delta: float) -> void:
 	if not player:
 		return
 		
-	if check_atack_range():
+	if check_attack_range():
 		state = GoblinThiefState.attack
 	else:
 		state = GoblinThiefState.run
@@ -57,7 +57,7 @@ func run_state(delta: float) -> void:
 		state = GoblinThiefState.idle
 		return
 	
-	if check_atack_range():
+	if check_attack_range():
 		state = GoblinThiefState.attack
 		return
 		
@@ -75,7 +75,7 @@ func attack_state(_delta: float) -> void:
 		state = GoblinThiefState.idle
 		return
 	
-	if not check_atack_range():
+	if not check_attack_range():
 		state = GoblinThiefState.run
 		return
 		
@@ -88,7 +88,7 @@ func death_state(_delta: float) -> void:
 	
 ################################################################################
 
-func check_atack_range() -> bool:
+func check_attack_range() -> bool:
 	if not player:
 		return false
 	
