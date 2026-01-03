@@ -1,7 +1,7 @@
 [gd_scene load_steps=38 format=3 uid="uid://bych14eh0m0ct"]
 
 [ext_resource type="Script" uid="uid://c2y21lxlgaplh" path="res://scripts/goblin_thief.gd" id="1_fmgda"]
-[ext_resource type="Texture2D" uid="uid://blowlwsg6d6ps" path="res://resources/characters/goblin.png" id="1_kkduu"]
+[ext_resource type="Texture2D" uid="uid://8v0v3027udfh" path="res://resources/characters/goblin_thief.png" id="2_n5ui3"]
 [ext_resource type="Script" uid="uid://blmmh653p870p" path="res://scripts/thief_animation_tree.gd" id="3_n5ui3"]
 
 [sub_resource type="Animation" id="Animation_n5ui3"]
@@ -459,7 +459,7 @@ script = ExtResource("1_fmgda")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, -11)
-texture = ExtResource("1_kkduu")
+texture = ExtResource("2_n5ui3")
 hframes = 4
 vframes = 4
 
