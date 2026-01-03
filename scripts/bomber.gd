@@ -1,0 +1,102 @@
+extends CharacterBody2D
+
+################################################################################
+
+enum BomberState {
+	idle,
+	run,
+	boom,
+	death
+}
+
+################################################################################
+
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var hurt_area: Area2D = $HurtArea
+
+################################################################################
+
+@export var speed: float = 2000.0
+@export var attack_range: float = 25.0
+
+################################################################################
+
+var player: Player = null
+var state: BomberState = BomberState.idle
+
+################################################################################
+
+func _process(delta: float) -> void:
+	match state:
+		BomberState.idle: idle_state(delta)
+		BomberState.run: run_state(delta)
+		BomberState.boom: boom_state(delta)
+		BomberState.death: death_state(delta)
+
+################################################################################
+
+func idle_state(_delta: float) -> void:
+	animation_tree.play_animation("idle")
+	
+	if not player:
+		player = get_tree().get_first_node_in_group("player")
+		
+	if not player:
+		return
+		
+	if check_attack_range():
+		state = BomberState.boom
+	else:
+		state = BomberState.run
+	
+################################################################################
+
+func run_state(delta: float) -> void:
+	if not player:
+		state = BomberState.idle
+		return
+	
+	if check_attack_range():
+		state = BomberState.boom
+		return
+		
+	animation_tree.play_animation("run")
+	
+	velocity = global_position.direction_to(player.global_position).normalized() * speed * delta
+	animation_tree.blend_position = velocity.normalized().x
+
+	move_and_slide()
+	
+################################################################################
+
+func boom_state(_delta: float) -> void:
+	if not player:
+		state = BomberState.idle
+		return
+		
+	animation_tree.play_animation("boom")
+	
+################################################################################
+
+func death_state(_delta: float) -> void:
+	animation_tree.play_animation("death")
+	
+################################################################################
+
+func check_attack_range() -> bool:
+	if not player:
+		return false
+	
+	if position.distance_to(player.position) <= attack_range:
+		return true
+		
+	return false
+
+################################################################################
+
+func _on_hurt_area_entered(_area: Area2D) -> void:
+	state = BomberState.death
+
+func _on_animation_tree_animation_finished(anim_name: StringName):
+	if anim_name == "death" or anim_name.begins_with("boom"):
+		queue_free()

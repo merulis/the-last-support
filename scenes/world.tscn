@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=10 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
 [ext_resource type="PackedScene" uid="uid://cxptp3vk0vh06" path="res://scenes/player.tscn" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://bych14eh0m0ct" path="res://scenes/goblin_thief.tscn" id="3_4wyf3"]
+[ext_resource type="PackedScene" uid="uid://du7g3wftsgoxp" path="res://scenes/bomber.tscn" id="5_71j4m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
 size = Vector2(2000, 20)
@@ -85,6 +86,8 @@ position = Vector2(159, 25)
 
 [node name="GoblinThief5" parent="Enemies" instance=ExtResource("3_4wyf3")]
 position = Vector2(-224, 61)
+
+[node name="Bomber" parent="Enemies" instance=ExtResource("5_71j4m")]
 
 [node name="Objects" type="Node2D" parent="."]
 
