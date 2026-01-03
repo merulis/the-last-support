@@ -13,14 +13,13 @@ config_version=5
 config/name="The last support"
 run/main_scene="uid://52ngrvjvuran"
 config/features=PackedStringArray("4.5", "Forward Plus")
-config/icon="res://icon.svg"
 
 [display]
 
 window/size/viewport_width=448
-window/size/viewport_height=224
-window/size/window_width_override=1280
-window/size/window_height_override=720
+window/size/viewport_height=192
+window/size/window_width_override=1344
+window/size/window_height_override=576
 window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
 window/vsync/vsync_mode=3
@@ -67,8 +66,8 @@ attack={
 2d_physics/layer_1="world"
 2d_physics/layer_2="player"
 2d_physics/layer_3="enemy"
-2d_physics/layer_4="player_hurtbox"
-2d_physics/layer_5="enemy_hurtbox"
+2d_physics/layer_4="nenado"
+2d_physics/layer_5="nenado"
 
 [rendering]
 

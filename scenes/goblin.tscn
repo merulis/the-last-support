@@ -1,39 +1,9 @@
 [gd_scene load_steps=32 format=3 uid="uid://jl2tjjs4dknn"]
 
-[ext_resource type="Texture2D" uid="uid://blowlwsg6d6ps" path="res://resources/characters/goblin.png" id="1_dl46o"]
-[ext_resource type="Script" uid="uid://dvljsmbb3vpjp" path="res://goblin.gd" id="1_u6mjv"]
-[ext_resource type="Script" uid="uid://cgw0q7jt2j0ja" path="res://damage_boxes/hitbox.gd" id="3_macxp"]
-[ext_resource type="Script" uid="uid://c3on600laajva" path="res://damage_boxes/hurtbox.gd" id="4_eyhpr"]
-
-[sub_resource type="Animation" id="Animation_u6mjv"]
-resource_name = "run_left"
-length = 0.4
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("GoblinSprite:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("GoblinSprite:flip_h")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
+[ext_resource type="Script" uid="uid://dvljsmbb3vpjp" path="res://scripts/goblin.gd" id="1_76chb"]
+[ext_resource type="Texture2D" uid="uid://blowlwsg6d6ps" path="res://resources/characters/goblin.png" id="2_g1p1y"]
+[ext_resource type="Script" uid="uid://cgw0q7jt2j0ja" path="res://damage_boxes/hitbox.gd" id="3_lkl8q"]
+[ext_resource type="Script" uid="uid://c3on600laajva" path="res://damage_boxes/hurtbox.gd" id="4_yyaat"]
 
 [sub_resource type="Animation" id="Animation_vu5tg"]
 length = 0.001
@@ -84,53 +54,6 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-14, -10)]
-}
-
-[sub_resource type="Animation" id="Animation_dl46o"]
-resource_name = "run_right"
-length = 0.4
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("GoblinSprite:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("GoblinSprite:flip_h")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.0001),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-
-[sub_resource type="Animation" id="Animation_macxp"]
-resource_name = "die"
-length = 0.4
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("GoblinSprite:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 3), Vector2i(1, 3), Vector2i(2, 3), Vector2i(3, 3)]
 }
 
 [sub_resource type="Animation" id="Animation_eyhpr"]
@@ -239,6 +162,23 @@ tracks/3/keys = {
 "values": [Vector2(14, -10)]
 }
 
+[sub_resource type="Animation" id="Animation_macxp"]
+resource_name = "die"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GoblinSprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 3), Vector2i(1, 3), Vector2i(2, 3), Vector2i(3, 3)]
+}
+
 [sub_resource type="Animation" id="Animation_3s2j4"]
 resource_name = "idle"
 length = 0.1
@@ -254,6 +194,66 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector2i(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_u6mjv"]
+resource_name = "run_left"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GoblinSprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GoblinSprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_dl46o"]
+resource_name = "run_right"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GoblinSprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GoblinSprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_macxp"]
@@ -330,6 +330,7 @@ transitions = ["die", "End", SubResource("AnimationNodeStateMachineTransition_ma
 graph_offset = Vector2(-121, -7)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_eyhpr"]
+graph_offset = Vector2(-134, 110)
 nodes/output/position = Vector2(520, 220)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_macxp")
 nodes/StateMachine/position = Vector2(240, 140)
@@ -347,11 +348,11 @@ radius = 6.0
 height = 20.0
 
 [node name="Goblin" type="CharacterBody2D"]
-script = ExtResource("1_u6mjv")
+script = ExtResource("1_76chb")
 
 [node name="GoblinSprite" type="Sprite2D" parent="."]
 position = Vector2(0, -11)
-texture = ExtResource("1_dl46o")
+texture = ExtResource("2_g1p1y")
 hframes = 4
 vframes = 4
 
@@ -372,7 +373,7 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_dl46o")
 
 [node name="HitboxArea" type="Area2D" parent="."]
-script = ExtResource("3_macxp")
+script = ExtResource("3_lkl8q")
 metadata/_custom_type_script = "uid://cgw0q7jt2j0ja"
 
 [node name="Hitbox" type="CollisionShape2D" parent="HitboxArea"]
@@ -384,7 +385,7 @@ debug_color = Color(1, 0, 0, 0.41960785)
 [node name="HurtboxArea" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource("4_eyhpr")
+script = ExtResource("4_yyaat")
 metadata/_custom_type_script = "uid://c3on600laajva"
 
 [node name="Hurtbox" type="CollisionShape2D" parent="HurtboxArea"]

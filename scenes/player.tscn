@@ -1,8 +1,8 @@
 [gd_scene load_steps=38 format=3 uid="uid://cxptp3vk0vh06"]
 
-[ext_resource type="Script" uid="uid://dw1601xf483hx" path="res://player.gd" id="1_onrkg"]
-[ext_resource type="Texture2D" uid="uid://bfs5duln75tic" path="res://resources/characters/dwarf.png" id="2_onrkg"]
-[ext_resource type="Script" uid="uid://cgw0q7jt2j0ja" path="res://damage_boxes/hitbox.gd" id="3_i3pqv"]
+[ext_resource type="Script" uid="uid://dw1601xf483hx" path="res://scripts/player.gd" id="1_qhqgy"]
+[ext_resource type="Texture2D" uid="uid://bfs5duln75tic" path="res://resources/characters/dwarf.png" id="2_dqkch"]
+[ext_resource type="Script" uid="uid://cgw0q7jt2j0ja" path="res://damage_boxes/hitbox.gd" id="3_qlg0r"]
 
 [sub_resource type="Animation" id="Animation_i3pqv"]
 length = 0.001
@@ -459,7 +459,7 @@ height = 22.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
-script = ExtResource("1_onrkg")
+script = ExtResource("1_qhqgy")
 metadata/_custom_type_script = "uid://dw1601xf483hx"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -478,7 +478,7 @@ parameters/StateMachine/MoveState/StandState/blend_position = 0.0
 
 [node name="Dwarf" type="Sprite2D" parent="."]
 position = Vector2(-1, -13)
-texture = ExtResource("2_onrkg")
+texture = ExtResource("2_dqkch")
 hframes = 4
 vframes = 4
 
@@ -489,9 +489,9 @@ scale = Vector2(0.7, 0.7)
 shape = SubResource("CapsuleShape2D_onrkg")
 
 [node name="HitboxArea" type="Area2D" parent="."]
-collision_layer = 16
-collision_mask = 16
-script = ExtResource("3_i3pqv")
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("3_qlg0r")
 metadata/_custom_type_script = "uid://cgw0q7jt2j0ja"
 
 [node name="Hitbox" type="CollisionShape2D" parent="HitboxArea"]
@@ -501,6 +501,8 @@ disabled = true
 debug_color = Color(1, 0, 0, 0.41960785)
 
 [node name="HurtboxArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="Hurtbox" type="CollisionShape2D" parent="HurtboxArea"]
 position = Vector2(0, -11)
