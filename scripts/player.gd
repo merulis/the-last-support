@@ -72,7 +72,6 @@ func death_state(_delta: float) -> void:
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name.begins_with("attack"):
-		print("end attack anim")
 		state = PlayerState.idle
 	elif anim_name.begins_with("death"):
 		dead.emit()

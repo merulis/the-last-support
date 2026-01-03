@@ -1,33 +1,210 @@
-[gd_scene load_steps=7 format=3 uid="uid://3w3fcm7kw4pa"]
+[gd_scene load_steps=20 format=3 uid="uid://3w3fcm7kw4pa"]
 
+[ext_resource type="Script" uid="uid://ltgue7akjxsf" path="res://scripts/barrel.gd" id="1_ptqd7"]
 [ext_resource type="Texture2D" uid="uid://cijypp5eu8wfw" path="res://resources/objects/barrel.png" id="1_q36op"]
+[ext_resource type="Script" uid="uid://bw5aw6qtfllb3" path="res://scripts/barrel_animation_tree.gd" id="3_n8wf6"]
 
-[sub_resource type="Animation" id="Animation_q36op"]
-resource_name = "rolling_left"
-
-[sub_resource type="Animation" id="Animation_ptqd7"]
-resource_name = "stand"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_n8wf6"]
-_data = {
-&"rolling_left": SubResource("Animation_q36op"),
-&"stand": SubResource("Animation_ptqd7")
-}
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_mhtw8"]
-radius = 11.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdyii"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gdyii"]
 radius = 9.0
 height = 20.0
 
-[node name="barrel" type="StaticBody2D"]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Sprite2D")
-libraries = {
-&"": SubResource("AnimationLibrary_n8wf6")
+[sub_resource type="Animation" id="Animation_q36op"]
+resource_name = "rolling_left"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../HitArea/Hitbox:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_ptqd7"]
+resource_name = "stand"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../HitArea/Hitbox:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_n8wf6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../HitArea/Hitbox:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_mhtw8"]
+resource_name = "rolling_right"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../HitArea/Hitbox:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n8wf6"]
+_data = {
+&"RESET": SubResource("Animation_n8wf6"),
+&"rolling_left": SubResource("Animation_q36op"),
+&"rolling_right": SubResource("Animation_mhtw8"),
+&"stand": SubResource("Animation_ptqd7")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q36op"]
+animation = &"rolling_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ptqd7"]
+animation = &"rolling_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_n8wf6"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_q36op")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_ptqd7")
+blend_point_1/pos = 1.0
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mhtw8"]
+animation = &"stand"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gdyii"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qowtj"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p63pu"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_1ywul"]
+states/Start/position = Vector2(216, 100)
+states/rolling/node = SubResource("AnimationNodeBlendSpace1D_n8wf6")
+states/rolling/position = Vector2(611, 100)
+states/stand/node = SubResource("AnimationNodeAnimation_mhtw8")
+states/stand/position = Vector2(381, 100)
+transitions = ["Start", "stand", SubResource("AnimationNodeStateMachineTransition_gdyii"), "stand", "rolling", SubResource("AnimationNodeStateMachineTransition_qowtj"), "rolling", "End", SubResource("AnimationNodeStateMachineTransition_p63pu")]
+graph_offset = Vector2(-125, -18)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n8wf6"]
+radius = 6.0
+height = 18.0
+
+[node name="barrel" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_ptqd7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -11)
@@ -35,21 +212,42 @@ texture = ExtResource("1_q36op")
 hframes = 4
 vframes = 2
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-root_node = NodePath("../Sprite2D")
-advance_expression_base_node = NodePath("..")
-anim_player = NodePath("../AnimationPlayer")
-
 [node name="HitArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+[node name="Hitbox" type="CollisionShape2D" parent="HitArea"]
 position = Vector2(0, -10)
-shape = SubResource("CircleShape2D_mhtw8")
+shape = SubResource("RectangleShape2D_gdyii")
 disabled = true
+debug_color = Color(0.96168846, 1.540184e-06, 0.51167804, 0.41960785)
 
 [node name="HurtArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea"]
+[node name="Hurtbox" type="CollisionShape2D" parent="HurtArea"]
 position = Vector2(0, -10)
 shape = SubResource("CapsuleShape2D_gdyii")
 debug_color = Color(0.7872298, 0.10504424, 1, 0.41960785)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+&"": SubResource("AnimationLibrary_n8wf6")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Sprite2D")
+tree_root = SubResource("AnimationNodeStateMachine_1ywul")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+parameters/rolling/blend_position = 0.0
+script = ExtResource("3_n8wf6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_n8wf6")
+
+[connection signal="area_entered" from="HurtArea" to="." method="_on_hurt_area_entered"]

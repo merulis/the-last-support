@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=11 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
 [ext_resource type="PackedScene" uid="uid://cxptp3vk0vh06" path="res://scenes/player.tscn" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://bych14eh0m0ct" path="res://scenes/goblin_thief.tscn" id="3_4wyf3"]
 [ext_resource type="PackedScene" uid="uid://du7g3wftsgoxp" path="res://scenes/bomber.tscn" id="5_71j4m"]
+[ext_resource type="PackedScene" uid="uid://3w3fcm7kw4pa" path="res://scenes/barrel.tscn" id="6_qfnet"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
 size = Vector2(2000, 20)
@@ -88,7 +89,22 @@ position = Vector2(159, 25)
 position = Vector2(-224, 61)
 
 [node name="Bomber" parent="Enemies" instance=ExtResource("5_71j4m")]
+position = Vector2(419, 32)
 
 [node name="Objects" type="Node2D" parent="."]
+position = Vector2(-29, 22)
+
+[node name="barrel" parent="Objects" instance=ExtResource("6_qfnet")]
+position = Vector2(-35, 52)
+
+[node name="Remover" type="Area2D" parent="."]
+position = Vector2(-2245, -356)
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Remover"]
+position = Vector2(1014.00006, 8)
+scale = Vector2(0.2013889, 1.0283635)
+polygon = PackedVector2Array(-355.39648, -220.36874, 121.29297, -136.74072, 141.15527, 792.89166, 12028.604, 793.86414, 12023.638, -138.68558, 131.22412, -138.68558, -345.46533, -222.31357, 12540.051, -221.34116, 12540.051, 875.54724, -355.39648, 878.4645)
 
 [connection signal="dead" from="Player" to="." method="_on_player_dead"]

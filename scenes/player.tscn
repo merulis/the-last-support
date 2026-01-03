@@ -441,7 +441,7 @@ states/idle/position = Vector2(336, 100)
 states/run/node = SubResource("AnimationNodeBlendSpace1D_qlg0r")
 states/run/position = Vector2(336, 200)
 transitions = ["death", "End", SubResource("AnimationNodeStateMachineTransition_fjrip"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_tuyoq"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_smehm"), "run", "death", SubResource("AnimationNodeStateMachineTransition_ur7pv"), "attack", "death", SubResource("AnimationNodeStateMachineTransition_y4r1p"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_d2wvv"), "attack", "run", SubResource("AnimationNodeStateMachineTransition_3v2ag"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_jej6c"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_f1ej7"), "run", "attack", SubResource("AnimationNodeStateMachineTransition_oprun"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_a8ls1")]
-graph_offset = Vector2(-82, -65)
+graph_offset = Vector2(-145, -150)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_onrkg"]
 graph_offset = Vector2(-240, 82)
