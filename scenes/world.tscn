@@ -1,11 +1,13 @@
-[gd_scene load_steps=11 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=13 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
 [ext_resource type="PackedScene" uid="uid://cxptp3vk0vh06" path="res://scenes/player.tscn" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://bych14eh0m0ct" path="res://scenes/goblin_thief.tscn" id="3_4wyf3"]
 [ext_resource type="PackedScene" uid="uid://du7g3wftsgoxp" path="res://scenes/bomber.tscn" id="5_71j4m"]
+[ext_resource type="PackedScene" uid="uid://cjek8dbcrl4x2" path="res://scenes/mage.tscn" id="6_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://3w3fcm7kw4pa" path="res://scenes/barrel.tscn" id="6_qfnet"]
+[ext_resource type="PackedScene" uid="uid://bwsaewgixnka6" path="res://scenes/bomb.tscn" id="7_i7141"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
 size = Vector2(2000, 20)
@@ -19,7 +21,7 @@ size = Vector2(20, 500)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dwbse"]
 size = Vector2(20, 500)
 
-[node name="Game" type="Node2D" groups=["characters"]]
+[node name="Game" type="Node2D" groups=["game"]]
 y_sort_enabled = true
 script = ExtResource("1_k0juu")
 
@@ -91,14 +93,20 @@ position = Vector2(-224, 61)
 [node name="Bomber" parent="Enemies" instance=ExtResource("5_71j4m")]
 position = Vector2(419, 32)
 
+[node name="mage" parent="Enemies" instance=ExtResource("6_4mrxx")]
+position = Vector2(-253, 35)
+
 [node name="Objects" type="Node2D" parent="."]
 position = Vector2(-29, 22)
 
 [node name="barrel" parent="Objects" instance=ExtResource("6_qfnet")]
 position = Vector2(-35, 52)
 
+[node name="bomb" parent="Objects" groups=["game"] instance=ExtResource("7_i7141")]
+position = Vector2(102, 46)
+
 [node name="Remover" type="Area2D" parent="."]
-position = Vector2(-2245, -356)
+position = Vector2(-2256, -331)
 collision_layer = 8
 collision_mask = 8
 

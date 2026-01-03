@@ -1,8 +1,8 @@
-class_name GoblinThie extends CharacterBody2D
+class_name Mage extends CharacterBody2D
 
 ################################################################################
 
-enum GoblinThiefState {
+enum MageState {
 	idle,
 	run,
 	attack,
@@ -12,26 +12,26 @@ enum GoblinThiefState {
 ################################################################################
 
 @onready var animation_tree: AnimationTree = $AnimationTree
-@onready var hurtbox: Area2D = $Hurtbox
+@onready var hurtbox: Area2D = $HurtArea
 
 ################################################################################
 
 @export var speed: float = 2000.0
-@export var attack_range: float = 25.0
+@export var attack_range: float = 200.0
 
 ################################################################################
 
 var player: Player = null
-var state: GoblinThiefState = GoblinThiefState.idle
+var state: MageState = MageState.idle
 
 ################################################################################
 
 func _process(delta: float) -> void:
 	match state:
-		GoblinThiefState.idle: idle_state(delta)
-		GoblinThiefState.run: run_state(delta)
-		GoblinThiefState.attack: attack_state(delta)
-		GoblinThiefState.death: death_state(delta)
+		MageState.idle: idle_state(delta)
+		MageState.run: run_state(delta)
+		MageState.attack: attack_state(delta)
+		MageState.death: death_state(delta)
 
 ################################################################################
 
@@ -45,19 +45,19 @@ func idle_state(_delta: float) -> void:
 		return
 		
 	if check_attack_range():
-		state = GoblinThiefState.attack
+		state = MageState.attack
 	else:
-		state = GoblinThiefState.run
+		state = MageState.run
 	
 ################################################################################
 
 func run_state(delta: float) -> void:
 	if not player:
-		state = GoblinThiefState.idle
+		state = MageState.idle
 		return
 	
 	if check_attack_range():
-		state = GoblinThiefState.attack
+		state = MageState.attack
 		return
 		
 	animation_tree.play_animation("run")
@@ -71,11 +71,11 @@ func run_state(delta: float) -> void:
 
 func attack_state(_delta: float) -> void:
 	if not player:
-		state = GoblinThiefState.idle
+		state = MageState.idle
 		return
 	
 	if not check_attack_range():
-		state = GoblinThiefState.run
+		state = MageState.run
 		return
 		
 	animation_tree.play_animation("attack")
@@ -98,11 +98,9 @@ func check_attack_range() -> bool:
 
 ################################################################################
 
-func _on_hurtbox_area_entered(_area):
-	state = GoblinThiefState.death
-
-################################################################################
-
 func _on_animation_tree_animation_finished(anim_name):
 	if anim_name == "death":
 		queue_free()
+
+func _on_hurt_area_entered(_area: Area2D) -> void:
+	state = MageState.death

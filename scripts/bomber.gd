@@ -1,4 +1,4 @@
-extends CharacterBody2D
+class_name Bomber extends CharacterBody2D
 
 ################################################################################
 
@@ -18,6 +18,7 @@ enum BomberState {
 
 @export var speed: float = 2000.0
 @export var attack_range: float = 25.0
+@export var bomb: Resource
 
 ################################################################################
 
@@ -94,9 +95,20 @@ func check_attack_range() -> bool:
 
 ################################################################################
 
+func drop_bomb():
+	var game = get_tree().get_first_node_in_group("game")
+	var new_bomb: Bomb = bomb.instantiate()
+	new_bomb.global_position = global_position
+	game.add_child(new_bomb)
+
+################################################################################
+
 func _on_hurt_area_entered(_area: Area2D) -> void:
 	state = BomberState.death
 
 func _on_animation_tree_animation_finished(anim_name: StringName):
-	if anim_name == "death" or anim_name.begins_with("boom"):
+	if anim_name == "death":
+		drop_bomb()
+		queue_free()
+	elif anim_name.begins_with("boom"):
 		queue_free()

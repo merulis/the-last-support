@@ -1,8 +1,9 @@
-extends CharacterBody2D
+class_name Bomb extends CharacterBody2D
 
-enum BarrelState {
-	stand,
-	rolling
+enum BombState {
+	fuse,
+	pushed,
+	boom
 }
 
 ################################################################################
@@ -13,50 +14,67 @@ enum BarrelState {
 ################################################################################
 
 @export var speed: float = 800.0
+@export var push_distance: float = 200.0
  
 ################################################################################
 
 var player: Player = null
-var state: BarrelState = BarrelState.stand
+var state: BombState = BombState.fuse
+var start_position: Vector2 = Vector2.ZERO
 var direction: Vector2 = Vector2.ZERO
 
 ################################################################################
 
 func _process(delta: float) -> void:
 	match state:
-		BarrelState.stand: stand_state(delta)
-		BarrelState.rolling: rolling_state(delta)
+		BombState.fuse: fuse_state(delta)
+		BombState.pushed: pushed_state(delta)
+		BombState.boom: boom_state(delta)
 
 ################################################################################
 
-func stand_state(_delta: float) -> void:
-	animation_tree.play_animation("stand")
+func fuse_state(_delta: float) -> void:
+	animation_tree.play_animation("fuse")
 
 ################################################################################
 
-func rolling_state(delta: float) -> void:
-	animation_tree.play_animation("rolling")
+func pushed_state(delta: float) -> void:
+	animation_tree.play_animation("pushed")
 	
-	velocity = direction * speed * delta
+	if global_position.distance_to(start_position) >= push_distance:
+		velocity = Vector2.ZERO
+		state = BombState.fuse
+		return
+	else:
+		velocity = direction * speed * delta
+	
 	move_and_slide()
+
+################################################################################
+
+func boom_state(_delta: float) -> void:
+	animation_tree.play_animation("boom")
 
 ################################################################################
 
 func get_direction():
 	player = get_tree().get_first_node_in_group("player")
 	var player_position = player.global_position
-	var start_position = global_position
+	start_position = global_position
 	direction = Vector2(start_position.x - player_position.x, 0)
 
 ################################################################################
 
-func _on_hurt_area_entered(area: Area2D) -> void:
-	if area.name == "Remover":
-		queue_free()
-	
-	if state == BarrelState.rolling:
+func _on_hurt_area_entered(_area: Area2D) -> void:
+	if state == BombState.boom:
 		return
 
 	get_direction()
-	animation_tree.blend_position = velocity.normalized().x
-	state = BarrelState.rolling
+	state = BombState.pushed
+
+func _on_timer_timeout() -> void:
+	state = BombState.boom
+
+func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "boom":
+		queue_free()

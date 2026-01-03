@@ -28,6 +28,7 @@ window/vsync/vsync_mode=3
 
 player=""
 characters=""
+game=""
 
 [input]
 
