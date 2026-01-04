@@ -839,6 +839,10 @@ layout_mode = 2
 theme_override_constants/separation = 6
 theme_override_styles/separator = SubResource("StyleBoxEmpty_lakw3")
 
+[node name="LeaderboardLabel" parent="EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2" instance=ExtResource("15_navra")]
+layout_mode = 2
+text = "Cannot load data"
+
 [node name="GridContainer" type="GridContainer" parent="EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_constants/h_separation = 32

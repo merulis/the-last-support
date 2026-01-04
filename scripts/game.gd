@@ -25,6 +25,7 @@ extends Node2D
 
 @onready var leaderboard_grid = $EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2/GridContainer
 @onready var player_name_edit = $EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/LineEdit
+@onready var cannot_load_label = $EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2/LeaderboardLabel
 
 ################################################################################
 
@@ -66,7 +67,7 @@ var paused: bool = false
 var muted: bool = false
 var regex := RegEx.new()
 var score_submitted: bool = false
-var leaderboard_data
+var leaderboard_data: Array
 
 ################################################################################
 
@@ -343,7 +344,7 @@ func test_submit_score_request_sent():
 	print("TEST PASSED: submit_score request sent")
 
 func load_leaderboard():
-	var url = SUPABASE_URL + "/rest/v1/leaderboard?select=name,score&order=score.desc&limit=5"
+	var url = SUPABASE_URL + "/rest/v1/leaderboard?select=name,score&order=score.desc&limit=3"
 	var headers = [
 		"apikey: " + API_KEY,
 		"Authorization: Bearer " + API_KEY
@@ -443,9 +444,17 @@ func _on_cancel_send_button_pressed():
 ################################################################################
 
 func _on_leaderboard_button_pressed():
+	end_primary_screen.hide()
+	leaderboard_screen.show()
+
+	if not leaderboard_data or leaderboard_data.size() == 0:
+		return
+
+	cannot_load_label.hide()
+
 	for child in leaderboard_grid.get_children():
 		child.queue_free()
-		
+	
 	var name_header = leaderboard_label.instantiate()
 	name_header.text = "Name"
 	name_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -460,8 +469,6 @@ func _on_leaderboard_button_pressed():
 	for val in leaderboard_data:
 		add_row(val["name"], int(val["score"]))
 	
-	end_primary_screen.hide()
-	leaderboard_screen.show()
 
 ################################################################################
 
