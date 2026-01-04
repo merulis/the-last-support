@@ -53,7 +53,7 @@ var active_bonuses: Dictionary[Bonuses, int] = {
 var last_active_bonus: Bonuses
 
 var input_vector: = Vector2.ZERO
-var last_input_vector: = Vector2.RIGHT
+var last_input_vector: = Vector2.LEFT
 
 var state: PlayerState = PlayerState.idle
 var speed: float = SPEED
@@ -73,25 +73,30 @@ func _process(delta: float) -> void:
 
 func idle_state(_delta: float) -> void:
 	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
+	
+	if input_vector.x != 0:
+		last_input_vector.x = sign(input_vector.x)
+	
 	if input_vector.length() > 0.0:
 		state = PlayerState.run
 
 	if Input.is_action_just_pressed("attack"):
 		attack_audio_player.play()
 		state = PlayerState.attack
-		
+
 	animation_tree.play_animation("idle")
 
 ################################################################################
 
 func run_state(delta: float) -> void:
 	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
-			
+	
+	if input_vector.x != 0:
+		last_input_vector.x = sign(input_vector.x)
+		
 	if input_vector != Vector2.ZERO:
-		last_input_vector = input_vector
 		animation_tree.play_animation("run")
-		var direction_vector: = Vector2(input_vector.x, -input_vector.y).normalized()
-		animation_tree.blend_position = direction_vector.x
+		animation_tree.blend_position = last_input_vector.x
 	else:
 		state = PlayerState.idle
 

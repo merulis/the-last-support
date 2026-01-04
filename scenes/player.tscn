@@ -404,9 +404,9 @@ animation = &"run_right"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_smehm"]
 blend_point_0/node = SubResource("AnimationNodeAnimation_tuyoq")
-blend_point_0/pos = -1.0
+blend_point_0/pos = -0.6
 blend_point_1/node = SubResource("AnimationNodeAnimation_fjrip")
-blend_point_1/pos = 1.0
+blend_point_1/pos = 0.6
 blend_mode = 1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_smehm"]
@@ -487,7 +487,7 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/attack/blend_position = 0.0
 parameters/death/blend_position = 0.0
 parameters/idle/blend_position = 0.0
-parameters/run/blend_position = 0.0
+parameters/run/blend_position = -0.91470057
 script = ExtResource("2_qlg0r")
 
 [node name="Dwarf" type="Sprite2D" parent="."]

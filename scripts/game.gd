@@ -10,6 +10,7 @@ extends Node2D
 @onready var end_screen = $EndScreen
 @onready var score_label = $HUD/Control/ScoreLabel
 @onready var end_label = $EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/Label
+@onready var http: HTTPRequest = $HTTPRequest
 
 ################################################################################
 
@@ -30,6 +31,9 @@ extends Node2D
 @export var base_bonus_spawn_time := 8.0
 @export var base_bonus_count := 1
 @export var max_bonus_count := 3
+
+@export var SUPABASE_URL := "https://xdpkftgtzdvdyufwavpf.supabase.co"
+@export var API_KEY := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkcGtmdGd0emR2ZHl1ZndhdnBmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc1NTExNjcsImV4cCI6MjA4MzEyNzE2N30.IrmoQ9BBfr4e7f7SphKBpb49gvvqPWLWNyUw7Q8ihcg"
 
 var score: int = 0:
 	set(value):
@@ -58,6 +62,8 @@ func _on_the_last_support_destroy() -> void:
 
 func _stop_game():
 	var objects = get_tree().get_nodes_in_group("characters")
+	
+	test_submit_score_request_sent()
   
 	for obj in objects:
 		obj.set_process_mode(Node.PROCESS_MODE_DISABLED)
@@ -262,6 +268,52 @@ func _on_end_screen_timer_timeout():
 
 func update_score_label():
 	score_label.text = "Score: " + str(score)
+
+func load_leaderboard():
+	var url = SUPABASE_URL + "/rest/v1/leaderboard?select=nickname,score&order=score.desc&limit=10"
+	var headers = [
+		"apikey: " + API_KEY,
+		"Authorization: Bearer " + API_KEY
+	]
+
+	http.request(
+		url,
+		headers,
+		HTTPClient.METHOD_GET
+	)
+
+func submit_score(name: String, score: int) -> int:
+	var url = SUPABASE_URL + "/rest/v1/leaderboard"
+	
+	name = name.strip_edges()
+	name = name.substr(0, 16)
+	score = clamp(score, 0, 1_000_000)
+
+	var headers = [
+		"apikey: " + API_KEY,
+		"Authorization: Bearer " + API_KEY,
+		"Content-Type: application/json",
+	]
+
+	var body = JSON.stringify({
+		"name": name,
+		"score": score
+	})
+
+	return http.request(
+		url,
+		headers,
+		HTTPClient.METHOD_POST,
+		body
+	)
+
+func _on_request_completed(result, response_code, headers, body):
+	if response_code != 200:
+		print("Error:", response_code)
+		return
+	
+	var json = JSON.parse_string(body.get_string_from_utf8())
+	print(json)
 
 ################################################################################
 
