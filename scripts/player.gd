@@ -26,12 +26,34 @@ enum PlayerState {
 	death
 }
 
+enum Bonuses {
+	speed,
+	size,
+	time,
+	shield
+}
+
+const BONUS_COLORS := {
+	Bonuses.speed: Color(1.25, 0.6, 0.6, 1.0),
+	Bonuses.size: Color(1.25, 1.25, 0.75),
+	Bonuses.time: Color(0.75, 0.85, 1.3),
+	Bonuses.shield: Color(0.75, 0.78, 0.82),
+}
+
+var active_bonuses: Dictionary[Bonuses, int] = {
+	Bonuses.size: 0,
+	Bonuses.speed: 0,
+	Bonuses.time: 0,
+	Bonuses.shield: 0,
+}
+
 var input_vector: = Vector2.ZERO
 var last_input_vector: = Vector2.RIGHT
 
 var state: PlayerState = PlayerState.idle
 var speed: float = SPEED
 var time_multiplier: float = 1.0
+var base_color: Color = Color(1.0, 1.0, 1.0, 1.0)
 
 ################################################################################
 
@@ -105,35 +127,73 @@ func apply_bonus(bonus_name):
 func start_timer(timer: Timer):
 	timer.start()
 
+func find_active_bonus_color() -> Color:
+	for bonus in active_bonuses.keys():
+		var num = active_bonuses.get(bonus)
+		if num > 0:
+			return BONUS_COLORS[bonus]
+	return base_color
+
+func update_color():
+	modulate = find_active_bonus_color()
+	return
+
 func apply_size_bonus():
-	reset_size_bonus()
+	if active_bonuses[Bonuses.size] > 0:
+		reset_time_bonus()
+	active_bonuses[Bonuses.size] += 1
+	modulate = BONUS_COLORS.get(Bonuses.size)
 	scale *= bonus_size_scale
 
 func reset_size_bonus():
+	active_bonuses[Bonuses.size] -= 1
 	scale = Vector2(1,1)
+	update_color()
 
 func apply_speed_bonus():
-	reset_speed_bonus()
+	if active_bonuses[Bonuses.speed] > 0:
+		reset_time_bonus()
+	active_bonuses[Bonuses.speed] += 1
+	
+	modulate = BONUS_COLORS.get(Bonuses.speed)
 	speed *= bonus_speed_scale
 
 func reset_speed_bonus():
+	active_bonuses[Bonuses.speed] -= 1
 	speed = SPEED
+	update_color()
 	
 func apply_shield_bonus():
+	if active_bonuses[Bonuses.shield] > 0:
+		reset_time_bonus()
+	active_bonuses[Bonuses.shield] += 1
+	modulate = BONUS_COLORS.get(Bonuses.shield)
 	hurtbox_area.monitoring = false
 	
 func reset_shield_bonus():
+	active_bonuses[Bonuses.shield] -= 1
 	hurtbox_area.monitoring = true
+	update_color()
 	
 func apply_time_bonus():
+	if active_bonuses[Bonuses.time] > 0:
+		reset_time_bonus()
+	
+	active_bonuses[Bonuses.time] += 1
+	modulate = BONUS_COLORS.get(Bonuses.time)
+	
 	time_multiplier = bonus_time_scale
 	Engine.time_scale = bonus_time_scale
 	animation_player.speed_scale = (1.0 / bonus_time_scale) * 2
 	
 func reset_time_bonus():
+	active_bonuses[Bonuses.time] -= 1
+	
 	time_multiplier = 1.0
 	Engine.time_scale = 1.0
 	animation_player.speed_scale = 1.0
+	
+	update_color()
 
 func _on_size_timer_timeout() -> void:
 	reset_size_bonus()
