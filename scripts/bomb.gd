@@ -28,7 +28,6 @@ var direction: Vector2 = Vector2.ZERO
 var time_scale: float = 1.0:
 	set(value):
 		time_scale = value
-		timer.time_scale = value
 		animation_player.speed_scale = value
 
 ################################################################################
