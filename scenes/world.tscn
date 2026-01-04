@@ -379,9 +379,6 @@ position = Vector2(157, 14)
 [node name="pepper_bonus" parent="GameObjects" instance=ExtResource("11_e3hyu")]
 position = Vector2(205, 14)
 
-[node name="Bag" parent="GameObjects" instance=ExtResource("15_dss4m")]
-position = Vector2(-36, 63)
-
 [node name="Remover" type="Area2D" parent="."]
 position = Vector2(-2256, -331)
 collision_layer = 8
