@@ -875,7 +875,6 @@ parameters/looping = true
 [connection signal="pressed" from="HUD/Control2/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="HUD/Control3/MuteButton" to="." method="_on_mute_button_pressed"]
 [connection signal="value_changed" from="HUD/Control4/HSlider" to="." method="_on_h_slider_value_changed"]
-[connection signal="value_changed" from="HUD/Control4/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/LeaderboardButton" to="." method="_on_leaderboard_button_pressed"]
 [connection signal="pressed" from="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]

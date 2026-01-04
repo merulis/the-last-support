@@ -485,4 +485,3 @@ func add_row(player_name: String, score: int):
 func _on_return_button_pressed():
 	end_primary_screen.show()
 	leaderboard_screen.hide()
->>>>>>> finalizing
