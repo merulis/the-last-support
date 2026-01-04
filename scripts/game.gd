@@ -50,6 +50,9 @@ func _ready():
 
 func _on_player_dead() -> void:
 	_stop_game()
+	
+func _on_the_last_support_destroy() -> void:
+	_stop_game()
 
 ################################################################################
 

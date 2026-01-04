@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://c4gvrdvi1go8t"]
+[gd_scene load_steps=5 format=3 uid="uid://c4gvrdvi1go8t"]
 
 [ext_resource type="Texture2D" uid="uid://ga6qwekkgys1" path="res://resources/dwarf_tileset.png" id="1_2tcux"]
+[ext_resource type="Script" uid="uid://dt55j6kgqr1a3" path="res://scripts/the_last_support.gd" id="1_ldg5q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ldg5q"]
 atlas = ExtResource("1_2tcux")
@@ -10,6 +11,7 @@ region = Rect2(96, 160, 64, 64)
 size = Vector2(20, 54)
 
 [node name="TheLastSupport" type="CharacterBody2D" groups=["support"]]
+script = ExtResource("1_ldg5q")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -32)
@@ -20,6 +22,10 @@ position = Vector2(0, -30)
 shape = SubResource("RectangleShape2D_nu0as")
 
 [node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtBox"]
 polygon = PackedVector2Array(-15, -57, -15, -53, -9, -42, -9, -14, -11, -14, -17, -8, -18, -5, -15, -3, 15, -3, 18, -5, 17, -8, 11, -14, 9, -14, 9, -42, 15, -53, 15, -57)
+
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_area_entered"]

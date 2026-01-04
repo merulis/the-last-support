@@ -76,6 +76,7 @@ attack={
 2d_physics/layer_4="remover"
 2d_physics/layer_5="bonus"
 2d_physics/layer_6="bullets"
+2d_physics/layer_7="pillar"
 
 [rendering]
 

@@ -78,6 +78,7 @@ func _on_hurt_area_entered(area: Area2D) -> void:
 	get_direction()
 	state = BombState.pushed
 	hit_area.set_collision_layer_value(2, false)
+	hit_area.set_collision_layer_value(7, false)
 	hurt_area.set_collision_mask_value(3, false)
 	hurt_area.set_collision_mask_value(6, true)
 		

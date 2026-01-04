@@ -50,6 +50,8 @@ var active_bonuses: Dictionary[Bonuses, int] = {
 	Bonuses.shield: 0,
 }
 
+var last_active_bonus: Bonuses
+
 var input_vector: = Vector2.ZERO
 var last_input_vector: = Vector2.RIGHT
 
@@ -131,23 +133,21 @@ func apply_bonus(bonus_name):
 func start_timer(timer: Timer):
 	timer.start()
 
-func find_active_bonus_color() -> Color:
-	for bonus in active_bonuses.keys():
-		var num = active_bonuses.get(bonus)
-		if num > 0:
-			return BONUS_COLORS[bonus]
-	return base_color
-
 func update_color():
-	modulate = find_active_bonus_color()
-	return
+	if last_active_bonus == null:
+		return
+	if active_bonuses[last_active_bonus] > 0:
+		modulate = BONUS_COLORS[last_active_bonus]
+	else:
+		modulate = base_color
 
 func apply_size_bonus():
 	if active_bonuses[Bonuses.size] > 0:
 		reset_time_bonus()
 	active_bonuses[Bonuses.size] += 1
-	modulate = BONUS_COLORS.get(Bonuses.size)
+	last_active_bonus = Bonuses.size
 	scale *= bonus_size_scale
+	update_color()
 
 func reset_size_bonus():
 	active_bonuses[Bonuses.size] -= 1
@@ -159,8 +159,9 @@ func apply_speed_bonus():
 		reset_time_bonus()
 	active_bonuses[Bonuses.speed] += 1
 	
-	modulate = BONUS_COLORS.get(Bonuses.speed)
+	last_active_bonus = Bonuses.speed
 	speed *= bonus_speed_scale
+	update_color()
 
 func reset_speed_bonus():
 	active_bonuses[Bonuses.speed] -= 1
@@ -171,8 +172,9 @@ func apply_shield_bonus():
 	if active_bonuses[Bonuses.shield] > 0:
 		reset_time_bonus()
 	active_bonuses[Bonuses.shield] += 1
-	modulate = BONUS_COLORS.get(Bonuses.shield)
+	last_active_bonus = Bonuses.shield
 	hurtbox_area.monitoring = false
+	update_color()
 	
 func reset_shield_bonus():
 	active_bonuses[Bonuses.shield] -= 1
@@ -184,12 +186,13 @@ func apply_time_bonus():
 		reset_time_bonus()
 	
 	active_bonuses[Bonuses.time] += 1
-	modulate = BONUS_COLORS.get(Bonuses.time)
+	last_active_bonus = Bonuses.time
 	
 	for c in get_tree().get_nodes_in_group("characters"):
 		if c != self and "time_scale" in c:
 			print(c.name)
 			c.time_scale = bonus_time_scale
+	update_color()
 	
 func reset_time_bonus():
 	active_bonuses[Bonuses.time] -= 1

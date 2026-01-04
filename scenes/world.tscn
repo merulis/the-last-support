@@ -367,18 +367,6 @@ editor_draw_drag_margin = true
 
 [node name="TheLastSupport" parent="GameObjects" instance=ExtResource("9_7r4gi")]
 
-[node name="red_mashroom_bonus" parent="GameObjects" instance=ExtResource("9_w7kh3")]
-position = Vector2(181, 14)
-
-[node name="slime" parent="GameObjects" instance=ExtResource("10_w7kh3")]
-position = Vector2(-192, 49)
-
-[node name="shield_bonus" parent="GameObjects" instance=ExtResource("11_q5onr")]
-position = Vector2(157, 14)
-
-[node name="pepper_bonus" parent="GameObjects" instance=ExtResource("11_e3hyu")]
-position = Vector2(205, 14)
-
 [node name="Remover" type="Area2D" parent="."]
 position = Vector2(-2256, -331)
 collision_layer = 8
@@ -562,5 +550,6 @@ parameters/looping = true
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
 [connection signal="timeout" from="BonusSpawnTimer" to="." method="_on_bonus_spawn_timer_timeout"]
 [connection signal="dead" from="GameObjects/Player" to="." method="_on_player_dead"]
+[connection signal="destroy" from="GameObjects/TheLastSupport" to="." method="_on_the_last_support_destroy"]
 [connection signal="timeout" from="Stones/EndScreenTimer" to="." method="_on_end_screen_timer_timeout"]
 [connection signal="pressed" from="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
