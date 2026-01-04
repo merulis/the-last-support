@@ -472,7 +472,7 @@ shape = SubResource("CircleShape2D_371uh")
 debug_color = Color(0.8423857, 0.0010943008, 0.91904354, 0.41960785)
 
 [node name="HitArea" type="Area2D" parent="."]
-collision_layer = 2
+collision_layer = 66
 collision_mask = 0
 
 [node name="hitbox" type="CollisionShape2D" parent="HitArea"]
