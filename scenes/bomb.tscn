@@ -1,9 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://bwsaewgixnka6"]
+[gd_scene load_steps=24 format=3 uid="uid://bwsaewgixnka6"]
 
 [ext_resource type="Texture2D" uid="uid://d1u3i5ecbv1e3" path="res://resources/objects/bomb.png" id="1_4kkau"]
 [ext_resource type="Script" uid="uid://ik4j68n32usi" path="res://scripts/bomb.gd" id="1_vpdcx"]
 [ext_resource type="Texture2D" uid="uid://dn1j1xb4h2yw4" path="res://resources/objects/bomb_shadow.png" id="2_84slv"]
 [ext_resource type="Script" uid="uid://cthskbdy0p84i" path="res://scripts/bomb_animation_tree.gd" id="3_j15uc"]
+[ext_resource type="AudioStream" uid="uid://stlxdvq3q2ku" path="res://resources/sounds/186967__readeonly__explosion5.wav" id="5_nxi8k"]
 
 [sub_resource type="Animation" id="Animation_vpdcx"]
 length = 0.001
@@ -282,6 +283,11 @@ debug_color = Color(0.8183417, 0.0018701685, 0.9710838, 0.41960785)
 wait_time = 2.0
 one_shot = true
 autostart = true
+
+[node name="BoomAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_nxi8k")
+volume_db = 1.0
+pitch_scale = 0.7
 
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="area_entered" from="HurtArea" to="." method="_on_hurt_area_entered"]

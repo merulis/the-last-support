@@ -1,9 +1,10 @@
-[gd_scene load_steps=36 format=3 uid="uid://du7g3wftsgoxp"]
+[gd_scene load_steps=37 format=3 uid="uid://du7g3wftsgoxp"]
 
 [ext_resource type="Script" uid="uid://dlj7eqmxxtmkm" path="res://scripts/bomber.gd" id="1_4mnhm"]
 [ext_resource type="Texture2D" uid="uid://dy383q0hap1cr" path="res://resources/characters/goblin_bomber.png" id="1_m36wj"]
 [ext_resource type="PackedScene" uid="uid://bwsaewgixnka6" path="res://scenes/bomb.tscn" id="2_7e12w"]
 [ext_resource type="Script" uid="uid://txwov061iu71" path="res://scripts/bomber_animation_tree.gd" id="3_hcjnu"]
+[ext_resource type="AudioStream" uid="uid://stlxdvq3q2ku" path="res://resources/sounds/186967__readeonly__explosion5.wav" id="5_whflb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m36wj"]
 radius = 2.0
@@ -141,6 +142,20 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1.5, 1.5)]
 }
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BoomAudioPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_jylt5"]
 resource_name = "boom_right"
@@ -203,6 +218,20 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BoomAudioPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_0hyo2"]
@@ -536,5 +565,10 @@ parameters/idle/blend_position = 0.0
 parameters/run/blend_position = 0.0
 script = ExtResource("3_hcjnu")
 
+[node name="BoomAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_whflb")
+pitch_scale = 0.7
+
 [connection signal="area_entered" from="HurtArea" to="." method="_on_hurt_area_entered"]
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
+[connection signal="finished" from="BoomAudioPlayer" to="." method="_on_boom_audio_player_finished"]

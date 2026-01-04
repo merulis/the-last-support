@@ -11,6 +11,7 @@ enum SlimeState {
 ################################################################################
 
 @onready var animation_tree: AnimationTree = $AnimationTree
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 ################################################################################
 
@@ -23,6 +24,10 @@ var player: Player = null
 var state: SlimeState = SlimeState.idle
 var direction: Vector2 = Vector2.ZERO
 var is_dead: bool = false
+var time_scale: float = 1.0:
+	set(value):
+		time_scale = value
+		animation_player.speed_scale = value
 
 ################################################################################
 
@@ -52,7 +57,7 @@ func jump_state(delta: float) -> void:
 	animation_tree.play_animation("jump")
 	
 	direction = global_position.direction_to(player.global_position).normalized()
-	velocity = direction * speed * delta
+	velocity = direction * speed * delta * time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()
@@ -66,7 +71,7 @@ func death_state(_delta: float) -> void:
 
 func drop_slime():
 	var spawn_here = get_tree().get_first_node_in_group("spawn_here")
-	for i in range(4):
+	for i in range(randi_range(1, 5)):
 		var offset := Vector2(randf_range(-20, 20),randf_range(-20, 20))
 		var new_drop: SmallSlime = drop.instantiate()
 		new_drop.global_position = global_position + offset
@@ -84,4 +89,5 @@ func _on_animation_tree_animation_finished(anim_name: StringName):
 	if anim_name.begins_with("death"):
 		is_dead = true
 		drop_slime()
+		get_tree().get_first_node_in_group("root").score += 5
 		queue_free()

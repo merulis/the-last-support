@@ -1,9 +1,12 @@
-[gd_scene load_steps=44 format=3 uid="uid://cxptp3vk0vh06"]
+[gd_scene load_steps=47 format=3 uid="uid://cxptp3vk0vh06"]
 
 [ext_resource type="Script" uid="uid://dw1601xf483hx" path="res://scripts/player.gd" id="1_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://bfs5duln75tic" path="res://resources/characters/dwarf.png" id="2_dqkch"]
 [ext_resource type="Script" uid="uid://ttkswwycvhig" path="res://scripts/player_animation_tree.gd" id="2_qlg0r"]
+[ext_resource type="AudioStream" uid="uid://isljw388b7wn" path="res://resources/sounds/514162__zhr__swinging-axe.mp3" id="2_tuyoq"]
+[ext_resource type="AudioStream" uid="uid://dymu2a1nej8xk" path="res://resources/sounds/dying-sound.mp3" id="3_fjrip"]
 [ext_resource type="Script" uid="uid://cgw0q7jt2j0ja" path="res://boxes/hitbox.gd" id="3_qlg0r"]
+[ext_resource type="AudioStream" uid="uid://3yndq3cvge71" path="res://resources/sounds/253177__suntemple__retro-accomplished-sfx.wav" id="4_smehm"]
 [ext_resource type="Script" uid="uid://bjlu5pi1ptet8" path="res://boxes/PickupArea.gd" id="5_qlg0r"]
 
 [sub_resource type="Animation" id="Animation_i3pqv"]
@@ -466,6 +469,8 @@ radius = 11.0
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_qhqgy")
+bonus_speed_scale = 1.5
+bonus_time_scale = 0.2
 SPEED = 6000.0
 metadata/_custom_type_script = "uid://dw1601xf483hx"
 
@@ -540,6 +545,15 @@ ignore_time_scale = true
 
 [node name="ShieldTimer" type="Timer" parent="."]
 wait_time = 10.0
+
+[node name="DeathAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_fjrip")
+
+[node name="AttackAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_tuyoq")
+
+[node name="BonusAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_smehm")
 
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="area_entered" from="HurtboxArea" to="." method="_on_hurt_area_entered"]

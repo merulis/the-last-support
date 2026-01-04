@@ -13,6 +13,8 @@ enum BomberState {
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var hurt_area: Area2D = $HurtArea
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var boom_audio_player = $BoomAudioPlayer
 
 ################################################################################
 
@@ -24,6 +26,10 @@ enum BomberState {
 
 var target: CharacterBody2D = null
 var state: BomberState = BomberState.idle
+var time_scale: float = 1.0:
+	set(value):
+		time_scale = value
+		animation_player.speed_scale = value
 
 ################################################################################
 
@@ -66,7 +72,7 @@ func run_state(delta: float) -> void:
 		
 	animation_tree.play_animation("run")
 	
-	velocity = global_position.direction_to(target.global_position).normalized() * speed * delta
+	velocity = global_position.direction_to(target.global_position).normalized() * speed * delta * time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()
@@ -120,4 +126,9 @@ func _on_animation_tree_animation_finished(anim_name: StringName):
 		get_tree().get_first_node_in_group("root").score += 2
 		queue_free()
 	elif anim_name.begins_with("boom"):
+		if boom_audio_player.playing:
+			if boom_audio_player.get_parent() == self:
+				remove_child(boom_audio_player)
+				get_tree().get_first_node_in_group("spawn_here").add_child(boom_audio_player)
+				boom_audio_player.finished.connect(boom_audio_player.queue_free)
 		queue_free()
