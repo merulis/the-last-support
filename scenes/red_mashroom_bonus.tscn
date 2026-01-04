@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dp5a0wk18qfc2"]
+[gd_scene load_steps=9 format=3 uid="uid://dp5a0wk18qfc2"]
 
 [ext_resource type="Texture2D" uid="uid://dyjmatxr7p8vr" path="res://resources/objects/red_mashroom_bonus.png" id="1_5idwf"]
+[ext_resource type="Script" uid="uid://d0rpetgexer0w" path="res://scripts/red_mashroom_bonus.gd" id="1_cmvff"]
 [ext_resource type="Script" uid="uid://qdqb4o8ehxlj" path="res://boxes/bonusArea.gd" id="2_wji5l"]
 
 [sub_resource type="Animation" id="Animation_cmvff"]
@@ -53,7 +54,7 @@ tracks/1/path = NodePath("Sprite2D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.43333334, 0.6, 0.8),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [Vector2(0, -12), Vector2(0, -14), Vector2(0, -16), Vector2(0, -14), Vector2(0, -12)]
@@ -71,11 +72,13 @@ radius = 5.0990195
 [sub_resource type="CircleShape2D" id="CircleShape2D_wji5l"]
 
 [node name="red_mashroom_bonus" type="CharacterBody2D"]
+script = ExtResource("1_cmvff")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_2oltw")
 }
+autoplay = "idle"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -12)
@@ -88,7 +91,7 @@ shape = SubResource("CircleShape2D_5idwf")
 
 [node name="BonusArea" type="Area2D" parent="."]
 collision_layer = 16
-collision_mask = 2
+collision_mask = 16
 script = ExtResource("2_wji5l")
 bonus_type = "size"
 
@@ -96,3 +99,5 @@ bonus_type = "size"
 position = Vector2(0, -12)
 shape = SubResource("CircleShape2D_wji5l")
 debug_color = Color(1, 1, 0, 0.41960785)
+
+[connection signal="area_entered" from="BonusArea" to="." method="_on_bonus_area_entered"]

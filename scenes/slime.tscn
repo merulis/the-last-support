@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://boxnbcehwxseh"]
+
+[ext_resource type="Texture2D" uid="uid://bk7hudhk1uiek" path="res://resources/characters/slime.png" id="1_371uh"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_p2gj0"]
+
+[node name="slime" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(3, -18)
+texture = ExtResource("1_371uh")
+hframes = 10
+vframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_p2gj0")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")

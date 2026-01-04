@@ -77,7 +77,7 @@ func death_state(_delta: float) -> void:
 
 func apply_bonus(bonus_name):
 	match bonus_name:
-		"red": 
+		"size": 
 			start_timer(size_timer)
 			apply_size_bonus()
 
@@ -104,8 +104,12 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 
 ################################################################################
 
-func _on_hurtbox_area_area_entered(area: Area2D) -> void:
+func _on_hurt_area_entered(area: Area2D) -> void:
+	print("Player hurt area entered: ",area.name)
 	if area.name.begins_with("Hit"):
 		state = PlayerState.death
-	elif area.name.begins_with("Bonus"):
-		pass
+		
+func _on_pickup_area_entered(area: Area2D) -> void:
+	print("Player pickup area entered: ",area.name)
+	if area is BonusArea:
+		apply_bonus(area.bonus_type)

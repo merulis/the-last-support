@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=14 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cjek8dbcrl4x2" path="res://scenes/mage.tscn" id="6_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://3w3fcm7kw4pa" path="res://scenes/barrel.tscn" id="6_qfnet"]
 [ext_resource type="PackedScene" uid="uid://c4gvrdvi1go8t" path="res://scenes/the_last_support.tscn" id="9_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://dp5a0wk18qfc2" path="res://scenes/red_mashroom_bonus.tscn" id="9_w7kh3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
 size = Vector2(2000, 20)
@@ -110,6 +111,9 @@ position = Vector2(90, 23)
 position = Vector2(-125, 16)
 
 [node name="TheLastSupport" parent="GameObjects" instance=ExtResource("9_7r4gi")]
+
+[node name="red_mashroom_bonus" parent="GameObjects" instance=ExtResource("9_w7kh3")]
+position = Vector2(-35, 25)
 
 [node name="Remover" type="Area2D" parent="."]
 position = Vector2(-2256, -331)
