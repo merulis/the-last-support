@@ -14,7 +14,9 @@ extends Node2D
 @onready var music_player = $AudioStreamPlayer2D
 @onready var pause_label = $HUD/PauseLabel
 @onready var mute_button_icon = $HUD/Control3/MuteButton/TextureRect
-@onready var http: HTTPRequest = $HTTPRequest
+
+@onready var http_send: HTTPRequest = $HTTP_send
+@onready var http_get: HTTPRequest = $HTTP_get
 
 ################################################################################
 
@@ -303,24 +305,58 @@ func _on_end_screen_timer_timeout():
 func update_score_label():
 	score_label.text = "Score: " + str(score)
 
+func test_load_leaderboard():
+	print("TEST: load_leaderboard started")
+
+	var data = await load_leaderboard()
+
+	assert(data != null, "Leaderboard returned null")
+	assert(data is Array, "Leaderboard is not Array")
+	print("received ", data, " records")
+	print("TEST PASSED: received ", data.size(), " records")
+
+func test_submit_score_request_sent():
+	var result := submit_score("TestUser", 123)
+
+	assert(
+		result == OK,
+		"submit_score(): HTTPRequest.request() did not return OK"
+	)
+
+	print("TEST PASSED: submit_score request sent")
+
 func load_leaderboard():
-	var url = SUPABASE_URL + "/rest/v1/leaderboard?select=nickname,score&order=score.desc&limit=10"
+	var url = SUPABASE_URL + "/rest/v1/leaderboard?select=name,score&order=score.desc&limit=10"
 	var headers = [
 		"apikey: " + API_KEY,
 		"Authorization: Bearer " + API_KEY
 	]
 
-	http.request(
+	var err = http_get.request(
 		url,
 		headers,
 		HTTPClient.METHOD_GET
 	)
+	if err != OK:
+		push_error("Request not send")
+		return []
+		
+	var result = await http_get.request_completed
+	
+	var code = result[1]
+	var body: PackedByteArray = result[3]
+	
+	if code != 200:
+		push_error("HTTP error: %s", code)
+		return []
+	
+	return JSON.parse_string(body.get_string_from_utf8())
 
 func submit_score(name: String, score: int) -> int:
 	var url = SUPABASE_URL + "/rest/v1/leaderboard"
 	
 	name = name.strip_edges()
-	name = name.substr(0, 16)
+	name = name.substr(0, 32)
 	score = clamp(score, 0, 1_000_000)
 
 	var headers = [
@@ -334,20 +370,12 @@ func submit_score(name: String, score: int) -> int:
 		"score": score
 	})
 
-	return http.request(
+	return http_send.request(
 		url,
 		headers,
 		HTTPClient.METHOD_POST,
 		body
 	)
-
-func _on_request_completed(result, response_code, headers, body):
-	if response_code != 200:
-		print("Error:", response_code)
-		return
-	
-	var json = JSON.parse_string(body.get_string_from_utf8())
-	print(json)
 
 ################################################################################
 
