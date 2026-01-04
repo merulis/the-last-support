@@ -58,6 +58,8 @@ var muted: bool = false
 ################################################################################
 
 func _ready():
+	var bus = AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_volume_db(bus, linear_to_db(0.75))
 	_on_enemy_spawn_timer_timeout()
 	_on_bonus_spawn_timer_timeout()
 
@@ -401,3 +403,14 @@ func _on_mute_button_pressed():
 		mute_button_icon.texture = unmute_icon
 	
 	muted = not muted
+
+################################################################################
+
+func _on_h_slider_value_changed(value):
+	var bus = AudioServer.get_bus_index("Master")
+
+	if value <= 0.0:
+		AudioServer.set_bus_mute(bus, true)
+	else:
+		AudioServer.set_bus_mute(bus, false)
+		AudioServer.set_bus_volume_db(bus, linear_to_db(value))
