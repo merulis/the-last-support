@@ -171,13 +171,12 @@ border_color = Color(0, 0, 0, 1)
 y_sort_enabled = true
 script = ExtResource("1_k0juu")
 min_spawn_time = 1.5
-max_enemy_count = 8
 enemy_list = Array[Resource]([ExtResource("3_4wyf3"), ExtResource("3_dss4m"), ExtResource("5_71j4m"), ExtResource("6_4mrxx"), ExtResource("10_w7kh3")])
-score_required_to_spawn_enemy = Array[int]([0, 10, 20, 40, 60])
-enemy_weights = Array[int]([100, 70, 50, 30, 20])
+score_required_to_spawn_enemy = Array[int]([0, 5, 10, 15, 20])
+enemy_weights = Array[int]([100, 60, 30, 30, 50])
 bonus_list = Array[Resource]([ExtResource("6_i7141"), ExtResource("8_2lf6f"), ExtResource("9_w7kh3"), ExtResource("11_e3hyu"), ExtResource("11_q5onr"), ExtResource("15_xo05s")])
 bonus_weights = Array[int]([100, 50, 5, 5, 5, 5])
-score_required_to_spawn_bonus = Array[int]([0, 0, 10, 20, 40, 60])
+score_required_to_spawn_bonus = Array[int]([0, 0, 5, 10, 15, 20])
 bonus_fall_min_y = 16.0
 bonus_fall_max_y = 80.0
 min_bonus_spawn_time = 6.0
@@ -882,3 +881,4 @@ parameters/looping = true
 [connection signal="pressed" from="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/SendButton" to="." method="_on_send_button_pressed"]
 [connection signal="pressed" from="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/CancelSendButton" to="." method="_on_cancel_send_button_pressed"]
 [connection signal="pressed" from="EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]

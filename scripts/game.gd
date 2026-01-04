@@ -66,6 +66,7 @@ var paused: bool = false
 var muted: bool = false
 var regex := RegEx.new()
 var score_submitted: bool = false
+var leaderboard_data
 
 ################################################################################
 
@@ -75,6 +76,7 @@ func _ready():
 	_on_enemy_spawn_timer_timeout()
 	_on_bonus_spawn_timer_timeout()
 	regex.compile("^[A-Za-z]*$") # только латинские буквы
+	load_leaderboard()
 
 ################################################################################
 
@@ -347,6 +349,7 @@ func load_leaderboard():
 		"Authorization: Bearer " + API_KEY
 	]
 
+	http_get.connect("request_completed", Callable(self, "_on_leaderboard_loaded"))
 	var err = http_get.request(
 		url,
 		headers,
@@ -355,24 +358,21 @@ func load_leaderboard():
 	if err != OK:
 		push_error("Request not send")
 		return []
-		
-	var result = await http_get.request_completed
 	
-	var code = result[1]
-	var body: PackedByteArray = result[3]
-	
-	if code != 200:
-		push_error("HTTP error: %s", code)
+func _on_leaderboard_loaded(_result, response_code, _headers, body):
+	if response_code != 200:
+		push_error("HTTP error: %s", response_code)
 		return []
 	
-	return JSON.parse_string(body.get_string_from_utf8())
+	leaderboard_data = JSON.parse_string(body.get_string_from_utf8())
+	
 
-func submit_score(name: String, score: int) -> int:
+func submit_score(player_name: String, score_value: int) -> int:
 	var url = SUPABASE_URL + "/rest/v1/leaderboard"
 	
-	name = name.strip_edges()
-	name = name.substr(0, 32)
-	score = clamp(score, 0, 1_000_000)
+	player_name = player_name.strip_edges()
+	player_name = player_name.substr(0, 32)
+	score_value = clamp(score_value, 0, 1_000_000)
 
 	var headers = [
 		"apikey: " + API_KEY,
@@ -381,8 +381,8 @@ func submit_score(name: String, score: int) -> int:
 	]
 
 	var body = JSON.stringify({
-		"name": name,
-		"score": score
+		"name": player_name,
+		"score": score_value
 	})
 
 	return http_send.request(
@@ -443,8 +443,6 @@ func _on_cancel_send_button_pressed():
 ################################################################################
 
 func _on_leaderboard_button_pressed():
-	var leaderboard_data = await load_leaderboard()
-	
 	for child in leaderboard_grid.get_children():
 		child.queue_free()
 		
@@ -467,17 +465,17 @@ func _on_leaderboard_button_pressed():
 
 ################################################################################
 
-func add_row(player_name: String, score: int):
+func add_row(player_name: String, score_value: int):
 	var name_label = leaderboard_label.instantiate()
 	name_label.text = player_name
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 
-	var score_label = leaderboard_label.instantiate()
-	score_label.text = str(score)
-	score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	var new_score_label = leaderboard_label.instantiate()
+	new_score_label.text = str(score_value)
+	new_score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 
 	leaderboard_grid.add_child(name_label)
-	leaderboard_grid.add_child(score_label)
+	leaderboard_grid.add_child(new_score_label)
 	
 ################################################################################
 
@@ -489,12 +487,25 @@ func _on_return_button_pressed():
 
 func _on_send_button_pressed():
 	if not score_submitted:
-		var name = player_name_edit.text
-		if name == "":
+		var player_name = player_name_edit.text
+		if player_name == "":
 			return
 		
-		submit_score(name, score)
+		submit_score(player_name, score)
 		score_submitted = true
 	
 	end_primary_screen.show()
 	end_send_screen.hide()
+
+func _on_h_slider_value_changed(value: float) -> void:
+	var bus = AudioServer.get_bus_index("Master")
+
+	if value <= 0.0:
+		AudioServer.set_bus_mute(bus, true)
+	else:
+		AudioServer.set_bus_mute(bus, false)
+		AudioServer.set_bus_volume_db(bus, linear_to_db(value))
+
+
+func _on_audio_stream_player_2d_finished():
+	music_player.play()
