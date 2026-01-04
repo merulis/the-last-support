@@ -311,7 +311,7 @@ shape = SubResource("CircleShape2D_7dday")
 debug_color = Color(0.76876485, 0.1614674, 0.99999994, 0.41960785)
 
 [node name="HitArea" type="Area2D" parent="."]
-collision_layer = 2
+collision_layer = 66
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
