@@ -28,6 +28,7 @@ var time_scale: float = 1.0:
 	set(value):
 		time_scale = value
 		animation_player.speed_scale = value
+var sleeping = true
 
 ################################################################################
 
@@ -35,8 +36,12 @@ func _ready() -> void:
 	invul_timer.start()
 	hurt_area.monitoring = false
 	
+################################################################################
 
 func _process(delta: float) -> void:
+	if sleeping:
+		return
+
 	match state:
 		SlimeState.idle: idle_state(delta)
 		SlimeState.jump: jump_state(delta)
@@ -84,3 +89,4 @@ func _on_animation_tree_animation_finished(anim_name: StringName):
 
 func _on_invul_timer_timeout() -> void:
 	hurt_area.monitoring = true
+	sleeping = false

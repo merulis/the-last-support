@@ -195,7 +195,6 @@ func apply_time_bonus():
 	
 	for c in get_tree().get_nodes_in_group("characters"):
 		if c != self and "time_scale" in c:
-			print(c.name)
 			c.time_scale = bonus_time_scale
 	update_color()
 	
@@ -231,7 +230,6 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 ################################################################################
 
 func _on_hurt_area_entered(area: Area2D) -> void:
-	print("Player hurt area entered: ",area.name)
 	if area.name.begins_with("Hit"):
 		if not death_audio_player.playing:
 			death_audio_player.play()
@@ -240,6 +238,5 @@ func _on_hurt_area_entered(area: Area2D) -> void:
 		area.get_parent().queue_free()
 
 func _on_pickup_area_entered(area: Area2D) -> void:
-	print("Player pickup area entered: ",area.name)
 	if area is BonusArea:
 		apply_bonus(area.bonus_type)

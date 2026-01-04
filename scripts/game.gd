@@ -8,8 +8,12 @@ extends Node2D
 @onready var end_screen_timer = $Stones/EndScreenTimer
 @onready var hud = $HUD
 @onready var end_screen = $EndScreen
-@onready var score_label = $HUD/Control/ScoreLabel
+@onready var score_label = $HUD/Control/MarginContainer/ScoreLabel
 @onready var end_label = $EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/Label
+@onready var pause_button_label = $HUD/Control2/PauseButton/Label
+@onready var music_player = $AudioStreamPlayer2D
+@onready var pause_label = $HUD/PauseLabel
+@onready var mute_button_icon = $HUD/Control3/MuteButton/TextureRect
 @onready var http: HTTPRequest = $HTTPRequest
 
 ################################################################################
@@ -35,6 +39,9 @@ extends Node2D
 @export var SUPABASE_URL := "https://xdpkftgtzdvdyufwavpf.supabase.co"
 @export var API_KEY := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkcGtmdGd0emR2ZHl1ZndhdnBmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc1NTExNjcsImV4cCI6MjA4MzEyNzE2N30.IrmoQ9BBfr4e7f7SphKBpb49gvvqPWLWNyUw7Q8ihcg"
 
+@export var mute_icon: Resource
+@export var unmute_icon: Resource
+
 var score: int = 0:
 	set(value):
 		score = value
@@ -43,6 +50,8 @@ var score: int = 0:
 var difficulty: float = 0.0
 var previous_enemy_spawn_point
 var previous_bonus_spawn_point
+var paused: bool = false
+var muted: bool = false
 
 ################################################################################
 
@@ -71,6 +80,33 @@ func _stop_game():
 	stones_layer.visible = true
 	for stone in stones:
 		(stone as AnimatedSprite2D).play("default")
+
+################################################################################
+
+func _on_pause_button_pressed():
+	if not paused:
+		pause_button_label.text = "Resume"
+		pause_label.visible = true
+		
+		var objects = get_tree().get_nodes_in_group("characters")
+		
+		for obj in objects:
+			obj.set_process_mode(Node.PROCESS_MODE_DISABLED)
+			
+		music_player.stream_paused = true
+	
+	else:
+		pause_button_label.text = "Pause"
+		pause_label.visible = false
+		
+		var objects = get_tree().get_nodes_in_group("characters")
+		
+		for obj in objects:
+			obj.set_process_mode(Node.PROCESS_MODE_INHERIT)
+			
+		music_player.stream_paused = false
+			
+	paused = not paused
 
 ################################################################################
 
@@ -323,3 +359,17 @@ func restart_game():
 
 func _on_button_pressed():
 	restart_game()
+
+################################################################################
+
+func _on_mute_button_pressed():
+	var bus = AudioServer.get_bus_index("Master")
+	
+	if not muted:
+		AudioServer.set_bus_mute(bus, true)
+		mute_button_icon.texture = mute_icon
+	else:
+		AudioServer.set_bus_mute(bus, false)
+		mute_button_icon.texture = unmute_icon
+	
+	muted = not muted
