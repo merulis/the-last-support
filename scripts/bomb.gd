@@ -9,8 +9,12 @@ enum BombState {
 ################################################################################
 
 @onready var animation_tree: AnimationTree = $AnimationTree
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var hit_area: Area2D = $HitArea
 @onready var hurt_area: Area2D = $HurtArea
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var timer: Timer = $Timer
+@onready var boom_audio_player = $BoomAudioPlayer
 
 ################################################################################
 
@@ -21,6 +25,11 @@ enum BombState {
 var player: Player = null
 var state: BombState = BombState.fuse
 var direction: Vector2 = Vector2.ZERO
+var time_scale: float = 1.0:
+	set(value):
+		time_scale = value
+		timer.time_scale = value
+		animation_player.speed_scale = value
 
 ################################################################################
 
@@ -39,13 +48,15 @@ func fuse_state(_delta: float) -> void:
 
 func pushed_state(delta: float) -> void:
 	animation_tree.play_animation("pushed")
-	velocity = direction * speed * delta
+	velocity = direction * speed * delta * time_scale
 	move_and_slide()
 
 ################################################################################
 
 func boom_state(_delta: float) -> void:
 	sprite.z_index = 1
+	if not boom_audio_player.playing:
+		boom_audio_player.play()
 	animation_tree.play_animation("boom")
 
 ################################################################################
@@ -66,6 +77,7 @@ func _on_hurt_area_entered(area: Area2D) -> void:
 
 	get_direction()
 	state = BombState.pushed
+	hit_area.set_collision_layer_value(2, false)
 	hurt_area.set_collision_mask_value(3, false)
 	hurt_area.set_collision_mask_value(6, true)
 		

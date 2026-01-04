@@ -1,8 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://3w3fcm7kw4pa"]
+[gd_scene load_steps=22 format=3 uid="uid://3w3fcm7kw4pa"]
 
 [ext_resource type="Script" uid="uid://ltgue7akjxsf" path="res://scripts/barrel.gd" id="1_ptqd7"]
 [ext_resource type="Texture2D" uid="uid://cijypp5eu8wfw" path="res://resources/objects/barrel.png" id="1_q36op"]
 [ext_resource type="Script" uid="uid://bw5aw6qtfllb3" path="res://scripts/barrel_animation_tree.gd" id="3_n8wf6"]
+[ext_resource type="AudioStream" uid="uid://cqhckxjgnajhy" path="res://resources/sounds/369711__mrguff__hit-impact.wav" id="4_mhtw8"]
+[ext_resource type="AudioStream" uid="uid://c2b0tfqop6h74" path="res://resources/sounds/772754__jerryberumen__toy-misc-marble-rolling-roll-on-mdf-wood-floor.wav" id="5_gdyii"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gdyii"]
 
@@ -252,5 +254,12 @@ script = ExtResource("3_n8wf6")
 position = Vector2(0, -6)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_n8wf6")
+
+[node name="HitAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_mhtw8")
+
+[node name="RollingAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_gdyii")
+pitch_scale = 0.3
 
 [connection signal="area_entered" from="HurtArea" to="." method="_on_hurt_area_entered"]

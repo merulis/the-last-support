@@ -14,6 +14,7 @@ enum MageState {
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var hurtbox: Area2D = $HurtArea
 @onready var bullet_start_position: Marker2D = $BulletStartPosition
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 ################################################################################
 
@@ -25,15 +26,23 @@ enum MageState {
 
 var player: Player = null
 var state: MageState = MageState.idle
+var time_scale: float = 1.0:
+	set(value):
+		time_scale = value
+		animation_player.speed_scale = value
 
 ################################################################################
 
 func _process(delta: float) -> void:
 	match state:
-		MageState.idle: idle_state(delta)
-		MageState.run: run_state(delta)
-		MageState.attack: attack_state(delta)
-		MageState.death: death_state(delta)
+		MageState.idle: 
+			idle_state(delta)
+		MageState.run: 
+			run_state(delta)
+		MageState.attack: 
+			attack_state(delta)
+		MageState.death: 
+			death_state(delta)
 
 ################################################################################
 
@@ -64,7 +73,7 @@ func run_state(delta: float) -> void:
 		
 	animation_tree.play_animation("run")
 	
-	velocity = global_position.direction_to(player.global_position).normalized() * speed * delta
+	velocity = global_position.direction_to(player.global_position).normalized() * speed * delta * time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()
@@ -74,6 +83,10 @@ func run_state(delta: float) -> void:
 func attack_state(_delta: float) -> void:
 	if not player:
 		state = MageState.idle
+		return
+		
+	if not check_attack_range():
+		state = MageState.run
 		return
 		
 	animation_tree.play_animation("attack")
@@ -100,6 +113,7 @@ func _on_animation_tree_animation_finished(anim_name):
 	if anim_name == "death":
 		get_tree().get_first_node_in_group("root").score += 3
 		queue_free()
+	
 
 ################################################################################
 

@@ -4,6 +4,12 @@ extends Node2D
 
 @onready var enemy_spawn_timer: Timer = $EnemySpawnTimer
 @onready var bonus_spawn_timer: Timer = $BonusSpawnTimer
+@onready var stones_layer = $Stones
+@onready var end_screen_timer = $Stones/EndScreenTimer
+@onready var hud = $HUD
+@onready var end_screen = $EndScreen
+@onready var score_label = $HUD/Control/ScoreLabel
+@onready var end_label = $EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/Label
 
 ################################################################################
 
@@ -25,7 +31,11 @@ extends Node2D
 @export var base_bonus_count := 1
 @export var max_bonus_count := 3
 
-var score: int = 0
+var score: int = 0:
+	set(value):
+		score = value
+		update_score_label()
+
 var difficulty: float = 0.0
 var previous_enemy_spawn_point
 var previous_bonus_spawn_point
@@ -48,6 +58,12 @@ func _stop_game():
   
 	for obj in objects:
 		obj.set_process_mode(Node.PROCESS_MODE_DISABLED)
+		
+	end_screen_timer.start(1.0)
+	var stones = get_tree().get_nodes_in_group("stones")
+	stones_layer.visible = true
+	for stone in stones:
+		(stone as AnimatedSprite2D).play("default")
 
 ################################################################################
 
@@ -112,7 +128,6 @@ func _on_enemy_spawn_timer_timeout():
 	for req in score_required_to_spawn_enemy:
 		if score >= req:
 			current_enemy_types += 1
-	current_enemy_types = clamp(current_enemy_types, 1, enemy_list.size())
 
 	# сколько врагов спавнить
 	var spawn_count = get_enemy_count()
@@ -162,12 +177,9 @@ func pick_weighted_bonus(max_id: int) -> int:
 	var weights := []
 
 	for i in range(max_id):
-		var w = get_bonus_weight(i)
+		var w = get_enemy_weight(i)
 		weights.append(w)
 		total += w
-
-	if total <= 0:
-		return -1
 
 	var roll = randi_range(1, total)
 	var acc := 0
@@ -177,7 +189,7 @@ func pick_weighted_bonus(max_id: int) -> int:
 		if roll <= acc:
 			return i
 
-	return -1
+	return 0
 	
 ################################################################################
 
@@ -194,6 +206,8 @@ func get_bonus_count() -> int:
 ################################################################################
 
 func _on_bonus_spawn_timer_timeout():
+	update_difficulty()
+
 	# Получаем точки спауна бонусов
 	var spawn_points = get_tree().get_nodes_in_group("bonus_spawn_point")
 	var parent_node = get_tree().get_first_node_in_group("spawn_here")
@@ -203,7 +217,6 @@ func _on_bonus_spawn_timer_timeout():
 	for req in score_required_to_spawn_bonus:
 		if score >= req:
 			current_bonus_types += 1
-	current_bonus_types = clamp(current_bonus_types, 1, bonus_list.size())
 
 	var bonus_count = get_bonus_count()
 
@@ -234,3 +247,26 @@ func spawn_bonuses_with_delay(count: int, spawn_points: Array, parent_node: Node
 
 		# небольшая задержка перед следующим врагом
 		await get_tree().create_timer(0.2).timeout
+
+################################################################################
+
+func _on_end_screen_timer_timeout():
+	hud.visible = false
+	end_screen.visible = true
+	end_label.text = "The last support has fallen. The fortress collapses.\nScore: " + str(score)
+
+################################################################################
+
+func update_score_label():
+	score_label.text = "Score: " + str(score)
+
+################################################################################
+
+func restart_game():
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+################################################################################
+
+func _on_button_pressed():
+	restart_game()

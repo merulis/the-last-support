@@ -9,6 +9,9 @@ class_name Player extends CharacterBody2D
 @onready var shield_timer: Timer = $ShieldTimer
 @onready var speed_timer: Timer = $SpeedTimer
 @onready var hurtbox_area: Area2D = $HurtboxArea
+@onready var attack_audio_player = $AttackAudioPlayer
+@onready var death_audio_player = $DeathAudioPlayer
+@onready var bonus_audio_player = $BonusAudioPlayer
 
 @export var bonus_duration: float = 10.0
 @export var bonus_size_scale: float = 1.7
@@ -31,7 +34,6 @@ var last_input_vector: = Vector2.RIGHT
 
 var state: PlayerState = PlayerState.idle
 var speed: float = SPEED
-var time_multiplier: float = 1.0
 
 ################################################################################
 
@@ -50,6 +52,7 @@ func idle_state(_delta: float) -> void:
 		state = PlayerState.run
 
 	if Input.is_action_just_pressed("attack"):
+		attack_audio_player.play()
 		state = PlayerState.attack
 		
 	animation_tree.play_animation("idle")
@@ -68,11 +71,10 @@ func run_state(delta: float) -> void:
 		state = PlayerState.idle
 
 	if Input.is_action_just_pressed("attack"):
+		attack_audio_player.play()
 		state = PlayerState.attack
 		
-	var effective_speed = speed / time_multiplier
-	var effective_delta = delta / time_multiplier
-	velocity = input_vector * effective_speed * effective_delta
+	velocity = input_vector * speed * delta
 	move_and_slide()
 
 ################################################################################
@@ -88,6 +90,7 @@ func death_state(_delta: float) -> void:
 ################################################################################
 
 func apply_bonus(bonus_name):
+	bonus_audio_player.play()
 	match bonus_name:
 		"size": 
 			start_timer(size_timer, bonus_duration)
@@ -126,14 +129,15 @@ func reset_shield_bonus():
 	hurtbox_area.monitoring = true
 	
 func apply_time_bonus():
-	time_multiplier = bonus_time_scale
-	Engine.time_scale = bonus_time_scale
-	animation_player.speed_scale = (1.0 / bonus_time_scale) * 2
+	for c in get_tree().get_nodes_in_group("characters"):
+		if c != self and "time_scale" in c:
+			print(c.name)
+			c.time_scale = bonus_time_scale
 	
 func reset_time_bonus():
-	time_multiplier = 1.0
-	Engine.time_scale = 1.0
-	animation_player.speed_scale = 1.0
+	for c in get_tree().get_nodes_in_group("characters"):
+		if c != self and "time_scale" in c:
+			c.time_scale = 1.0
 
 func _on_size_timer_timeout() -> void:
 	reset_size_bonus()
@@ -160,6 +164,8 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 func _on_hurt_area_entered(area: Area2D) -> void:
 	print("Player hurt area entered: ",area.name)
 	if area.name.begins_with("Hit"):
+		if not death_audio_player.playing:
+			death_audio_player.play()
 		state = PlayerState.death
 	if area.get_parent() is MagicBullet:
 		area.get_parent().queue_free()

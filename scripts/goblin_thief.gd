@@ -13,11 +13,16 @@ enum GoblinThiefState {
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var hurtbox: Area2D = $Hurtbox
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 ################################################################################
 
 @export var speed: float = 2000.0
 @export var attack_range: float = 25.0
+var time_scale: float = 1.0:
+	set(value):
+		time_scale = value
+		animation_player.speed_scale = value
 
 ################################################################################
 
@@ -65,7 +70,7 @@ func run_state(delta: float) -> void:
 		
 	animation_tree.play_animation("run")
 	
-	velocity = global_position.direction_to(target.global_position).normalized() * speed * delta
+	velocity = global_position.direction_to(target.global_position).normalized() * speed * delta * time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()
@@ -75,10 +80,6 @@ func run_state(delta: float) -> void:
 func attack_state(_delta: float) -> void:
 	if not target:
 		state = GoblinThiefState.idle
-		return
-	
-	if not check_attack_range():
-		state = GoblinThiefState.run
 		return
 		
 	animation_tree.play_animation("attack")
@@ -109,6 +110,10 @@ func _on_hurtbox_area_entered(area):
 ################################################################################
 
 func _on_animation_tree_animation_finished(anim_name):
+	if anim_name.begins_with("attack"):
+		if not check_attack_range():
+			state = GoblinThiefState.run
+
 	if anim_name == "death":
 		get_tree().get_first_node_in_group("root").score += 1
 		queue_free()

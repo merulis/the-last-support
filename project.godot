@@ -33,6 +33,7 @@ enemy_spawn_point=""
 root=""
 bonus_spawn_point=""
 support=""
+stones=""
 
 [input]
 

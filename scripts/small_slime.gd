@@ -13,7 +13,7 @@ enum SlimeState {
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var invul_timer: Timer = $InvulTimer
 @onready var hurt_area: Area2D = $HurtArea
-
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 ################################################################################
 
@@ -24,6 +24,10 @@ enum SlimeState {
 var player: Player = null
 var state: SlimeState = SlimeState.idle
 var direction: Vector2 = Vector2.ZERO
+var time_scale: float = 1.0:
+	set(value):
+		time_scale = value
+		animation_player.speed_scale = value
 
 ################################################################################
 
@@ -58,7 +62,7 @@ func jump_state(delta: float) -> void:
 	animation_tree.play_animation("jump")
 	
 	direction = global_position.direction_to(player.global_position).normalized()
-	velocity = direction * speed * delta
+	velocity = direction * speed * delta * time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()
@@ -75,6 +79,7 @@ func _on_hurt_area_entered(_area: Area2D) -> void:
 
 func _on_animation_tree_animation_finished(anim_name: StringName):
 	if anim_name.begins_with("death"):
+		get_tree().get_first_node_in_group("root").score += 1
 		queue_free()
 
 func _on_invul_timer_timeout() -> void:
