@@ -1,36 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://bwsaewgixnka6"]
+[gd_scene load_steps=23 format=3 uid="uid://bwsaewgixnka6"]
 
 [ext_resource type="Texture2D" uid="uid://d1u3i5ecbv1e3" path="res://resources/objects/bomb.png" id="1_4kkau"]
 [ext_resource type="Script" uid="uid://ik4j68n32usi" path="res://scripts/bomb.gd" id="1_vpdcx"]
+[ext_resource type="Texture2D" uid="uid://dn1j1xb4h2yw4" path="res://resources/objects/bomb_shadow.png" id="2_84slv"]
 [ext_resource type="Script" uid="uid://cthskbdy0p84i" path="res://scripts/bomb_animation_tree.gd" id="3_j15uc"]
-
-[sub_resource type="Animation" id="Animation_4kkau"]
-resource_name = "fuse"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8, 1.1, 1.3, 1.5, 1.7, 1.9),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0), Vector2i(5, 0), Vector2i(6, 0), Vector2i(7, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HitArea/Hitbox:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
 
 [sub_resource type="Animation" id="Animation_vpdcx"]
 length = 0.001
@@ -135,8 +108,8 @@ tracks/3/keys = {
 "values": [0.0, 1.5707963267948966, 3.141592653589793, 4.71238898038469, 6.283185307179586, 4.71238898038469, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_84slv"]
-resource_name = "pushed"
+[sub_resource type="Animation" id="Animation_4kkau"]
+resource_name = "fuse"
 length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -162,6 +135,34 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+
+[sub_resource type="Animation" id="Animation_84slv"]
+resource_name = "pushed"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.3, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0), Vector2i(5, 0), Vector2i(6, 0), Vector2i(7, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitArea/Hitbox:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
@@ -169,10 +170,10 @@ tracks/2/path = NodePath("Sprite2D:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.033333335, 0.4, 0.9, 1.4, 1.9, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8000001, 1, 1.2, 1.4, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0.0, 1.5707963267948966, 3.141592653589793, 4.71238898038469, 6.283185307179586, 0.0]
+"values": [3.141592653589793, 1.5707963267948966, 3.141592653589793, 4.71238898038469, 0.0, 1.5707963267948966, 3.141592653589793, 4.71238898038469, 0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_84slv"]
@@ -230,9 +231,14 @@ height = 12.0
 
 [node name="bomb" type="CharacterBody2D"]
 script = ExtResource("1_vpdcx")
+speed = 7500.0
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(-1, -3)
+texture = ExtResource("2_84slv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-1, -4)
+position = Vector2(0, -4)
 texture = ExtResource("1_4kkau")
 hframes = 10
 

@@ -61,7 +61,7 @@ func get_direction():
 	player = get_tree().get_first_node_in_group("player")
 	var player_position = player.global_position
 	start_position = global_position
-	direction = Vector2(start_position.x - player_position.x, 0)
+	direction = Vector2(start_position.x - player_position.x, 0).normalized()
 
 ################################################################################
 
