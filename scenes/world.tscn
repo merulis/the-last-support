@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=58 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
@@ -17,12 +17,14 @@
 [ext_resource type="PackedScene" uid="uid://30vypktmdtxl" path="res://scenes/pepper_bonus.tscn" id="11_e3hyu"]
 [ext_resource type="PackedScene" uid="uid://1hb6irjnh04h" path="res://scenes/shield_bonus.tscn" id="11_q5onr"]
 [ext_resource type="Texture2D" uid="uid://c4wm4u05wpbto" path="res://resources/volume_17477663.png" id="14_xgqkh"]
+[ext_resource type="PackedScene" uid="uid://debnfedly2yev" path="res://scenes/leaderboard_label.tscn" id="15_navra"]
 [ext_resource type="PackedScene" uid="uid://cw4d6p68aoxnu" path="res://scenes/beer_bonus.tscn" id="15_xo05s"]
 [ext_resource type="Texture2D" uid="uid://5qdj4cmetxov" path="res://resources/objects/stones.png" id="17_7t5mc"]
 [ext_resource type="FontFile" uid="uid://dvibq7adibv14" path="res://resources/m3x6.ttf" id="18_lakw3"]
 [ext_resource type="AudioStream" uid="uid://dckcmvsdj58ho" path="res://resources/sounds/chiptune-grooving-142242.mp3" id="19_pm21f"]
 [ext_resource type="StyleBox" uid="uid://dl4pmlse6as8l" path="res://resources/style_1.tres" id="20_kpybi"]
 [ext_resource type="StyleBox" uid="uid://ml827w82g7pu" path="res://resources/style_2.tres" id="21_ctatt"]
+[ext_resource type="StyleBox" uid="uid://c4458r2vdba2m" path="res://resources/style_4.tres" id="22_37qwj"]
 [ext_resource type="StyleBox" uid="uid://x2o8avl1vsjs" path="res://resources/style_3.tres" id="22_xgqkh"]
 [ext_resource type="Texture2D" uid="uid://bbnqv271e3s1q" path="res://resources/mute_17477662.png" id="23_ctatt"]
 [ext_resource type="Texture2D" uid="uid://c8pcm8fafcr6e" path="res://resources/new_dpi_texture.tres" id="25_munwf"]
@@ -161,6 +163,10 @@ border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_37qwj"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_navra"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_luhhm"]
+
 [node name="Game" type="Node2D" groups=["root"]]
 y_sort_enabled = true
 script = ExtResource("1_k0juu")
@@ -179,6 +185,7 @@ base_bonus_spawn_time = 10.0
 max_bonus_count = 1
 mute_icon = ExtResource("23_ctatt")
 unmute_icon = ExtResource("14_xgqkh")
+leaderboard_label = ExtResource("15_navra")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
@@ -494,7 +501,7 @@ offset_bottom = 32.0
 grow_horizontal = 0
 theme_override_fonts/font = ExtResource("18_lakw3")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = ExtResource("20_kpybi")
+theme_override_styles/normal = ExtResource("22_37qwj")
 theme_override_styles/pressed = ExtResource("21_ctatt")
 theme_override_styles/hover = ExtResource("22_xgqkh")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_munwf")
@@ -538,7 +545,7 @@ offset_bottom = 32.0
 grow_horizontal = 0
 theme_override_fonts/font = ExtResource("18_lakw3")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = ExtResource("20_kpybi")
+theme_override_styles/normal = ExtResource("22_37qwj")
 theme_override_styles/pressed = ExtResource("21_ctatt")
 theme_override_styles/hover = ExtResource("22_xgqkh")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_munwf")
@@ -642,29 +649,12 @@ layout_mode = 2
 theme_override_constants/separation = 6
 theme_override_styles/separator = SubResource("StyleBoxEmpty_lakw3")
 
-[node name="Button" type="Button" parent="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/outline_size = 5
-theme_override_fonts/font = ExtResource("18_lakw3")
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = ExtResource("20_kpybi")
-theme_override_styles/pressed = ExtResource("21_ctatt")
-theme_override_styles/hover = ExtResource("22_xgqkh")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_0nbtd")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_37qwj")
-text = "Try again"
-
-[node name="HSeparator2" type="HSeparator" parent="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 6
-theme_override_styles/separator = SubResource("StyleBoxEmpty_lakw3")
-
 [node name="SaveButton" type="Button" parent="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("18_lakw3")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = ExtResource("20_kpybi")
+theme_override_styles/normal = ExtResource("22_37qwj")
 theme_override_styles/pressed = ExtResource("21_ctatt")
 theme_override_styles/hover = ExtResource("22_xgqkh")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_0nbtd")
@@ -676,14 +666,32 @@ layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("18_lakw3")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = ExtResource("20_kpybi")
+theme_override_styles/normal = ExtResource("22_37qwj")
 theme_override_styles/pressed = ExtResource("21_ctatt")
 theme_override_styles/hover = ExtResource("22_xgqkh")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_0nbtd")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_37qwj")
 text = "Leaderboard"
 
+[node name="HSeparator2" type="HSeparator" parent="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lakw3")
+
+[node name="Button" type="Button" parent="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("18_lakw3")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("22_37qwj")
+theme_override_styles/pressed = ExtResource("21_ctatt")
+theme_override_styles/hover = ExtResource("22_xgqkh")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_0nbtd")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_37qwj")
+text = "Try again"
+
 [node name="SaveResult" type="Control" parent="EndScreen"]
+visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -727,8 +735,7 @@ layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("18_lakw3")
 theme_override_font_sizes/font_size = 20
-text = "The last support has fallen. The fortress collapses.
-Your score: 123"
+text = "You must enter a name to submit your score"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2"]
@@ -736,29 +743,121 @@ layout_mode = 2
 theme_override_constants/separation = 6
 theme_override_styles/separator = SubResource("StyleBoxEmpty_lakw3")
 
-[node name="SaveButton" type="Button" parent="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2"]
+[node name="LineEdit" type="LineEdit" parent="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("18_lakw3")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = ExtResource("20_kpybi")
-theme_override_styles/pressed = ExtResource("21_ctatt")
-theme_override_styles/hover = ExtResource("22_xgqkh")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_0nbtd")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_37qwj")
-text = " Save result "
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_navra")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_luhhm")
+placeholder_text = "Enter your name"
+alignment = 1
+max_length = 10
 
-[node name="LeaderboardButton" type="Button" parent="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2"]
+[node name="HSeparator2" type="HSeparator" parent="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 6
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lakw3")
+
+[node name="SendButton" type="Button" parent="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("18_lakw3")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = ExtResource("20_kpybi")
+theme_override_styles/normal = ExtResource("22_37qwj")
 theme_override_styles/pressed = ExtResource("21_ctatt")
 theme_override_styles/hover = ExtResource("22_xgqkh")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_0nbtd")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_37qwj")
+text = " Send "
+
+[node name="CancelSendButton" type="Button" parent="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("18_lakw3")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("22_37qwj")
+theme_override_styles/pressed = ExtResource("21_ctatt")
+theme_override_styles/hover = ExtResource("22_xgqkh")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_0nbtd")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_37qwj")
+text = "Cancel"
+
+[node name="Leaderboard" type="Control" parent="EndScreen"]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="EndScreen/Leaderboard"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lakw3")
+
+[node name="MarginContainer" type="MarginContainer" parent="EndScreen/Leaderboard/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="EndScreen/Leaderboard/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("18_lakw3")
+theme_override_font_sizes/font_size = 20
 text = "Leaderboard"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 6
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lakw3")
+
+[node name="GridContainer" type="GridContainer" parent="EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/h_separation = 32
+columns = 2
+
+[node name="HSeparator2" type="HSeparator" parent="EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 6
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lakw3")
+
+[node name="ReturnButton" type="Button" parent="EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("18_lakw3")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("22_37qwj")
+theme_override_styles/pressed = ExtResource("21_ctatt")
+theme_override_styles/hover = ExtResource("22_xgqkh")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_0nbtd")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_37qwj")
+text = " Return"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("19_pm21f")
@@ -774,4 +873,9 @@ parameters/looping = true
 [connection signal="pressed" from="HUD/Control2/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="HUD/Control3/MuteButton" to="." method="_on_mute_button_pressed"]
 [connection signal="value_changed" from="HUD/Control4/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/LeaderboardButton" to="." method="_on_leaderboard_button_pressed"]
 [connection signal="pressed" from="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="text_changed" from="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="pressed" from="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/CancelSendButton" to="." method="_on_cancel_send_button_pressed"]
+[connection signal="pressed" from="EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2/ReturnButton" to="." method="_on_return_button_pressed"]
