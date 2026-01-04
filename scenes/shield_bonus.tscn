@@ -1,0 +1,105 @@
+[gd_scene load_steps=9 format=3 uid="uid://1hb6irjnh04h"]
+
+[ext_resource type="Script" uid="uid://d0rpetgexer0w" path="res://scripts/red_mashroom_bonus.gd" id="1_e3xfi"]
+[ext_resource type="Texture2D" uid="uid://cdjn1wss60mn1" path="res://resources/objects/shield_bonus.png" id="1_jt6is"]
+[ext_resource type="Script" uid="uid://qdqb4o8ehxlj" path="res://boxes/bonusArea.gd" id="2_e3xfi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jt6is"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e3xfi"]
+radius = 5.0
+
+[sub_resource type="Animation" id="Animation_jt6is"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(0, -12), Vector2(0, -14), Vector2(0, -16), Vector2(0, -14), Vector2(0, -12)]
+}
+
+[sub_resource type="Animation" id="Animation_e3xfi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -12)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gca5e"]
+_data = {
+&"RESET": SubResource("Animation_e3xfi"),
+&"idle": SubResource("Animation_jt6is")
+}
+
+[node name="shield_bonus" type="CharacterBody2D"]
+script = ExtResource("1_e3xfi")
+metadata/_custom_type_script = "uid://d0rpetgexer0w"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -12)
+texture = ExtResource("1_jt6is")
+hframes = 4
+
+[node name="BonusArea" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("2_e3xfi")
+bonus_type = "shield"
+metadata/_custom_type_script = "uid://qdqb4o8ehxlj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BonusArea"]
+position = Vector2(0, -12)
+shape = SubResource("CircleShape2D_jt6is")
+debug_color = Color(0.6033307, 0.5361243, 0.23602548, 0.41960785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("CircleShape2D_e3xfi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_gca5e")
+}
+autoplay = "idle"
+
+[connection signal="area_entered" from="BonusArea" to="." method="_on_bonus_area_entered"]

@@ -1,14 +1,18 @@
-[gd_scene load_steps=14 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=18 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
 [ext_resource type="PackedScene" uid="uid://cxptp3vk0vh06" path="res://scenes/player.tscn" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://bych14eh0m0ct" path="res://scenes/goblin_thief.tscn" id="3_4wyf3"]
+[ext_resource type="PackedScene" uid="uid://cw4d6p68aoxnu" path="res://scenes/beer_bonus.tscn" id="3_jhx03"]
 [ext_resource type="PackedScene" uid="uid://du7g3wftsgoxp" path="res://scenes/bomber.tscn" id="5_71j4m"]
 [ext_resource type="PackedScene" uid="uid://cjek8dbcrl4x2" path="res://scenes/mage.tscn" id="6_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://3w3fcm7kw4pa" path="res://scenes/barrel.tscn" id="6_qfnet"]
 [ext_resource type="PackedScene" uid="uid://c4gvrdvi1go8t" path="res://scenes/the_last_support.tscn" id="9_7r4gi"]
 [ext_resource type="PackedScene" uid="uid://dp5a0wk18qfc2" path="res://scenes/red_mashroom_bonus.tscn" id="9_w7kh3"]
+[ext_resource type="PackedScene" uid="uid://boxnbcehwxseh" path="res://scenes/slime.tscn" id="10_w7kh3"]
+[ext_resource type="PackedScene" uid="uid://30vypktmdtxl" path="res://scenes/pepper_bonus.tscn" id="11_e3hyu"]
+[ext_resource type="PackedScene" uid="uid://1hb6irjnh04h" path="res://scenes/shield_bonus.tscn" id="11_q5onr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
 size = Vector2(2000, 20)
@@ -53,6 +57,9 @@ shape = SubResource("RectangleShape2D_036b0")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/StaticBody2D"]
 position = Vector2(-650, 0)
 shape = SubResource("RectangleShape2D_dwbse")
+
+[node name="beer_bonus" parent="World" instance=ExtResource("3_jhx03")]
+position = Vector2(133, 14)
 
 [node name="GameObjects" type="Node2D" parent="." groups=["spawn_here"]]
 y_sort_enabled = true
@@ -113,7 +120,16 @@ position = Vector2(-125, 16)
 [node name="TheLastSupport" parent="GameObjects" instance=ExtResource("9_7r4gi")]
 
 [node name="red_mashroom_bonus" parent="GameObjects" instance=ExtResource("9_w7kh3")]
-position = Vector2(-35, 25)
+position = Vector2(181, 14)
+
+[node name="slime" parent="GameObjects" instance=ExtResource("10_w7kh3")]
+position = Vector2(-192, 49)
+
+[node name="shield_bonus" parent="GameObjects" instance=ExtResource("11_q5onr")]
+position = Vector2(157, 14)
+
+[node name="pepper_bonus" parent="GameObjects" instance=ExtResource("11_e3hyu")]
+position = Vector2(205, 14)
 
 [node name="Remover" type="Area2D" parent="."]
 position = Vector2(-2256, -331)

@@ -1,10 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://dp5a0wk18qfc2"]
+[gd_scene load_steps=9 format=3 uid="uid://30vypktmdtxl"]
 
-[ext_resource type="Texture2D" uid="uid://dyjmatxr7p8vr" path="res://resources/objects/red_mashroom_bonus.png" id="1_5idwf"]
-[ext_resource type="Script" uid="uid://d0rpetgexer0w" path="res://scripts/red_mashroom_bonus.gd" id="1_cmvff"]
-[ext_resource type="Script" uid="uid://qdqb4o8ehxlj" path="res://boxes/bonusArea.gd" id="2_wji5l"]
+[ext_resource type="Texture2D" uid="uid://c6gkor0kr604b" path="res://resources/objects/pepper_bonus.png" id="1_8g0d8"]
+[ext_resource type="Script" uid="uid://dj28ydwagl354" path="res://scripts/pepper_bonus.gd" id="1_upo7b"]
+[ext_resource type="Script" uid="uid://qdqb4o8ehxlj" path="res://boxes/bonusArea.gd" id="2_upo7b"]
 
-[sub_resource type="Animation" id="Animation_cmvff"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_4xbbb"]
+radius = 5.0
+
+[sub_resource type="Animation" id="Animation_xdwgh"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -31,7 +34,7 @@ tracks/1/keys = {
 "values": [Vector2(0, -12)]
 }
 
-[sub_resource type="Animation" id="Animation_wji5l"]
+[sub_resource type="Animation" id="Animation_6xwub"]
 resource_name = "idle"
 length = 0.8
 loop_mode = 1
@@ -60,44 +63,43 @@ tracks/1/keys = {
 "values": [Vector2(0, -12), Vector2(0, -14), Vector2(0, -16), Vector2(0, -14), Vector2(0, -12)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_2oltw"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8fr68"]
 _data = {
-&"RESET": SubResource("Animation_cmvff"),
-&"idle": SubResource("Animation_wji5l")
+&"RESET": SubResource("Animation_xdwgh"),
+&"idle": SubResource("Animation_6xwub")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5idwf"]
-radius = 5.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_k32dp"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_wji5l"]
-
-[node name="red_mashroom_bonus" type="CharacterBody2D"]
-script = ExtResource("1_cmvff")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_2oltw")
-}
-autoplay = "idle"
+[node name="pepper_bonus" type="CharacterBody2D"]
+script = ExtResource("1_upo7b")
+metadata/_custom_type_script = "uid://d0rpetgexer0w"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -12)
-texture = ExtResource("1_5idwf")
+texture = ExtResource("1_8g0d8")
 hframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -12)
-shape = SubResource("CircleShape2D_5idwf")
+shape = SubResource("CircleShape2D_4xbbb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8fr68")
+}
+autoplay = "idle"
 
 [node name="BonusArea" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 16
-script = ExtResource("2_wji5l")
-bonus_type = "size"
+script = ExtResource("2_upo7b")
+bonus_type = "speed"
+metadata/_custom_type_script = "uid://qdqb4o8ehxlj"
 
-[node name="BonusBox" type="CollisionShape2D" parent="BonusArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BonusArea"]
 position = Vector2(0, -12)
-shape = SubResource("CircleShape2D_wji5l")
-debug_color = Color(1, 1, 0, 0.41960785)
+shape = SubResource("CircleShape2D_k32dp")
+debug_color = Color(0.49504954, 0.582149, 0.09027473, 0.41960785)
 
 [connection signal="area_entered" from="BonusArea" to="." method="_on_bonus_area_entered"]

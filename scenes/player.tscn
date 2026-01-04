@@ -466,7 +466,6 @@ radius = 11.0
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_qhqgy")
-SPEED = 5000.0
 metadata/_custom_type_script = "uid://dw1601xf483hx"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -529,10 +528,21 @@ shape = SubResource("CircleShape2D_dqkch")
 debug_color = Color(0.46223068, 0.58505154, 0.28326902, 0.41960785)
 
 [node name="SizeTimer" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
+wait_time = 10.0
+
+[node name="SpeedTimer" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="TimeTimer" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="ShieldTimer" type="Timer" parent="."]
+wait_time = 10.0
 
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="area_entered" from="HurtboxArea" to="." method="_on_hurt_area_entered"]
 [connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_entered"]
 [connection signal="timeout" from="SizeTimer" to="." method="_on_size_timer_timeout"]
+[connection signal="timeout" from="SpeedTimer" to="." method="_on_speed_timer_timeout"]
+[connection signal="timeout" from="TimeTimer" to="." method="_on_time_timer_timeout"]
+[connection signal="timeout" from="ShieldTimer" to="." method="_on_shield_timer_timeout"]
