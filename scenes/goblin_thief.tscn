@@ -451,8 +451,7 @@ height = 12.0
 radius = 8.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5lb0t"]
-radius = 6.0
-height = 18.0
+height = 24.0
 
 [node name="GoblinThief" type="CharacterBody2D" groups=["characters"]]
 collision_layer = 0
@@ -498,7 +497,7 @@ collision_layer = 32
 collision_mask = 4
 
 [node name="HurtShape" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(0, -8)
+position = Vector2(0, -9)
 shape = SubResource("CapsuleShape2D_5lb0t")
 debug_color = Color(0.8128498, 0.0020773232, 0.9822318, 0.41960785)
 

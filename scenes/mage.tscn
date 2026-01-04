@@ -401,8 +401,7 @@ states/run/position = Vector2(362, 198)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_nu52m"), "death", "End", SubResource("AnimationNodeStateMachineTransition_trnrn"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_kse8p"), "attack", "death", SubResource("AnimationNodeStateMachineTransition_yunhw"), "run", "death", SubResource("AnimationNodeStateMachineTransition_fi4q4"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_1pdv6"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_qtcmm"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_ut8cs"), "run", "attack", SubResource("AnimationNodeStateMachineTransition_ad11k"), "attack", "run", SubResource("AnimationNodeStateMachineTransition_r5lxc"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_yb71v")]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_66amf"]
-radius = 8.0
-height = 24.0
+radius = 11.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aoi4v"]
 radius = 3.0
