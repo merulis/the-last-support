@@ -13,11 +13,13 @@ enum MageState {
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var hurtbox: Area2D = $HurtArea
+@onready var bullet_start_position: Marker2D = $BulletStartPosition
 
 ################################################################################
 
 @export var speed: float = 2000.0
 @export var attack_range: float = 200.0
+@export var bullet: Resource
 
 ################################################################################
 
@@ -102,5 +104,15 @@ func _on_animation_tree_animation_finished(anim_name):
 	if anim_name == "death":
 		queue_free()
 
+################################################################################
+
 func _on_hurt_area_entered(_area: Area2D) -> void:
 	state = MageState.death
+
+################################################################################
+
+func create_bullet() -> void:
+	var game = get_tree().get_first_node_in_group("game")
+	var new_bullet = bullet.instantiate()
+	new_bullet.global_position = bullet_start_position.global_position
+	game.add_child(new_bullet)

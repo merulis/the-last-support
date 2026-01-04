@@ -9,12 +9,12 @@ extends AnimationTree
 
 func _set_blend_position(direction: float) -> void:
 	blend_position = direction
-	set("parameters/StateMachine/idle/blend_position", blend_position)
-	set("parameters/StateMachine/run/blend_position", blend_position)
-	set("parameters/StateMachine/attack/blend_position", blend_position)
-	set("parameters/StateMachine/death/blend_position", blend_position)
+	set("parameters/idle/blend_position", blend_position)
+	set("parameters/run/blend_position", blend_position)
+	set("parameters/attack/blend_position", blend_position)
+	set("parameters/death/blend_position", blend_position)
 
 ################################################################################
 
 func play_animation(anim_name: String) -> void:
-	get("parameters/StateMachine/playback").travel(anim_name)
+	get("parameters/playback").travel(anim_name)

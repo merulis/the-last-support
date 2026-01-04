@@ -16,7 +16,7 @@ enum PlayerState {
 	death
 }
 
-const SPEED = 100.0
+@export var SPEED = 100.0
 
 var input_vector: = Vector2.ZERO
 var last_input_vector: = Vector2.RIGHT
@@ -35,17 +35,18 @@ func _process(delta: float) -> void:
 ################################################################################
 
 func idle_state(_delta: float) -> void:
-	animation_tree.play_animation("idle")
 	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
 	if input_vector.length() > 0.0:
 		state = PlayerState.run
 
 	if Input.is_action_just_pressed("attack"):
 		state = PlayerState.attack
+		
+	animation_tree.play_animation("idle")
 
 ################################################################################
 
-func run_state(_delta: float) -> void:
+func run_state(delta: float) -> void:
 	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
 			
 	if input_vector != Vector2.ZERO:
@@ -59,7 +60,7 @@ func run_state(_delta: float) -> void:
 	if Input.is_action_just_pressed("attack"):
 		state = PlayerState.attack
 	
-	velocity = input_vector * SPEED
+	velocity = input_vector * SPEED * delta
 	move_and_slide()
 
 ################################################################################
@@ -101,10 +102,10 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	elif anim_name.begins_with("death"):
 		dead.emit()
 
+################################################################################
+
 func _on_hurtbox_area_area_entered(area: Area2D) -> void:
 	if area.name.begins_with("Hit"):
 		state = PlayerState.death
 	elif area.name.begins_with("Bonus"):
 		pass
-
-################################################################################

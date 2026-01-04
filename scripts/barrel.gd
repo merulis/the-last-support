@@ -46,7 +46,7 @@ func get_direction():
 	player = get_tree().get_first_node_in_group("player")
 	var player_position = player.global_position
 	var start_position = global_position
-	direction = Vector2(start_position.x - player_position.x, 0)
+	direction = Vector2(start_position.x - player_position.x, 0).normalized()
 
 ################################################################################
 
@@ -58,5 +58,5 @@ func _on_hurt_area_entered(area: Area2D) -> void:
 		return
 
 	get_direction()
-	animation_tree.blend_position = velocity.normalized().x
+	animation_tree.blend_position = direction.x
 	state = BarrelState.rolling
