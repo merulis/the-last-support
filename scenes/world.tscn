@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=15 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
@@ -73,8 +73,219 @@ shape = SubResource("RectangleShape2D_036b0")
 position = Vector2(-394, 0)
 shape = SubResource("RectangleShape2D_dwbse")
 
-[node name="beer_bonus" parent="World" instance=ExtResource("3_jhx03")]
-position = Vector2(133, 14)
+[node name="EnemySpawnPoints" type="Node2D" parent="World"]
+
+[node name="SpawnPoint" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 8)
+
+[node name="SpawnPoint2" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 24)
+
+[node name="SpawnPoint3" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 40)
+
+[node name="SpawnPoint4" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 56)
+
+[node name="SpawnPoint5" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 72)
+
+[node name="SpawnPoint6" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 88)
+
+[node name="SpawnPoint7" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-428, 16)
+
+[node name="SpawnPoint8" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-428, 32)
+
+[node name="SpawnPoint9" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-428, 48)
+
+[node name="SpawnPoint10" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-428, 64)
+
+[node name="SpawnPoint11" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-428, 80)
+
+[node name="SpawnPoint13" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 8)
+
+[node name="SpawnPoint14" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 24)
+
+[node name="SpawnPoint15" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 40)
+
+[node name="SpawnPoint16" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 56)
+
+[node name="SpawnPoint17" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 72)
+
+[node name="SpawnPoint18" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 88)
+
+[node name="SpawnPoint19" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(428, 16)
+
+[node name="SpawnPoint20" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(428, 32)
+
+[node name="SpawnPoint21" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(428, 48)
+
+[node name="SpawnPoint22" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(428, 64)
+
+[node name="SpawnPoint23" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(428, 80)
+
+[node name="BonusSpawnPoints" type="Node2D" parent="World"]
+
+[node name="BonusSpawnPoint" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-376, -104)
+
+[node name="BonusSpawnPoint2" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-360, -120)
+
+[node name="BonusSpawnPoint3" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-344, -104)
+
+[node name="BonusSpawnPoint4" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-328, -120)
+
+[node name="BonusSpawnPoint5" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-312, -104)
+
+[node name="BonusSpawnPoint6" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-296, -120)
+
+[node name="BonusSpawnPoint7" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-280, -104)
+
+[node name="BonusSpawnPoint8" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-264, -120)
+
+[node name="BonusSpawnPoint9" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-248, -104)
+
+[node name="BonusSpawnPoint10" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-232, -120)
+
+[node name="BonusSpawnPoint11" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-216, -104)
+
+[node name="BonusSpawnPoint12" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-200, -120)
+
+[node name="BonusSpawnPoint13" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-184, -104)
+
+[node name="BonusSpawnPoint14" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-168, -120)
+
+[node name="BonusSpawnPoint15" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-152, -104)
+
+[node name="BonusSpawnPoint16" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-136, -120)
+
+[node name="BonusSpawnPoint17" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-120, -104)
+
+[node name="BonusSpawnPoint18" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-104, -120)
+
+[node name="BonusSpawnPoint19" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-88, -104)
+
+[node name="BonusSpawnPoint20" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-72, -120)
+
+[node name="BonusSpawnPoint21" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-56, -104)
+
+[node name="BonusSpawnPoint22" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-40, -120)
+
+[node name="BonusSpawnPoint23" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-24, -104)
+
+[node name="BonusSpawnPoint24" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-8, -120)
+
+[node name="BonusSpawnPoint25" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(8, -104)
+
+[node name="BonusSpawnPoint26" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(24, -120)
+
+[node name="BonusSpawnPoint27" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(40, -104)
+
+[node name="BonusSpawnPoint28" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(56, -120)
+
+[node name="BonusSpawnPoint29" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(72, -104)
+
+[node name="BonusSpawnPoint30" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(88, -120)
+
+[node name="BonusSpawnPoint31" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(104, -104)
+
+[node name="BonusSpawnPoint32" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(120, -120)
+
+[node name="BonusSpawnPoint33" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(136, -104)
+
+[node name="BonusSpawnPoint34" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(152, -120)
+
+[node name="BonusSpawnPoint35" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(168, -104)
+
+[node name="BonusSpawnPoint36" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(184, -120)
+
+[node name="BonusSpawnPoint37" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(200, -104)
+
+[node name="BonusSpawnPoint38" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(216, -120)
+
+[node name="BonusSpawnPoint39" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(232, -104)
+
+[node name="BonusSpawnPoint40" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(248, -120)
+
+[node name="BonusSpawnPoint41" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(264, -104)
+
+[node name="BonusSpawnPoint42" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(280, -120)
+
+[node name="BonusSpawnPoint43" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(296, -104)
+
+[node name="BonusSpawnPoint44" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(312, -120)
+
+[node name="BonusSpawnPoint45" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(328, -104)
+
+[node name="BonusSpawnPoint46" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(344, -120)
+
+[node name="BonusSpawnPoint47" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(360, -104)
+
+[node name="BonusSpawnPoint48" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(376, -120)
 
 [node name="GameObjects" type="Node2D" parent="." groups=["spawn_here"]]
 y_sort_enabled = true
