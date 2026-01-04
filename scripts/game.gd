@@ -17,6 +17,13 @@ extends Node2D
 
 @onready var http_send: HTTPRequest = $HTTP_send
 @onready var http_get: HTTPRequest = $HTTP_get
+@onready var name_edit: LineEdit = $EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/LineEdit
+
+@onready var end_primary_screen = $EndScreen/Control
+@onready var end_send_screen = $EndScreen/SaveResult
+@onready var leaderboard_screen = $EndScreen/Leaderboard
+
+@onready var leaderboard_grid = $EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2/GridContainer
 
 ################################################################################
 
@@ -44,6 +51,8 @@ extends Node2D
 @export var mute_icon: Resource
 @export var unmute_icon: Resource
 
+@export var leaderboard_label: Resource
+
 var score: int = 0:
 	set(value):
 		score = value
@@ -54,6 +63,7 @@ var previous_enemy_spawn_point
 var previous_bonus_spawn_point
 var paused: bool = false
 var muted: bool = false
+var regex := RegEx.new()
 
 ################################################################################
 
@@ -62,6 +72,7 @@ func _ready():
 	AudioServer.set_bus_volume_db(bus, linear_to_db(0.75))
 	_on_enemy_spawn_timer_timeout()
 	_on_bonus_spawn_timer_timeout()
+	regex.compile("^[A-Za-z]*$") # только латинские буквы
 
 ################################################################################
 
@@ -406,11 +417,72 @@ func _on_mute_button_pressed():
 
 ################################################################################
 
-func _on_h_slider_value_changed(value):
-	var bus = AudioServer.get_bus_index("Master")
+func _on_line_edit_text_changed(new_text: String) -> void:
+	if regex.search(new_text) == null:
+		# удаляем последний введённый символ
+		name_edit.text = new_text.substr(0, new_text.length() - 1)
+		name_edit.caret_column = name_edit.text.length()
 
-	if value <= 0.0:
-		AudioServer.set_bus_mute(bus, true)
-	else:
-		AudioServer.set_bus_mute(bus, false)
-		AudioServer.set_bus_volume_db(bus, linear_to_db(value))
+################################################################################
+
+func _on_save_button_pressed():
+	end_primary_screen.hide()
+	end_send_screen.show()
+
+################################################################################
+
+func _on_cancel_send_button_pressed():
+	end_primary_screen.show()
+	end_send_screen.hide()
+
+################################################################################
+
+func _on_leaderboard_button_pressed():
+	# тут запрос
+	var test: Array[Dictionary]
+	for i in range(5):
+		var t: Dictionary
+		t["name"] = "name_" + str(randi_range(0, 1000))
+		t["score"] = randf_range(0.0, 1000.0)
+		test.append(t)
+	
+	for child in leaderboard_grid.get_children():
+		child.queue_free()
+		
+	var name_header = leaderboard_label.instantiate()
+	name_header.text = "Name"
+	name_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+
+	var score_header = leaderboard_label.instantiate()
+	score_header.text = "Score"
+	score_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+
+	leaderboard_grid.add_child(name_header)
+	leaderboard_grid.add_child(score_header)
+	
+	for val in test:
+		add_row(val["name"], int(val["score"]))
+	
+	end_primary_screen.hide()
+	leaderboard_screen.show()
+
+################################################################################
+
+func add_row(player_name: String, score: int):
+	var name_label = leaderboard_label.instantiate()
+	name_label.text = player_name
+	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+
+	var score_label = leaderboard_label.instantiate()
+	score_label.text = str(score)
+	score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+
+	leaderboard_grid.add_child(name_label)
+	leaderboard_grid.add_child(score_label)
+	
+################################################################################
+
+func _on_return_button_pressed():
+	end_primary_screen.show()
+	leaderboard_screen.hide()
+>>>>>>> finalizing

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://debnfedly2yev"]
+
+[ext_resource type="FontFile" uid="uid://dvibq7adibv14" path="res://resources/m3x6.ttf" id="1_7jnqf"]
+
+[node name="LeaderboardLabel" type="Label"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("1_7jnqf")
+theme_override_font_sizes/font_size = 10
+text = "sometext"
+horizontal_alignment = 1
+vertical_alignment = 1
