@@ -879,5 +879,6 @@ parameters/looping = true
 [connection signal="pressed" from="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/LeaderboardButton" to="." method="_on_leaderboard_button_pressed"]
 [connection signal="pressed" from="EndScreen/Control/PanelContainer/MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="text_changed" from="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="pressed" from="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/SendButton" to="." method="_on_send_button_pressed"]
 [connection signal="pressed" from="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/CancelSendButton" to="." method="_on_cancel_send_button_pressed"]
 [connection signal="pressed" from="EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2/ReturnButton" to="." method="_on_return_button_pressed"]

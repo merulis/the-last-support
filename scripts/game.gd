@@ -24,6 +24,7 @@ extends Node2D
 @onready var leaderboard_screen = $EndScreen/Leaderboard
 
 @onready var leaderboard_grid = $EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2/GridContainer
+@onready var player_name_edit = $EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/LineEdit
 
 ################################################################################
 
@@ -64,6 +65,7 @@ var previous_bonus_spawn_point
 var paused: bool = false
 var muted: bool = false
 var regex := RegEx.new()
+var score_submitted: bool = false
 
 ################################################################################
 
@@ -339,7 +341,7 @@ func test_submit_score_request_sent():
 	print("TEST PASSED: submit_score request sent")
 
 func load_leaderboard():
-	var url = SUPABASE_URL + "/rest/v1/leaderboard?select=name,score&order=score.desc&limit=10"
+	var url = SUPABASE_URL + "/rest/v1/leaderboard?select=name,score&order=score.desc&limit=5"
 	var headers = [
 		"apikey: " + API_KEY,
 		"Authorization: Bearer " + API_KEY
@@ -426,6 +428,9 @@ func _on_line_edit_text_changed(new_text: String) -> void:
 ################################################################################
 
 func _on_save_button_pressed():
+	if score_submitted:
+		return
+
 	end_primary_screen.hide()
 	end_send_screen.show()
 
@@ -438,13 +443,7 @@ func _on_cancel_send_button_pressed():
 ################################################################################
 
 func _on_leaderboard_button_pressed():
-	# тут запрос
-	var test: Array[Dictionary]
-	for i in range(5):
-		var t: Dictionary
-		t["name"] = "name_" + str(randi_range(0, 1000))
-		t["score"] = randf_range(0.0, 1000.0)
-		test.append(t)
+	var leaderboard_data = await load_leaderboard()
 	
 	for child in leaderboard_grid.get_children():
 		child.queue_free()
@@ -460,7 +459,7 @@ func _on_leaderboard_button_pressed():
 	leaderboard_grid.add_child(name_header)
 	leaderboard_grid.add_child(score_header)
 	
-	for val in test:
+	for val in leaderboard_data:
 		add_row(val["name"], int(val["score"]))
 	
 	end_primary_screen.hide()
@@ -485,3 +484,17 @@ func add_row(player_name: String, score: int):
 func _on_return_button_pressed():
 	end_primary_screen.show()
 	leaderboard_screen.hide()
+
+################################################################################
+
+func _on_send_button_pressed():
+	if not score_submitted:
+		var name = player_name_edit.text
+		if name == "":
+			return
+		
+		submit_score(name, score)
+		score_submitted = true
+	
+	end_primary_screen.show()
+	end_send_screen.hide()
