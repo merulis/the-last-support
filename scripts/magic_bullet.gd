@@ -1,4 +1,4 @@
-class_name Projectile
+class_name MagicBullet
 extends Node2D
 
 ################################################################################
@@ -13,6 +13,7 @@ extends Node2D
 ################################################################################
 
 var direction	: Vector2
+var pushed: bool = false
 
 ################################################################################
 
@@ -33,23 +34,25 @@ func _process(delta):
 ################################################################################
 
 func _on_hurt_box_area_entered(area):
+	if area.get_parent() == self:
+		return
+
 	if area.name == "Remover":
 		queue_free()
-
-	var player = get_tree().get_first_node_in_group("player")
-	
-	if not player:
+		return
+		
+	if area.get_parent().is_in_group("characters") and not area.get_parent() is Player:
 		queue_free()
+		area.get_parent().queue_free()
+		return
+
+	if pushed:
+		return
+		
+	hurtbox.set_collision_mask_value(3, false)
+	hitbox.set_collision_layer_value(3, true)
+	
+	var player = get_tree().get_first_node_in_group("player")
 		
 	direction = Vector2(player.global_position.direction_to(global_position).x, 0).normalized()
-	hitbox.set_collision_layer_value(3, true)
-	hitbox.set_collision_mask_value(3, false)
-
-################################################################################
-
-func _on_hit_box_area_entered(area):
-	var parent = area.get_parent()
-	print(parent.name)
-	print(parent.is_in_group("player"))
-	if not parent.is_in_group("player"):
-		queue_free()
+	pushed = true

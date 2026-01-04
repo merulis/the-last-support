@@ -22,7 +22,7 @@ enum BomberState {
 
 ################################################################################
 
-var player: Player = null
+var target: CharacterBody2D = null
 var state: BomberState = BomberState.idle
 
 ################################################################################
@@ -39,10 +39,13 @@ func _process(delta: float) -> void:
 func idle_state(_delta: float) -> void:
 	animation_tree.play_animation("idle")
 	
-	if not player:
-		player = get_tree().get_first_node_in_group("player")
-		
-	if not player:
+	if not target:
+		if randi_range(0,9) > 2:
+			target = get_tree().get_first_node_in_group("player")
+		else:
+			target = get_tree().get_first_node_in_group("support")
+				
+	if not target:
 		return
 		
 	if check_attack_range():
@@ -53,7 +56,7 @@ func idle_state(_delta: float) -> void:
 ################################################################################
 
 func run_state(delta: float) -> void:
-	if not player:
+	if not target:
 		state = BomberState.idle
 		return
 	
@@ -63,7 +66,7 @@ func run_state(delta: float) -> void:
 		
 	animation_tree.play_animation("run")
 	
-	velocity = global_position.direction_to(player.global_position).normalized() * speed * delta
+	velocity = global_position.direction_to(target.global_position).normalized() * speed * delta
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()
@@ -71,7 +74,7 @@ func run_state(delta: float) -> void:
 ################################################################################
 
 func boom_state(_delta: float) -> void:
-	if not player:
+	if not target:
 		state = BomberState.idle
 		return
 		
@@ -85,10 +88,10 @@ func death_state(_delta: float) -> void:
 ################################################################################
 
 func check_attack_range() -> bool:
-	if not player:
+	if not target:
 		return false
 	
-	if position.distance_to(player.position) <= attack_range:
+	if position.distance_to(target.position) <= attack_range:
 		return true
 		
 	return false
@@ -103,12 +106,18 @@ func drop_bomb():
 
 ################################################################################
 
-func _on_hurt_area_entered(_area: Area2D) -> void:
+func _on_hurt_area_entered(area: Area2D) -> void:
 	state = BomberState.death
+		
+	if area.get_parent() is MagicBullet:
+		area.get_parent().queue_free()
+
+################################################################################
 
 func _on_animation_tree_animation_finished(anim_name: StringName):
 	if anim_name == "death":
 		drop_bomb()
+		get_tree().get_first_node_in_group("root").score += 2
 		queue_free()
 	elif anim_name.begins_with("boom"):
 		queue_free()

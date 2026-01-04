@@ -75,10 +75,6 @@ func attack_state(_delta: float) -> void:
 	if not player:
 		state = MageState.idle
 		return
-	
-	if not check_attack_range():
-		state = MageState.run
-		return
 		
 	animation_tree.play_animation("attack")
 	
@@ -102,12 +98,16 @@ func check_attack_range() -> bool:
 
 func _on_animation_tree_animation_finished(anim_name):
 	if anim_name == "death":
+		get_tree().get_first_node_in_group("root").score += 3
 		queue_free()
 
 ################################################################################
 
-func _on_hurt_area_entered(_area: Area2D) -> void:
+func _on_hurt_area_entered(area: Area2D) -> void:
 	state = MageState.death
+		
+	if area.get_parent() is MagicBullet:
+		area.get_parent().queue_free()
 
 ################################################################################
 

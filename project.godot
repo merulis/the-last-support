@@ -29,6 +29,10 @@ window/vsync/vsync_mode=3
 player=""
 characters=""
 spawn_here=""
+enemy_spawn_point=""
+root=""
+bonus_spawn_point=""
+support=""
 
 [input]
 
@@ -70,6 +74,7 @@ attack={
 2d_physics/layer_3="enemy"
 2d_physics/layer_4="remover"
 2d_physics/layer_5="bonus"
+2d_physics/layer_6="bullets"
 
 [rendering]
 

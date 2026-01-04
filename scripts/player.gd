@@ -161,7 +161,9 @@ func _on_hurt_area_entered(area: Area2D) -> void:
 	print("Player hurt area entered: ",area.name)
 	if area.name.begins_with("Hit"):
 		state = PlayerState.death
-		
+	if area.get_parent() is MagicBullet:
+		area.get_parent().queue_free()
+
 func _on_pickup_area_entered(area: Area2D) -> void:
 	print("Player pickup area entered: ",area.name)
 	if area is BonusArea:
