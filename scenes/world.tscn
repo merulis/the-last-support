@@ -172,8 +172,6 @@ shadow_size = 3
 y_sort_enabled = true
 script = ExtResource("1_k0juu")
 min_spawn_time = 1.5
-base_spawn_time = null
-base_enemy_count = null
 max_enemy_count = 6
 enemy_list = Array[Resource]([ExtResource("3_4wyf3"), ExtResource("3_dss4m"), ExtResource("5_71j4m"), ExtResource("6_4mrxx"), ExtResource("10_w7kh3")])
 score_required_to_spawn_enemy = Array[int]([0, 10, 20, 40, 60])
@@ -185,10 +183,7 @@ bonus_fall_min_y = 16.0
 bonus_fall_max_y = 80.0
 min_bonus_spawn_time = 6.0
 base_bonus_spawn_time = 10.0
-base_bonus_count = null
 max_bonus_count = 1
-SUPABASE_URL = null
-API_KEY = null
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 

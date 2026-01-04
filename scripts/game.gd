@@ -62,8 +62,6 @@ func _on_the_last_support_destroy() -> void:
 
 func _stop_game():
 	var objects = get_tree().get_nodes_in_group("characters")
-	
-	test_submit_score_request_sent()
   
 	for obj in objects:
 		obj.set_process_mode(Node.PROCESS_MODE_DISABLED)
