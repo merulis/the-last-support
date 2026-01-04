@@ -487,6 +487,8 @@ transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition
 graph_offset = Vector2(-98, 38)
 
 [node name="Bomber" type="CharacterBody2D" groups=["characters"]]
+collision_layer = 0
+collision_mask = 0
 motion_mode = 1
 script = ExtResource("1_4mnhm")
 bomb = ExtResource("2_7e12w")

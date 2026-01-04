@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cjek8dbcrl4x2"]
+[gd_scene load_steps=38 format=3 uid="uid://cjek8dbcrl4x2"]
 
 [ext_resource type="Texture2D" uid="uid://dbhda5qgkhqrn" path="res://resources/characters/goblin_mage.png" id="1_j2dsb"]
 [ext_resource type="Script" uid="uid://c82snnbutyxim" path="res://scripts/mage.gd" id="1_y6d06"]
@@ -79,12 +79,9 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(2),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"create_bullet"
-}]
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -133,7 +130,7 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(2),
+"times": PackedFloat32Array(1.9),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -357,6 +354,12 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ad11k"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_r5lxc"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yb71v"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_aoi4v"]
 states/attack/node = SubResource("AnimationNodeBlendSpace1D_t2cfv")
 states/attack/position = Vector2(713, 198)
@@ -366,7 +369,7 @@ states/idle/node = SubResource("AnimationNodeBlendSpace1D_p0roq")
 states/idle/position = Vector2(362, 100)
 states/run/node = SubResource("AnimationNodeBlendSpace1D_v7jpn")
 states/run/position = Vector2(362, 198)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_nu52m"), "death", "End", SubResource("AnimationNodeStateMachineTransition_trnrn"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_kse8p"), "attack", "death", SubResource("AnimationNodeStateMachineTransition_yunhw"), "run", "death", SubResource("AnimationNodeStateMachineTransition_fi4q4"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_1pdv6"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_qtcmm"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_ut8cs"), "run", "attack", SubResource("AnimationNodeStateMachineTransition_ad11k")]
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_nu52m"), "death", "End", SubResource("AnimationNodeStateMachineTransition_trnrn"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_kse8p"), "attack", "death", SubResource("AnimationNodeStateMachineTransition_yunhw"), "run", "death", SubResource("AnimationNodeStateMachineTransition_fi4q4"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_1pdv6"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_qtcmm"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_ut8cs"), "run", "attack", SubResource("AnimationNodeStateMachineTransition_ad11k"), "attack", "run", SubResource("AnimationNodeStateMachineTransition_r5lxc"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_yb71v")]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_66amf"]
 radius = 8.0
@@ -377,6 +380,8 @@ radius = 3.0
 height = 14.0
 
 [node name="mage" type="CharacterBody2D" groups=["characters"]]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_y6d06")
 bullet = ExtResource("2_r5lxc")
 

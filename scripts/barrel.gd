@@ -56,6 +56,9 @@ func _on_hurt_area_entered(area: Area2D) -> void:
 	
 	if state == BarrelState.rolling:
 		return
+		
+	if area.get_parent() is MagicBullet:
+		area.get_parent().queue_free()
 
 	get_direction()
 	animation_tree.blend_position = direction.x

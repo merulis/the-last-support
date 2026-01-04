@@ -9,7 +9,7 @@ region = Rect2(96, 160, 64, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nu0as"]
 size = Vector2(20, 54)
 
-[node name="TheLastSupport" type="StaticBody2D"]
+[node name="TheLastSupport" type="CharacterBody2D" groups=["support"]]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -32)

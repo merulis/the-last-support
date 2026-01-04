@@ -109,3 +109,6 @@ func _on_hurtbox_area_area_entered(area: Area2D) -> void:
 		state = PlayerState.death
 	elif area.name.begins_with("Bonus"):
 		pass
+		
+	if area.get_parent() is MagicBullet:
+		area.get_parent().queue_free()

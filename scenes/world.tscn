@@ -1,12 +1,14 @@
-[gd_scene load_steps=13 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=15 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
 [ext_resource type="PackedScene" uid="uid://cxptp3vk0vh06" path="res://scenes/player.tscn" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://bych14eh0m0ct" path="res://scenes/goblin_thief.tscn" id="3_4wyf3"]
+[ext_resource type="PackedScene" uid="uid://c5tnbb3ppy0sr" path="res://scenes/enemy_spawn_point.tscn" id="3_i7141"]
 [ext_resource type="PackedScene" uid="uid://du7g3wftsgoxp" path="res://scenes/bomber.tscn" id="5_71j4m"]
 [ext_resource type="PackedScene" uid="uid://cjek8dbcrl4x2" path="res://scenes/mage.tscn" id="6_4mrxx"]
-[ext_resource type="PackedScene" uid="uid://3w3fcm7kw4pa" path="res://scenes/barrel.tscn" id="6_qfnet"]
+[ext_resource type="PackedScene" uid="uid://3w3fcm7kw4pa" path="res://scenes/barrel.tscn" id="6_i7141"]
+[ext_resource type="PackedScene" uid="uid://bimt8euatoei8" path="res://scenes/bonus_spawn_point.tscn" id="7_7r4gi"]
 [ext_resource type="PackedScene" uid="uid://c4gvrdvi1go8t" path="res://scenes/the_last_support.tscn" id="9_7r4gi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
@@ -21,18 +23,32 @@ size = Vector2(20, 500)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dwbse"]
 size = Vector2(20, 500)
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" groups=["root"]]
 y_sort_enabled = true
 script = ExtResource("1_k0juu")
+enemy_list = Array[Resource]([ExtResource("3_4wyf3"), ExtResource("5_71j4m"), ExtResource("6_4mrxx")])
+score_required_to_spawn_enemy = Array[int]([0, 20, 60])
+enemy_weights = Array[int]([100, 50, 20])
+bonus_list = Array[Resource]([ExtResource("6_i7141")])
+bonus_weights = Array[int]([100])
+score_required_to_spawn_bonus = Array[int]([0])
+bonus_fall_min_y = 0.0
+bonus_fall_max_y = 96.0
+
+[node name="EnemySpawnTimer" type="Timer" parent="." groups=["characters"]]
+one_shot = true
+
+[node name="BonusSpawnTimer" type="Timer" parent="." groups=["characters"]]
+one_shot = true
 
 [node name="World" type="Node2D" parent="."]
 
 [node name="wall" type="TileMapLayer" parent="World"]
-tile_map_data = PackedByteArray("AAD///7/AAABAAUAAAD///3/AAAAAAAAAAD+//7/AAABAAUAAAD+//3/AAAAAAAAAAD9//7/AAAAAAUAAAD9//3/AAAAAAAAAAD8//7/AAAAAAEAAAD8//3/AAAAAAAAAAD7//7/AAAAAAEAAAD7//3/AAAAAAAAAAD6//7/AAAAAAEAAAD6//3/AAAAAAAAAAD5//7/AAAAAAEAAAD5//3/AAAFAAAAAAD4//7/AAACAAEAAAD4//3/AAAAAAAAAAD3//7/AAAAAAEAAAD3//3/AAAAAAAAAAD2//7/AAAAAAEAAAD2//3/AAAAAAAAAAD1//7/AAAAAAEAAAD1//3/AAAAAAAAAAD0//7/AAAAAAEAAAD0//3/AAAGAAAAAADz//7/AAAAAAEAAADz//3/AAAAAAAAAADy//7/AAAAAAEAAADy//3/AAAAAAAAAADx//7/AAAAAAEAAADx//3/AAAFAAAAAADw//7/AAAIAAEAAADw//3/AAAAAAAAAADv//7/AAAAAAEAAADv//3/AAAAAAAAAADu//7/AAAAAAEAAADu//3/AAAAAAAAAADt//7/AAACAAEAAADt//3/AAADAAAAAADs//7/AAAAAAEAAADs//3/AAAAAAAAAAD+////AAABAAYAAAD9////AAAAAAYAAAD8////AAAGAAIAAAD7////AAAHAAIAAAD6////AAAAAAIAAAD5////AAAAAAIAAAD4////AAADAAIAAAD3////AAAAAAIAAAD2////AAAAAAIAAAD1////AAAAAAIAAAD0////AAAAAAIAAADz////AAABAAIAAADy////AAAAAAIAAADx////AAAAAAIAAADw////AAAAAAIAAADv////AAAAAAIAAADu////AAAAAAIAAADt////AAAAAAIAAADs////AAAAAAIAAAD/////AAABAAYAAAANAP//AAACAAIAAAANAP7/AAAAAAEAAAANAP3/AAACAAAAAAAMAP//AAADAAIAAAAMAP7/AAAHAAEAAAAMAP3/AAAIAAAAAAALAP//AAAAAAIAAAALAP7/AAABAAEAAAALAP3/AAAEAAAAAAAKAP//AAABAAIAAAAKAP7/AAAAAAEAAAAKAP3/AAAAAAAAAAAJAP//AAAAAAIAAAAJAP7/AAAAAAEAAAAJAP3/AAAAAAAAAAAIAP//AAAAAAIAAAAIAP7/AAAAAAEAAAAIAP3/AAABAAAAAAAHAP//AAAAAAIAAAAHAP7/AAAAAAEAAAAHAP3/AAAAAAAAAAAGAP//AAAAAAIAAAAGAP7/AAAAAAEAAAAGAP3/AAAAAAAAAAAFAP//AAAAAAIAAAAFAP7/AAAAAAEAAAAFAP3/AAAAAAAAAAAEAP//AAAAAAIAAAAEAP7/AAAAAAEAAAAEAP3/AAAAAAAAAAADAP//AAAFAAIAAAADAP7/AAAAAAEAAAADAP3/AAAHAAAAAAACAP//AAACAAYAAAACAP7/AAACAAUAAAACAP3/AAAAAAAAAAABAP//AAABAAYAAAABAP7/AAABAAUAAAABAP3/AAAAAAAAAAAAAP//AAABAAYAAAAAAP7/AAABAAUAAAAAAP3/AAAAAAAAAAATAP//AAAAAAIAAAATAP7/AAAEAAEAAAATAP3/AAAAAAAAAAASAP//AAAAAAIAAAASAP7/AAADAAEAAAASAP3/AAAAAAAAAAARAP//AAAAAAIAAAARAP7/AAAAAAEAAAARAP3/AAAAAAAAAAAQAP//AAAAAAIAAAAQAP7/AAADAAEAAAAQAP3/AAAAAAAAAAAPAP//AAAAAAIAAAAPAP7/AAAAAAEAAAAPAP3/AAACAAAAAAAOAP//AAAAAAIAAAAOAP7/AAAAAAEAAAAOAP3/AAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD///7/AAABAAUAAAD///3/AAAAAAAAAAD+//7/AAABAAUAAAD+//3/AAAAAAAAAAD9//7/AAAAAAUAAAD9//3/AAAAAAAAAAD8//7/AAAAAAEAAAD8//3/AAAAAAAAAAD7//7/AAAAAAEAAAD7//3/AAAAAAAAAAD6//7/AAAAAAEAAAD6//3/AAAAAAAAAAD5//7/AAAAAAEAAAD5//3/AAAFAAAAAAD4//7/AAACAAEAAAD4//3/AAAAAAAAAAD3//7/AAAAAAEAAAD3//3/AAAAAAAAAAD2//7/AAAAAAEAAAD2//3/AAAAAAAAAAD1//7/AAAAAAEAAAD1//3/AAAAAAAAAAD+////AAABAAYAAAD9////AAAAAAYAAAD8////AAAGAAIAAAD7////AAAHAAIAAAD6////AAAAAAIAAAD5////AAAAAAIAAAD4////AAADAAIAAAD3////AAAAAAIAAAD2////AAAAAAIAAAD1////AAAAAAIAAAD/////AAABAAYAAAALAP//AAAAAAIAAAALAP7/AAABAAEAAAALAP3/AAAEAAAAAAAKAP//AAABAAIAAAAKAP7/AAAAAAEAAAAKAP3/AAAAAAAAAAAJAP//AAAAAAIAAAAJAP7/AAAAAAEAAAAJAP3/AAAAAAAAAAAIAP//AAAAAAIAAAAIAP7/AAAAAAEAAAAIAP3/AAABAAAAAAAHAP//AAAAAAIAAAAHAP7/AAAAAAEAAAAHAP3/AAAAAAAAAAAGAP//AAAAAAIAAAAGAP7/AAAAAAEAAAAGAP3/AAAAAAAAAAAFAP//AAAAAAIAAAAFAP7/AAAAAAEAAAAFAP3/AAAAAAAAAAAEAP//AAAAAAIAAAAEAP7/AAAAAAEAAAAEAP3/AAAAAAAAAAADAP//AAAFAAIAAAADAP7/AAAAAAEAAAADAP3/AAAHAAAAAAACAP//AAACAAYAAAACAP7/AAACAAUAAAACAP3/AAAAAAAAAAABAP//AAABAAYAAAABAP7/AAABAAUAAAABAP3/AAAAAAAAAAAAAP//AAABAAYAAAAAAP7/AAABAAUAAAAAAP3/AAAAAAAAAAD0//3/AAAAAAAAAAD0//7/AAAAAAEAAAD0////AAAAAAIAAAA=")
 tile_set = ExtResource("1_4wyf3")
 
 [node name="floor" type="TileMapLayer" parent="World"]
-tile_map_data = PackedByteArray("AAATAAIAAAAAAAMAAAATAAEAAAAAAAMAAAATAAAAAAAKAAMAAAASAAIAAAAAAAMAAAASAAEAAAAAAAMAAAASAAAAAAAGAAMAAAARAAIAAAAKAAQAAAARAAEAAAAAAAMAAAARAAAAAAACAAQAAAAQAAIAAAAAAAMAAAAQAAEAAAAAAAMAAAAQAAAAAAAAAAMAAAAPAAIAAAAAAAMAAAAPAAEAAAAAAAMAAAAPAAAAAAAIAAMAAAAOAAIAAAAAAAMAAAAOAAEAAAAJAAMAAAAOAAAAAAAEAAQAAAANAAIAAAAAAAMAAAANAAEAAAAAAAMAAAANAAAAAAAKAAMAAAAMAAIAAAAKAAMAAAAMAAEAAAABAAQAAAAMAAAAAAABAAQAAAALAAIAAAAAAAMAAAALAAEAAAADAAQAAAALAAAAAAACAAMAAAAKAAIAAAAAAAMAAAAKAAEAAAAJAAQAAAAKAAAAAAAAAAMAAAAJAAIAAAAKAAMAAAAJAAEAAAAAAAMAAAAJAAAAAAAAAAMAAAAIAAIAAAALAAMAAAAIAAEAAAAAAAMAAAAIAAAAAAAAAAMAAAAHAAIAAAAAAAMAAAAHAAEAAAAAAAMAAAAHAAAAAAAAAAMAAAAGAAIAAAAAAAMAAAAGAAEAAAAAAAMAAAAGAAAAAAAAAAMAAAAFAAIAAAACAAQAAAAFAAEAAAAAAAMAAAAFAAAAAAAAAAMAAAAEAAIAAAAAAAMAAAAEAAEAAAAAAAMAAAAEAAAAAAADAAQAAAADAAIAAAAGAAQAAAADAAEAAAAIAAQAAAADAAAAAAAJAAMAAAACAAIAAAAAAAMAAAACAAEAAAAAAAMAAAACAAAAAAAAAAMAAAABAAIAAAADAAQAAAABAAEAAAALAAMAAAABAAAAAAAAAAMAAAAAAAIAAAABAAQAAAAAAAEAAAAAAAMAAAAAAAAAAAAAAAMAAAD//wIAAAAAAAMAAAD//wEAAAADAAQAAAD//wAAAAAGAAQAAAD+/wIAAAAAAAMAAAD+/wEAAAAAAAMAAAD+/wAAAAAJAAMAAAD9/wIAAAAAAAMAAAD9/wEAAAAAAAMAAAD9/wAAAAAAAAMAAAD8/wIAAAAAAAMAAAD8/wEAAAAAAAMAAAD8/wAAAAAEAAMAAAD7/wIAAAAGAAMAAAD7/wEAAAAGAAMAAAD7/wAAAAAHAAQAAAD6/wIAAAAJAAMAAAD6/wEAAAAAAAMAAAD6/wAAAAAKAAQAAAD5/wIAAAAAAAMAAAD5/wEAAAADAAMAAAD5/wAAAAAAAAMAAAD4/wIAAAACAAMAAAD4/wEAAAAAAAMAAAD4/wAAAAAAAAMAAAD3/wIAAAACAAQAAAD3/wEAAAAAAAMAAAD3/wAAAAAFAAMAAAD2/wIAAAAAAAMAAAD2/wEAAAAEAAMAAAD2/wAAAAACAAMAAAD1/wIAAAAAAAMAAAD1/wEAAAAAAAMAAAD1/wAAAAAIAAMAAAD0/wIAAAAKAAQAAAD0/wEAAAADAAMAAAD0/wAAAAAAAAMAAADz/wIAAAAAAAMAAADz/wEAAAAAAAMAAADz/wAAAAAAAAMAAADy/wIAAAAAAAMAAADy/wEAAAAAAAMAAADy/wAAAAAEAAMAAADx/wIAAAACAAQAAADx/wEAAAAAAAMAAADx/wAAAAAAAAMAAADw/wIAAAAAAAMAAADw/wEAAAAIAAMAAADw/wAAAAAGAAQAAADv/wIAAAAKAAMAAADv/wEAAAACAAMAAADv/wAAAAAKAAQAAADu/wIAAAAAAAMAAADu/wEAAAADAAQAAADu/wAAAAALAAMAAADt/wIAAAAAAAMAAADt/wEAAAADAAMAAADt/wAAAAAAAAMAAADs/wIAAAALAAMAAADs/wEAAAAJAAMAAADs/wAAAAAAAAMAAADr/wIAAAAKAAMAAADq/wIAAAAAAAMAAADp/wIAAAAJAAMAAADo/wEAAAAKAAQAAADn/wEAAAAAAAMAAADm/wEAAAAAAAMAAADn/wAAAAAAAAMAAADo/wAAAAAAAAMAAADr/wEAAAAAAAMAAADr/wAAAAAJAAQAAADq/wEAAAAAAAMAAADq/wAAAAACAAQAAADp/wEAAAAKAAMAAADp/wAAAAAAAAMAAADo/wIAAAAAAAMAAADn/wIAAAAAAAMAAADm/wIAAAAAAAMAAADm/wAAAAAIAAMAAAAaAAIAAAAAAAMAAAAaAAEAAAAIAAMAAAAaAAAAAAAKAAMAAAAZAAIAAAACAAMAAAAZAAEAAAAAAAMAAAAZAAAAAAALAAMAAAAYAAIAAAABAAMAAAAYAAEAAAAAAAMAAAAYAAAAAAALAAQAAAAXAAIAAAADAAQAAAAXAAEAAAAEAAQAAAAXAAAAAAAAAAMAAAAWAAIAAAAAAAMAAAAWAAEAAAAAAAMAAAAWAAAAAAAAAAMAAAAVAAIAAAAAAAMAAAAVAAEAAAAGAAQAAAAVAAAAAAAAAAMAAAAUAAIAAAAAAAMAAAAUAAEAAAAJAAQAAAAUAAAAAAAAAAMAAAA=")
+tile_map_data = PackedByteArray("AAAPAAIAAAAAAAMAAAAPAAEAAAAAAAMAAAAPAAAAAAAIAAMAAAAOAAIAAAAAAAMAAAAOAAEAAAAJAAMAAAAOAAAAAAAEAAQAAAANAAIAAAAAAAMAAAANAAEAAAAAAAMAAAANAAAAAAAKAAMAAAAMAAIAAAAKAAMAAAAMAAEAAAABAAQAAAAMAAAAAAABAAQAAAALAAIAAAAAAAMAAAALAAEAAAADAAQAAAALAAAAAAACAAMAAAAKAAIAAAAAAAMAAAAKAAEAAAAJAAQAAAAKAAAAAAAAAAMAAAAJAAIAAAAKAAMAAAAJAAEAAAAAAAMAAAAJAAAAAAAAAAMAAAAIAAIAAAALAAMAAAAIAAEAAAAAAAMAAAAIAAAAAAAAAAMAAAAHAAIAAAAAAAMAAAAHAAEAAAAAAAMAAAAHAAAAAAAAAAMAAAAGAAIAAAAAAAMAAAAGAAEAAAAAAAMAAAAGAAAAAAAAAAMAAAAFAAIAAAACAAQAAAAFAAEAAAAAAAMAAAAFAAAAAAAAAAMAAAAEAAIAAAAAAAMAAAAEAAEAAAAAAAMAAAAEAAAAAAADAAQAAAADAAIAAAAGAAQAAAADAAEAAAAIAAQAAAADAAAAAAAJAAMAAAACAAIAAAAAAAMAAAACAAEAAAAAAAMAAAACAAAAAAAAAAMAAAABAAIAAAADAAQAAAABAAEAAAALAAMAAAABAAAAAAAAAAMAAAAAAAIAAAABAAQAAAAAAAEAAAAAAAMAAAAAAAAAAAAAAAMAAAD//wIAAAAAAAMAAAD//wEAAAADAAQAAAD//wAAAAAGAAQAAAD+/wIAAAAAAAMAAAD+/wEAAAAAAAMAAAD+/wAAAAAJAAMAAAD9/wIAAAAAAAMAAAD9/wEAAAAAAAMAAAD9/wAAAAAAAAMAAAD8/wIAAAAAAAMAAAD8/wEAAAAAAAMAAAD8/wAAAAAEAAMAAAD7/wIAAAAGAAMAAAD7/wEAAAAGAAMAAAD7/wAAAAAHAAQAAAD6/wIAAAAJAAMAAAD6/wEAAAAAAAMAAAD6/wAAAAAKAAQAAAD5/wIAAAAAAAMAAAD5/wEAAAADAAMAAAD5/wAAAAAAAAMAAAD4/wIAAAACAAMAAAD4/wEAAAAAAAMAAAD4/wAAAAAAAAMAAAD3/wIAAAACAAQAAAD3/wEAAAAAAAMAAAD3/wAAAAAFAAMAAAD2/wIAAAAAAAMAAAD2/wEAAAAEAAMAAAD2/wAAAAACAAMAAAD1/wIAAAAAAAMAAAD1/wEAAAAAAAMAAAD1/wAAAAAIAAMAAAD0/wIAAAAKAAQAAAD0/wEAAAADAAMAAAD0/wAAAAAAAAMAAADz/wIAAAAAAAMAAADz/wEAAAAAAAMAAADz/wAAAAAAAAMAAADy/wIAAAAAAAMAAADy/wEAAAAAAAMAAADy/wAAAAAEAAMAAADx/wIAAAACAAQAAADx/wEAAAAAAAMAAADx/wAAAAAAAAMAAAA=")
 tile_set = ExtResource("1_4wyf3")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="World"]
@@ -46,12 +62,226 @@ position = Vector2(0, 106)
 shape = SubResource("RectangleShape2D_aqk2v")
 
 [node name="right" type="CollisionShape2D" parent="World/StaticBody2D"]
-position = Vector2(650, 0)
+position = Vector2(394, 0)
 shape = SubResource("RectangleShape2D_036b0")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/StaticBody2D"]
-position = Vector2(-650, 0)
+[node name="left" type="CollisionShape2D" parent="World/StaticBody2D"]
+position = Vector2(-394, 0)
 shape = SubResource("RectangleShape2D_dwbse")
+
+[node name="EnemySpawnPoints" type="Node2D" parent="World"]
+
+[node name="SpawnPoint" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 8)
+
+[node name="SpawnPoint2" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 24)
+
+[node name="SpawnPoint3" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 40)
+
+[node name="SpawnPoint4" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 56)
+
+[node name="SpawnPoint5" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 72)
+
+[node name="SpawnPoint6" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-412, 88)
+
+[node name="SpawnPoint7" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-428, 16)
+
+[node name="SpawnPoint8" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-428, 32)
+
+[node name="SpawnPoint9" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-428, 48)
+
+[node name="SpawnPoint10" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-428, 64)
+
+[node name="SpawnPoint11" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(-428, 80)
+
+[node name="SpawnPoint13" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 8)
+
+[node name="SpawnPoint14" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 24)
+
+[node name="SpawnPoint15" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 40)
+
+[node name="SpawnPoint16" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 56)
+
+[node name="SpawnPoint17" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 72)
+
+[node name="SpawnPoint18" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(412, 88)
+
+[node name="SpawnPoint19" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(428, 16)
+
+[node name="SpawnPoint20" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(428, 32)
+
+[node name="SpawnPoint21" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(428, 48)
+
+[node name="SpawnPoint22" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(428, 64)
+
+[node name="SpawnPoint23" parent="World/EnemySpawnPoints" instance=ExtResource("3_i7141")]
+position = Vector2(428, 80)
+
+[node name="BonusSpawnPoints" type="Node2D" parent="World"]
+
+[node name="BonusSpawnPoint" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-376, -104)
+
+[node name="BonusSpawnPoint2" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-360, -120)
+
+[node name="BonusSpawnPoint3" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-344, -104)
+
+[node name="BonusSpawnPoint4" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-328, -120)
+
+[node name="BonusSpawnPoint5" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-312, -104)
+
+[node name="BonusSpawnPoint6" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-296, -120)
+
+[node name="BonusSpawnPoint7" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-280, -104)
+
+[node name="BonusSpawnPoint8" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-264, -120)
+
+[node name="BonusSpawnPoint9" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-248, -104)
+
+[node name="BonusSpawnPoint10" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-232, -120)
+
+[node name="BonusSpawnPoint11" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-216, -104)
+
+[node name="BonusSpawnPoint12" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-200, -120)
+
+[node name="BonusSpawnPoint13" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-184, -104)
+
+[node name="BonusSpawnPoint14" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-168, -120)
+
+[node name="BonusSpawnPoint15" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-152, -104)
+
+[node name="BonusSpawnPoint16" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-136, -120)
+
+[node name="BonusSpawnPoint17" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-120, -104)
+
+[node name="BonusSpawnPoint18" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-104, -120)
+
+[node name="BonusSpawnPoint19" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-88, -104)
+
+[node name="BonusSpawnPoint20" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-72, -120)
+
+[node name="BonusSpawnPoint21" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-56, -104)
+
+[node name="BonusSpawnPoint22" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-40, -120)
+
+[node name="BonusSpawnPoint23" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-24, -104)
+
+[node name="BonusSpawnPoint24" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(-8, -120)
+
+[node name="BonusSpawnPoint25" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(8, -104)
+
+[node name="BonusSpawnPoint26" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(24, -120)
+
+[node name="BonusSpawnPoint27" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(40, -104)
+
+[node name="BonusSpawnPoint28" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(56, -120)
+
+[node name="BonusSpawnPoint29" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(72, -104)
+
+[node name="BonusSpawnPoint30" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(88, -120)
+
+[node name="BonusSpawnPoint31" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(104, -104)
+
+[node name="BonusSpawnPoint32" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(120, -120)
+
+[node name="BonusSpawnPoint33" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(136, -104)
+
+[node name="BonusSpawnPoint34" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(152, -120)
+
+[node name="BonusSpawnPoint35" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(168, -104)
+
+[node name="BonusSpawnPoint36" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(184, -120)
+
+[node name="BonusSpawnPoint37" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(200, -104)
+
+[node name="BonusSpawnPoint38" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(216, -120)
+
+[node name="BonusSpawnPoint39" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(232, -104)
+
+[node name="BonusSpawnPoint40" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(248, -120)
+
+[node name="BonusSpawnPoint41" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(264, -104)
+
+[node name="BonusSpawnPoint42" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(280, -120)
+
+[node name="BonusSpawnPoint43" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(296, -104)
+
+[node name="BonusSpawnPoint44" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(312, -120)
+
+[node name="BonusSpawnPoint45" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(328, -104)
+
+[node name="BonusSpawnPoint46" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(344, -120)
+
+[node name="BonusSpawnPoint47" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(360, -104)
+
+[node name="BonusSpawnPoint48" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
+position = Vector2(376, -120)
 
 [node name="GameObjects" type="Node2D" parent="." groups=["spawn_here"]]
 y_sort_enabled = true
@@ -62,9 +292,9 @@ position = Vector2(5, 57)
 [node name="Camera2D" type="Camera2D" parent="GameObjects/Player"]
 position = Vector2(-1, -1)
 process_callback = 0
-limit_left = -640
+limit_left = -384
 limit_top = -96
-limit_right = 640
+limit_right = 384
 limit_bottom = 96
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0
@@ -76,39 +306,6 @@ drag_bottom_margin = 0.45
 editor_draw_limits = true
 editor_draw_drag_margin = true
 
-[node name="GoblinThief" parent="GameObjects" instance=ExtResource("3_4wyf3")]
-position = Vector2(-134, 47)
-
-[node name="GoblinThief2" parent="GameObjects" instance=ExtResource("3_4wyf3")]
-position = Vector2(-212, 20)
-
-[node name="GoblinThief3" parent="GameObjects" instance=ExtResource("3_4wyf3")]
-position = Vector2(264, 63)
-
-[node name="GoblinThief4" parent="GameObjects" instance=ExtResource("3_4wyf3")]
-position = Vector2(159, 25)
-
-[node name="GoblinThief5" parent="GameObjects" instance=ExtResource("3_4wyf3")]
-position = Vector2(-224, 61)
-
-[node name="Bomber" parent="GameObjects" instance=ExtResource("5_71j4m")]
-position = Vector2(419, 32)
-
-[node name="mage" parent="GameObjects" instance=ExtResource("6_4mrxx")]
-position = Vector2(-253, 35)
-
-[node name="barrel" parent="GameObjects" instance=ExtResource("6_qfnet")]
-position = Vector2(-64, 74)
-
-[node name="barrel2" parent="GameObjects" instance=ExtResource("6_qfnet")]
-position = Vector2(170, 76)
-
-[node name="barrel3" parent="GameObjects" instance=ExtResource("6_qfnet")]
-position = Vector2(90, 23)
-
-[node name="barrel4" parent="GameObjects" instance=ExtResource("6_qfnet")]
-position = Vector2(-125, 16)
-
 [node name="TheLastSupport" parent="GameObjects" instance=ExtResource("9_7r4gi")]
 
 [node name="Remover" type="Area2D" parent="."]
@@ -119,6 +316,8 @@ collision_mask = 0
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Remover"]
 position = Vector2(1014.00006, 8)
 scale = Vector2(0.2013889, 1.0283635)
-polygon = PackedVector2Array(-355.39648, -220.36874, 121.29297, -136.74072, 141.15527, 792.89166, 12028.604, 793.86414, 12023.638, -138.68558, 131.22412, -138.68558, -345.46533, -222.31357, 12540.051, -221.34116, 12540.051, 875.54724, -355.39648, 878.4645)
+polygon = PackedVector2Array(4012.138, 81.68318, 4121.3794, 116.69025, 3967.4482, 450.22992, 8505.931, 450.22992, 8376.827, 113.772995, 4121.3794, 112.80058, 4041.9312, 81.68318, 8491.034, 87.517685, 8605.241, 476.48523, 3744, 495.9336)
 
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
+[connection signal="timeout" from="BonusSpawnTimer" to="." method="_on_bonus_spawn_timer_timeout"]
 [connection signal="dead" from="GameObjects/Player" to="." method="_on_player_dead"]

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bimt8euatoei8"]
+
+[ext_resource type="Texture2D" uid="uid://ga6qwekkgys1" path="res://resources/dwarf_tileset.png" id="1_rd5fi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1u8v2"]
+atlas = ExtResource("1_rd5fi")
+region = Rect2(16, 304, 16, 16)
+
+[node name="BonusSpawnPoint" type="Node2D" groups=["bonus_spawn_point"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_1u8v2")
