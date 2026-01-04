@@ -180,7 +180,7 @@ func pick_weighted_bonus(max_id: int) -> int:
 	var weights := []
 
 	for i in range(max_id):
-		var w = get_enemy_weight(i)
+		var w = get_bonus_weight(i)
 		weights.append(w)
 		total += w
 

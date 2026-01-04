@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=44 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cjek8dbcrl4x2" path="res://scenes/mage.tscn" id="6_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://3w3fcm7kw4pa" path="res://scenes/barrel.tscn" id="6_i7141"]
 [ext_resource type="PackedScene" uid="uid://bimt8euatoei8" path="res://scenes/bonus_spawn_point.tscn" id="7_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://8uiwougnhr3i" path="res://scenes/bag.tscn" id="8_2lf6f"]
 [ext_resource type="PackedScene" uid="uid://c4gvrdvi1go8t" path="res://scenes/the_last_support.tscn" id="9_7r4gi"]
 [ext_resource type="PackedScene" uid="uid://dp5a0wk18qfc2" path="res://scenes/red_mashroom_bonus.tscn" id="9_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://boxnbcehwxseh" path="res://scenes/slime.tscn" id="10_w7kh3"]
@@ -170,15 +171,17 @@ shadow_size = 3
 [node name="Game" type="Node2D" groups=["root"]]
 y_sort_enabled = true
 script = ExtResource("1_k0juu")
+min_spawn_time = 1.5
+max_enemy_count = 6
 enemy_list = Array[Resource]([ExtResource("3_4wyf3"), ExtResource("3_dss4m"), ExtResource("5_71j4m"), ExtResource("6_4mrxx"), ExtResource("10_w7kh3")])
-score_required_to_spawn_enemy = Array[int]([0, 10, 30, 50, 70])
-enemy_weights = Array[int]([100, 70, 50, 30, 10])
-bonus_list = Array[Resource]([ExtResource("6_i7141"), ExtResource("9_w7kh3"), ExtResource("11_e3hyu"), ExtResource("11_q5onr"), ExtResource("15_xo05s")])
-bonus_weights = Array[int]([100, 5, 5, 5, 5])
-score_required_to_spawn_bonus = Array[int]([0, 15, 50, 100, 200])
-bonus_fall_min_y = 0.0
-bonus_fall_max_y = 96.0
-min_bonus_spawn_time = 5.0
+score_required_to_spawn_enemy = Array[int]([0, 10, 20, 40, 60])
+enemy_weights = Array[int]([100, 70, 50, 30, 20])
+bonus_list = Array[Resource]([ExtResource("6_i7141"), ExtResource("8_2lf6f"), ExtResource("9_w7kh3"), ExtResource("11_e3hyu"), ExtResource("11_q5onr"), ExtResource("15_xo05s")])
+bonus_weights = Array[int]([100, 50, 5, 5, 5, 5])
+score_required_to_spawn_bonus = Array[int]([0, 0, 10, 20, 40, 60])
+bonus_fall_min_y = 16.0
+bonus_fall_max_y = 80.0
+min_bonus_spawn_time = 6.0
 base_bonus_spawn_time = 10.0
 max_bonus_count = 1
 
@@ -288,59 +291,47 @@ position = Vector2(428, 80)
 
 [node name="BonusSpawnPoints" type="Node2D" parent="World"]
 
-[node name="BonusSpawnPoint11" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(-224, -104)
-
-[node name="BonusSpawnPoint13" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(-192, -104)
-
 [node name="BonusSpawnPoint15" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(-160, -104)
+position = Vector2(-126, -104)
 
 [node name="BonusSpawnPoint16" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(-144, -120)
+position = Vector2(-110, -120)
 
 [node name="BonusSpawnPoint17" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(-128, -104)
+position = Vector2(-94, -104)
 
 [node name="BonusSpawnPoint18" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(-112, -120)
+position = Vector2(-78, -120)
 
 [node name="BonusSpawnPoint19" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(-96, -104)
+position = Vector2(-62, -104)
 
 [node name="BonusSpawnPoint20" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(-80, -120)
+position = Vector2(-46, -120)
 
 [node name="BonusSpawnPoint21" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(-64, -104)
+position = Vector2(-30, -104)
 
 [node name="BonusSpawnPoint29" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(64, -104)
+position = Vector2(32, -104)
 
 [node name="BonusSpawnPoint30" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(80, -120)
+position = Vector2(48, -120)
 
 [node name="BonusSpawnPoint31" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(96, -104)
+position = Vector2(64, -104)
 
 [node name="BonusSpawnPoint32" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(112, -120)
+position = Vector2(80, -120)
 
 [node name="BonusSpawnPoint33" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(128, -104)
+position = Vector2(96, -104)
 
 [node name="BonusSpawnPoint34" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(144, -120)
+position = Vector2(112, -120)
 
 [node name="BonusSpawnPoint35" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(160, -104)
-
-[node name="BonusSpawnPoint37" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(192, -104)
-
-[node name="BonusSpawnPoint39" parent="World/BonusSpawnPoints" instance=ExtResource("7_7r4gi")]
-position = Vector2(224, -104)
+position = Vector2(128, -104)
 
 [node name="GameObjects" type="Node2D" parent="." groups=["spawn_here"]]
 y_sort_enabled = true
