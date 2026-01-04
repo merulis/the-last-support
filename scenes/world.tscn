@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=13 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
@@ -7,8 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://du7g3wftsgoxp" path="res://scenes/bomber.tscn" id="5_71j4m"]
 [ext_resource type="PackedScene" uid="uid://cjek8dbcrl4x2" path="res://scenes/mage.tscn" id="6_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://3w3fcm7kw4pa" path="res://scenes/barrel.tscn" id="6_qfnet"]
-[ext_resource type="PackedScene" uid="uid://bwsaewgixnka6" path="res://scenes/bomb.tscn" id="7_i7141"]
-[ext_resource type="PackedScene" uid="uid://dp5a0wk18qfc2" path="res://scenes/red_mashroom_bonus.tscn" id="9_7r4gi"]
 [ext_resource type="PackedScene" uid="uid://c4gvrdvi1go8t" path="res://scenes/the_last_support.tscn" id="9_7r4gi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
@@ -23,7 +21,7 @@ size = Vector2(20, 500)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dwbse"]
 size = Vector2(20, 500)
 
-[node name="Game" type="Node2D" groups=["game"]]
+[node name="Game" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_k0juu")
 
@@ -55,8 +53,28 @@ shape = SubResource("RectangleShape2D_036b0")
 position = Vector2(-650, 0)
 shape = SubResource("RectangleShape2D_dwbse")
 
-[node name="GameObjects" type="Node2D" parent="."]
+[node name="GameObjects" type="Node2D" parent="." groups=["spawn_here"]]
 y_sort_enabled = true
+
+[node name="Player" parent="GameObjects" instance=ExtResource("2_k0juu")]
+position = Vector2(5, 57)
+
+[node name="Camera2D" type="Camera2D" parent="GameObjects/Player"]
+position = Vector2(-1, -1)
+process_callback = 0
+limit_left = -640
+limit_top = -96
+limit_right = 640
+limit_bottom = 96
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+drag_horizontal_enabled = true
+drag_left_margin = 0.25
+drag_top_margin = 0.45
+drag_right_margin = 0.25
+drag_bottom_margin = 0.45
+editor_draw_limits = true
+editor_draw_drag_margin = true
 
 [node name="GoblinThief" parent="GameObjects" instance=ExtResource("3_4wyf3")]
 position = Vector2(-134, 47)
@@ -79,26 +97,6 @@ position = Vector2(419, 32)
 [node name="mage" parent="GameObjects" instance=ExtResource("6_4mrxx")]
 position = Vector2(-253, 35)
 
-[node name="Player" parent="GameObjects" instance=ExtResource("2_k0juu")]
-position = Vector2(5, 57)
-
-[node name="Camera2D" type="Camera2D" parent="GameObjects/Player"]
-position = Vector2(-1, -1)
-process_callback = 0
-limit_left = -640
-limit_top = -96
-limit_right = 640
-limit_bottom = 96
-position_smoothing_enabled = true
-position_smoothing_speed = 2.0
-drag_horizontal_enabled = true
-drag_left_margin = 0.25
-drag_top_margin = 0.45
-drag_right_margin = 0.25
-drag_bottom_margin = 0.45
-editor_draw_limits = true
-editor_draw_drag_margin = true
-
 [node name="barrel" parent="GameObjects" instance=ExtResource("6_qfnet")]
 position = Vector2(-64, 74)
 
@@ -111,19 +109,16 @@ position = Vector2(90, 23)
 [node name="barrel4" parent="GameObjects" instance=ExtResource("6_qfnet")]
 position = Vector2(-125, 16)
 
-[node name="red_mashroom_bonus" parent="Objects" instance=ExtResource("9_7r4gi")]
-position = Vector2(275, 5)
+[node name="TheLastSupport" parent="GameObjects" instance=ExtResource("9_7r4gi")]
 
 [node name="Remover" type="Area2D" parent="."]
 position = Vector2(-2256, -331)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Remover"]
 position = Vector2(1014.00006, 8)
 scale = Vector2(0.2013889, 1.0283635)
 polygon = PackedVector2Array(-355.39648, -220.36874, 121.29297, -136.74072, 141.15527, 792.89166, 12028.604, 793.86414, 12023.638, -138.68558, 131.22412, -138.68558, -345.46533, -222.31357, 12540.051, -221.34116, 12540.051, 875.54724, -355.39648, 878.4645)
-
-[node name="TheLastSupport" parent="." instance=ExtResource("9_7r4gi")]
 
 [connection signal="dead" from="GameObjects/Player" to="." method="_on_player_dead"]

@@ -112,7 +112,7 @@ func _on_hurt_area_entered(_area: Area2D) -> void:
 ################################################################################
 
 func create_bullet() -> void:
-	var game = get_tree().get_first_node_in_group("game")
+	var spawn_here = get_tree().get_first_node_in_group("spawn_here")
 	var new_bullet = bullet.instantiate()
 	new_bullet.global_position = bullet_start_position.global_position
-	game.add_child(new_bullet)
+	spawn_here.add_child(new_bullet)

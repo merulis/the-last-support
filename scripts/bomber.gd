@@ -96,10 +96,10 @@ func check_attack_range() -> bool:
 ################################################################################
 
 func drop_bomb():
-	var game = get_tree().get_first_node_in_group("game")
+	var spawn_here = get_tree().get_first_node_in_group("spawn_here")
 	var new_bomb: Bomb = bomb.instantiate()
 	new_bomb.global_position = global_position
-	game.add_child(new_bomb)
+	spawn_here.add_child(new_bomb)
 
 ################################################################################
 

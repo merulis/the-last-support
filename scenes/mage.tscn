@@ -96,7 +96,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(1.3),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-11, -8)]
+"values": [Vector2(-10, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_p0roq"]
@@ -150,7 +150,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(1.3),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(9, -8)]
+"values": [Vector2(10, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_66amf"]
@@ -381,7 +381,7 @@ script = ExtResource("1_y6d06")
 bullet = ExtResource("2_r5lxc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-1, -10)
+position = Vector2(0, -10)
 texture = ExtResource("1_j2dsb")
 hframes = 10
 vframes = 4
@@ -397,7 +397,7 @@ advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 parameters/attack/blend_position = 0.0
 parameters/idle/blend_position = 0.0
-parameters/run/blend_position = 0.0
+parameters/run/blend_position = -0.06987578
 script = ExtResource("3_t2cfv")
 
 [node name="HurtArea" type="Area2D" parent="."]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://byepbteono0ol"]
+[gd_scene load_steps=10 format=3 uid="uid://byepbteono0ol"]
 
 [ext_resource type="Texture2D" uid="uid://wosc6cvdm3dc" path="res://resources/objects/mage_cast.png" id="1_aftvr"]
 [ext_resource type="Script" uid="uid://dtgrgw4xr41b1" path="res://scripts/magic_bullet.gd" id="1_qoow4"]
@@ -42,21 +42,37 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nhnwh"]
 size = Vector2(6, 6)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_qoow4"]
+radius = 8.0
+
 [node name="MagicBullet" type="Node2D" groups=["characters"]]
+z_index = 1
+position = Vector2(0, -4)
 script = ExtResource("1_qoow4")
 speed = 75.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_l8ahm")
 autoplay = "default"
 frame_progress = 0.6606075
 
 [node name="HitBox" type="Area2D" parent="."]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_nhnwh")
 debug_color = Color(0.819271, 0.0018339742, 0.96917206, 0.41960785)
 
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_qoow4")
+
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

@@ -482,8 +482,8 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_2e45m")
 
 [node name="HitBox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 2
+collision_layer = 2
+collision_mask = 0
 
 [node name="HitShape" type="CollisionShape2D" parent="HitBox"]
 position = Vector2(-14, -8)
@@ -491,8 +491,8 @@ shape = SubResource("CircleShape2D_kc5h2")
 debug_color = Color(0.99607843, 0, 0, 0.41960785)
 
 [node name="Hurtbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 2
+collision_layer = 0
+collision_mask = 4
 
 [node name="HurtShape" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(0, -8)
