@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://52ngrvjvuran"]
+[gd_scene load_steps=21 format=4 uid="uid://52ngrvjvuran"]
 
 [ext_resource type="TileSet" uid="uid://k3hq8g3jtfbi" path="res://resources/tileset.tres" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://bxat66cj6ds4j" path="res://scripts/game.gd" id="1_k0juu"]
@@ -14,18 +14,20 @@
 [ext_resource type="PackedScene" uid="uid://boxnbcehwxseh" path="res://scenes/slime.tscn" id="10_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://30vypktmdtxl" path="res://scenes/pepper_bonus.tscn" id="11_e3hyu"]
 [ext_resource type="PackedScene" uid="uid://1hb6irjnh04h" path="res://scenes/shield_bonus.tscn" id="11_q5onr"]
+[ext_resource type="PackedScene" uid="uid://8uiwougnhr3i" path="res://scenes/bag.tscn" id="15_dss4m"]
+[ext_resource type="PackedScene" uid="uid://cw4d6p68aoxnu" path="res://scenes/beer_bonus.tscn" id="15_xo05s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
-size = Vector2(2000, 20)
+size = Vector2(1072, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aqk2v"]
-size = Vector2(2000, 20)
+size = Vector2(1081, 19)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_036b0"]
 size = Vector2(20, 500)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dwbse"]
-size = Vector2(20, 500)
+size = Vector2(20, 437)
 
 [node name="Game" type="Node2D" groups=["root"]]
 y_sort_enabled = true
@@ -58,11 +60,11 @@ tile_set = ExtResource("1_4wyf3")
 [node name="StaticBody2D" type="StaticBody2D" parent="World"]
 
 [node name="top" type="CollisionShape2D" parent="World/StaticBody2D"]
-position = Vector2(0, -10)
+position = Vector2(10, -11.5)
 shape = SubResource("RectangleShape2D_tlwt5")
 
 [node name="bottom" type="CollisionShape2D" parent="World/StaticBody2D"]
-position = Vector2(0, 106)
+position = Vector2(16.5, 105.5)
 shape = SubResource("RectangleShape2D_aqk2v")
 
 [node name="right" type="CollisionShape2D" parent="World/StaticBody2D"]
@@ -70,7 +72,7 @@ position = Vector2(394, 0)
 shape = SubResource("RectangleShape2D_036b0")
 
 [node name="left" type="CollisionShape2D" parent="World/StaticBody2D"]
-position = Vector2(-394, 0)
+position = Vector2(-394, -31.5)
 shape = SubResource("RectangleShape2D_dwbse")
 
 [node name="EnemySpawnPoints" type="Node2D" parent="World"]
@@ -324,6 +326,9 @@ position = Vector2(157, 14)
 [node name="pepper_bonus" parent="GameObjects" instance=ExtResource("11_e3hyu")]
 position = Vector2(205, 14)
 
+[node name="Bag" parent="GameObjects" instance=ExtResource("15_dss4m")]
+position = Vector2(-36, 63)
+
 [node name="Remover" type="Area2D" parent="."]
 position = Vector2(-2256, -331)
 collision_layer = 8
@@ -332,7 +337,10 @@ collision_mask = 0
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Remover"]
 position = Vector2(1014.00006, 8)
 scale = Vector2(0.2013889, 1.0283635)
-polygon = PackedVector2Array(4012.138, 81.68318, 4121.3794, 116.69025, 3967.4482, 450.22992, 8505.931, 450.22992, 8376.827, 113.772995, 4121.3794, 112.80058, 4041.9312, 81.68318, 8491.034, 87.517685, 8605.241, 476.48523, 3744, 495.9336)
+polygon = PackedVector2Array(3848.276, 88.49011, 3967.4482, 106.966064, 3967.4482, 450.22992, 8505.931, 450.22992, 8505.931, 105.021225, 3977.3794, 105.021225, 3858.207, 86.54527, 8570.482, 84.60043, 8575.448, 472.59555, 3848.276, 472.59555)
+
+[node name="beer_bonus" parent="." instance=ExtResource("15_xo05s")]
+position = Vector2(133, 14)
 
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
 [connection signal="timeout" from="BonusSpawnTimer" to="." method="_on_bonus_spawn_timer_timeout"]

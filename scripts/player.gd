@@ -13,7 +13,7 @@ class_name Player extends CharacterBody2D
 @export var bonus_duration: float = 10.0
 @export var bonus_size_scale: float = 1.7
 @export var bonus_speed_scale: float = 3.0
-@export var bonus_time_scale: float = 0.3
+@export var bonus_time_scale: float = 0.5
 
 @export var SPEED: float = 5000
 
@@ -90,20 +90,20 @@ func death_state(_delta: float) -> void:
 func apply_bonus(bonus_name):
 	match bonus_name:
 		"size": 
-			start_timer(size_timer, bonus_duration)
+			start_timer(size_timer)
 			apply_size_bonus()
 		"speed":
-			start_timer(speed_timer, bonus_duration)
+			start_timer(speed_timer)
 			apply_speed_bonus()
 		"shield":
-			start_timer(shield_timer, bonus_duration)
+			start_timer(shield_timer)
 			apply_shield_bonus()
 		"time":
-			start_timer(time_timer, bonus_time_scale*bonus_duration)
+			start_timer(time_timer)
 			apply_time_bonus()
 
-func start_timer(timer: Timer, duration: float):
-	timer.start(duration)
+func start_timer(timer: Timer):
+	timer.start()
 
 func apply_size_bonus():
 	reset_size_bonus()

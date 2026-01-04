@@ -536,6 +536,7 @@ wait_time = 10.0
 
 [node name="TimeTimer" type="Timer" parent="."]
 wait_time = 10.0
+ignore_time_scale = true
 
 [node name="ShieldTimer" type="Timer" parent="."]
 wait_time = 10.0

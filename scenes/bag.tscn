@@ -1,0 +1,127 @@
+[gd_scene load_steps=16 format=3 uid="uid://8uiwougnhr3i"]
+
+[ext_resource type="Script" uid="uid://dee4tf2clqvjg" path="res://scripts/bag.gd" id="1_8dtae"]
+[ext_resource type="Texture2D" uid="uid://bpxnrwfc0vow2" path="res://resources/objects/bag.png" id="2_qlbld"]
+[ext_resource type="PackedScene" uid="uid://cw4d6p68aoxnu" path="res://scenes/beer_bonus.tscn" id="2_wtgws"]
+[ext_resource type="PackedScene" uid="uid://1hb6irjnh04h" path="res://scenes/shield_bonus.tscn" id="3_sahbl"]
+[ext_resource type="PackedScene" uid="uid://30vypktmdtxl" path="res://scenes/pepper_bonus.tscn" id="4_yd8ex"]
+[ext_resource type="PackedScene" uid="uid://dp5a0wk18qfc2" path="res://scenes/red_mashroom_bonus.tscn" id="5_kweeo"]
+[ext_resource type="PackedScene" uid="uid://bych14eh0m0ct" path="res://scenes/goblin_thief.tscn" id="6_qqhgj"]
+[ext_resource type="PackedScene" uid="uid://dvgkfbvyoy71v" path="res://scenes/small_slime.tscn" id="7_llpd1"]
+[ext_resource type="PackedScene" uid="uid://bwsaewgixnka6" path="res://scenes/bomb.tscn" id="8_dp1xu"]
+
+[sub_resource type="Animation" id="Animation_6blhx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -12)]
+}
+
+[sub_resource type="Animation" id="Animation_la0sw"]
+resource_name = "open"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_6twof"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(0, 0), Vector2i(0, 0), Vector2i(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -12), Vector2(0, -13), Vector2(0, -14), Vector2(0, -13), Vector2(0, -12)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ih7hy"]
+_data = {
+&"RESET": SubResource("Animation_6blhx"),
+&"idle": SubResource("Animation_6twof"),
+&"open": SubResource("Animation_la0sw")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qlbld"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sp1hu"]
+radius = 4.2426405
+
+[node name="bag" type="CharacterBody2D"]
+script = ExtResource("1_8dtae")
+drop_list = Array[Resource]([ExtResource("2_wtgws"), ExtResource("3_sahbl"), ExtResource("4_yd8ex"), ExtResource("5_kweeo"), ExtResource("6_qqhgj"), ExtResource("7_llpd1"), ExtResource("8_dp1xu")])
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -12)
+texture = ExtResource("2_qlbld")
+hframes = 4
+vframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ih7hy")
+}
+autoplay = "idle"
+
+[node name="HurtArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_qlbld")
+debug_color = Color(0.64259404, 0.5222604, 0.112334915, 0.41960785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_sp1hu")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="area_entered" from="HurtArea" to="." method="_on_hurt_area_entered"]
