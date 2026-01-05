@@ -546,7 +546,7 @@ disabled = true
 debug_color = Color(0.9803918, 0.13403192, 0.102286376, 0.41960785)
 
 [node name="HurtArea" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 32
 collision_mask = 4
 
 [node name="HurtBox" type="CollisionShape2D" parent="HurtArea"]

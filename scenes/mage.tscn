@@ -435,7 +435,7 @@ parameters/run/blend_position = -0.06987578
 script = ExtResource("3_t2cfv")
 
 [node name="HurtArea" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 32
 collision_mask = 4
 
 [node name="Hurtbox" type="CollisionShape2D" parent="HurtArea"]

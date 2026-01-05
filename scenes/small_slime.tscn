@@ -268,6 +268,7 @@ states/jump/position = Vector2(377, 192)
 transitions = ["death", "End", SubResource("AnimationNodeStateMachineTransition_y3kx0"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_4q1k4"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_v470m"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_sw212"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_ey3na"), "jump", "death", SubResource("AnimationNodeStateMachineTransition_3w0ca")]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7dday"]
+radius = 13.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d3ari"]
 radius = 2.0
@@ -302,11 +303,11 @@ parameters/jump/blend_position = 0.0
 script = ExtResource("2_4q1k4")
 
 [node name="HurtArea" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 32
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea"]
-position = Vector2(0, -9)
+position = Vector2(-1, -8)
 shape = SubResource("CircleShape2D_7dday")
 debug_color = Color(0.76876485, 0.1614674, 0.99999994, 0.41960785)
 
