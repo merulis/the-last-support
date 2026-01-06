@@ -755,7 +755,7 @@ theme_override_styles/read_only = SubResource("StyleBoxEmpty_navra")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_luhhm")
 placeholder_text = "Enter your name"
 alignment = 1
-max_length = 10
+max_length = 5
 
 [node name="HSeparator2" type="HSeparator" parent="EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2

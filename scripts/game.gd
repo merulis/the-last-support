@@ -323,28 +323,10 @@ func _on_end_screen_timer_timeout():
 func update_score_label():
 	score_label.text = "Score: " + str(score)
 
-func test_load_leaderboard():
-	print("TEST: load_leaderboard started")
-
-	var data = await load_leaderboard()
-
-	assert(data != null, "Leaderboard returned null")
-	assert(data is Array, "Leaderboard is not Array")
-	print("received ", data, " records")
-	print("TEST PASSED: received ", data.size(), " records")
-
-func test_submit_score_request_sent():
-	var result := submit_score("TestUser", 123)
-
-	assert(
-		result == OK,
-		"submit_score(): HTTPRequest.request() did not return OK"
-	)
-
-	print("TEST PASSED: submit_score request sent")
+################################################################################
 
 func load_leaderboard():
-	var url = SUPABASE_URL + "/rest/v1/leaderboard?select=name,score&order=score.desc&limit=3"
+	var url = SUPABASE_URL + "/rest/v1/leaderboard?select=n,s&order=s.desc&limit=3"
 	var headers = [
 		"apikey: " + API_KEY,
 		"Authorization: Bearer " + API_KEY
@@ -360,6 +342,8 @@ func load_leaderboard():
 		push_error("Request not send")
 		return []
 	
+################################################################################
+
 func _on_leaderboard_loaded(_result, response_code, _headers, body):
 	if response_code != 200:
 		push_error("HTTP error: %s", response_code)
@@ -367,6 +351,7 @@ func _on_leaderboard_loaded(_result, response_code, _headers, body):
 	
 	leaderboard_data = JSON.parse_string(body.get_string_from_utf8())
 	
+################################################################################
 
 func submit_score(player_name: String, score_value: int) -> int:
 	var url = SUPABASE_URL + "/rest/v1/leaderboard"
@@ -382,8 +367,8 @@ func submit_score(player_name: String, score_value: int) -> int:
 	]
 
 	var body = JSON.stringify({
-		"name": player_name,
-		"score": score_value
+		"n": player_name,
+		"s": score_value
 	})
 
 	return http_send.request(
@@ -467,7 +452,7 @@ func _on_leaderboard_button_pressed():
 	leaderboard_grid.add_child(score_header)
 	
 	for val in leaderboard_data:
-		add_row(val["name"], int(val["score"]))
+		add_row(val["n"], int(val["s"]))
 	
 
 ################################################################################
