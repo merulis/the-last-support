@@ -17,7 +17,7 @@ enum GoblinThiefState {
 
 ################################################################################
 
-@export var speed: float = 2000.0
+@export var speed: float = 90.0
 @export var attack_range: float = 25.0
 var time_scale: float = 1.0:
 	set(value):
@@ -70,7 +70,7 @@ func run_state(delta: float) -> void:
 		
 	animation_tree.play_animation("run")
 	
-	velocity = global_position.direction_to(target.global_position).normalized() * speed * delta * time_scale
+	velocity = global_position.direction_to(target.global_position).normalized() * speed * time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()

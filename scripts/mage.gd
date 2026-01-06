@@ -18,7 +18,7 @@ enum MageState {
 
 ################################################################################
 
-@export var speed: float = 2000.0
+@export var speed: float = 75.0
 @export var attack_range: float = 200.0
 @export var bullet: Resource
 
@@ -30,6 +30,7 @@ var time_scale: float = 1.0:
 	set(value):
 		time_scale = value
 		animation_player.speed_scale = value
+var can_spawn: bool = true
 
 ################################################################################
 
@@ -73,7 +74,7 @@ func run_state(delta: float) -> void:
 		
 	animation_tree.play_animation("run")
 	
-	velocity = global_position.direction_to(player.global_position).normalized() * speed * delta * time_scale
+	velocity = global_position.direction_to(player.global_position).normalized() * speed * time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()
@@ -126,7 +127,20 @@ func _on_hurt_area_entered(area: Area2D) -> void:
 ################################################################################
 
 func create_bullet() -> void:
-	var spawn_here = get_tree().get_first_node_in_group("spawn_here")
-	var new_bullet = bullet.instantiate()
-	new_bullet.global_position = bullet_start_position.global_position
-	spawn_here.add_child(new_bullet)
+	if can_spawn:
+		var spawn_here = get_tree().get_first_node_in_group("spawn_here")
+		var new_bullet = bullet.instantiate()
+		new_bullet.global_position = bullet_start_position.global_position
+		spawn_here.add_child(new_bullet)
+		can_spawn = false
+		$Timer.start(0.2)
+
+################################################################################
+
+func go_run_state() -> void:
+	state = MageState.run
+	
+################################################################################
+
+func _on_timer_timeout():
+	can_spawn = true

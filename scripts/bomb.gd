@@ -18,7 +18,7 @@ enum BombState {
 
 ################################################################################
 
-@export var speed: float = 800.0
+@export var speed: float = 150.0
  
 ################################################################################
 
@@ -47,7 +47,7 @@ func fuse_state(_delta: float) -> void:
 
 func pushed_state(delta: float) -> void:
 	animation_tree.play_animation("pushed")
-	velocity = direction * speed * delta * time_scale
+	velocity = direction * speed * time_scale
 	move_and_slide()
 
 ################################################################################

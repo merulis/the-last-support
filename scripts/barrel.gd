@@ -15,7 +15,7 @@ enum BarrelState {
 
 ################################################################################
 
-@export var speed: float = 800.0
+@export var speed: float = 150.0
  
 ################################################################################
 
@@ -46,7 +46,7 @@ func rolling_state(delta: float) -> void:
 		rolling_audio_player.play()
 	animation_tree.play_animation("rolling")
 	
-	velocity = direction * speed * delta * time_scale
+	velocity = direction * speed * time_scale
 	move_and_slide()
 
 ################################################################################

@@ -15,7 +15,7 @@ enum SlimeState {
 
 ################################################################################
 
-@export var speed: float = 2000.0
+@export var speed: float = 70.0
 @export var drop: Resource
 
 ################################################################################
@@ -57,7 +57,7 @@ func jump_state(delta: float) -> void:
 	animation_tree.play_animation("jump")
 	
 	direction = global_position.direction_to(player.global_position).normalized()
-	velocity = direction * speed * delta * time_scale
+	velocity = direction * speed * time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()

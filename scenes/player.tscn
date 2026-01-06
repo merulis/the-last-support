@@ -471,7 +471,6 @@ motion_mode = 1
 script = ExtResource("1_qhqgy")
 bonus_speed_scale = 1.5
 bonus_time_scale = 0.2
-SPEED = 6000.0
 metadata/_custom_type_script = "uid://dw1601xf483hx"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

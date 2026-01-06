@@ -18,7 +18,7 @@ enum BomberState {
 
 ################################################################################
 
-@export var speed: float = 2000.0
+@export var speed: float = 80.0
 @export var attack_range: float = 25.0
 @export var bomb: Resource
 
@@ -72,7 +72,7 @@ func run_state(delta: float) -> void:
 		
 	animation_tree.play_animation("run")
 	
-	velocity = global_position.direction_to(target.global_position).normalized() * speed * delta * time_scale
+	velocity = global_position.direction_to(target.global_position).normalized() * speed * time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()

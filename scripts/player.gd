@@ -18,7 +18,7 @@ class_name Player extends CharacterBody2D
 @export var bonus_speed_scale: float = 3.0
 @export var bonus_time_scale: float = 0.5
 
-@export var SPEED: float = 5000
+@export var SPEED: float = 100
 
 signal dead()
 
@@ -104,7 +104,7 @@ func run_state(delta: float) -> void:
 		attack_audio_player.play()
 		state = PlayerState.attack
 		
-	velocity = input_vector * speed * delta
+	velocity = input_vector * speed
 	move_and_slide()
 
 ################################################################################
