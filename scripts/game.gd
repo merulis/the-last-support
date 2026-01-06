@@ -328,8 +328,7 @@ func update_score_label():
 func load_leaderboard():
 	var url = SUPABASE_URL + "/rest/v1/leaderboard?select=n,s&order=s.desc&limit=3"
 	var headers = [
-		"apikey: " + API_KEY,
-		"Authorization: Bearer " + API_KEY
+		"apikey: " + API_KEY
 	]
 
 	http_get.connect("request_completed", Callable(self, "_on_leaderboard_loaded"))
@@ -340,14 +339,13 @@ func load_leaderboard():
 	)
 	if err != OK:
 		push_error("Request not send")
-		return []
 	
 ################################################################################
 
 func _on_leaderboard_loaded(_result, response_code, _headers, body):
 	if response_code != 200:
 		push_error("HTTP error: %s", response_code)
-		return []
+		return
 	
 	leaderboard_data = JSON.parse_string(body.get_string_from_utf8())
 	
@@ -362,7 +360,6 @@ func submit_score(player_name: String, score_value: int) -> int:
 
 	var headers = [
 		"apikey: " + API_KEY,
-		"Authorization: Bearer " + API_KEY,
 		"Content-Type: application/json",
 	]
 
