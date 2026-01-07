@@ -4,6 +4,7 @@ class_name Player extends CharacterBody2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var playback = animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
 
+@onready var color_timer: Timer = $ColorTimer
 @onready var size_timer: Timer = $SizeTimer
 @onready var time_timer: Timer = $TimeTimer
 @onready var shield_timer: Timer = $ShieldTimer
@@ -88,7 +89,7 @@ func idle_state(_delta: float) -> void:
 
 ################################################################################
 
-func run_state(delta: float) -> void:
+func run_state(_delta: float) -> void:
 	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
 	
 	if input_vector.x != 0:
@@ -123,17 +124,16 @@ func apply_bonus(bonus_name):
 	bonus_audio_player.play()
 	match bonus_name:
 		"size": 
-			start_timer(size_timer)
 			apply_size_bonus()
 		"speed":
-			start_timer(speed_timer)
 			apply_speed_bonus()
 		"shield":
-			start_timer(shield_timer)
 			apply_shield_bonus()
 		"time":
-			start_timer(time_timer)
 			apply_time_bonus()
+	
+	start_timer(color_timer)
+	update_color()
 
 func start_timer(timer: Timer):
 	timer.start()
@@ -152,7 +152,8 @@ func apply_size_bonus():
 	active_bonuses[Bonuses.size] += 1
 	last_active_bonus = Bonuses.size
 	scale *= bonus_size_scale
-	update_color()
+	
+	start_timer(size_timer)
 
 func reset_size_bonus():
 	active_bonuses[Bonuses.size] -= 1
@@ -166,26 +167,28 @@ func apply_speed_bonus():
 	
 	last_active_bonus = Bonuses.speed
 	speed *= bonus_speed_scale
-	update_color()
+	
+	start_timer(speed_timer)
 
 func reset_speed_bonus():
 	active_bonuses[Bonuses.speed] -= 1
 	speed = SPEED
 	update_color()
-	
+
 func apply_shield_bonus():
 	if active_bonuses[Bonuses.shield] > 0:
 		reset_time_bonus()
 	active_bonuses[Bonuses.shield] += 1
 	last_active_bonus = Bonuses.shield
 	hurtbox_area.monitoring = false
-	update_color()
 	
+	start_timer(shield_timer)
+
 func reset_shield_bonus():
 	active_bonuses[Bonuses.shield] -= 1
 	hurtbox_area.monitoring = true
 	update_color()
-	
+
 func apply_time_bonus():
 	if active_bonuses[Bonuses.time] > 0:
 		reset_time_bonus()
@@ -196,7 +199,8 @@ func apply_time_bonus():
 	for c in get_tree().get_nodes_in_group("characters"):
 		if c != self and "time_scale" in c:
 			c.time_scale = bonus_time_scale
-	update_color()
+	
+	start_timer(time_timer)
 	
 func reset_time_bonus():
 	active_bonuses[Bonuses.time] -= 1
@@ -204,7 +208,7 @@ func reset_time_bonus():
 	for c in get_tree().get_nodes_in_group("characters"):
 		if c != self and "time_scale" in c:
 			c.time_scale = 1.0
-	
+			
 	update_color()
 
 func _on_size_timer_timeout() -> void:
@@ -218,6 +222,9 @@ func _on_shield_timer_timeout() -> void:
 
 func _on_time_timer_timeout() -> void:
 	reset_time_bonus()
+	
+func _on_color_timer_timeout() -> void:
+	update_color()
 
 ################################################################################
 

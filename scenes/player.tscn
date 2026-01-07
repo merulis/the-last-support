@@ -545,6 +545,9 @@ ignore_time_scale = true
 [node name="ShieldTimer" type="Timer" parent="."]
 wait_time = 10.0
 
+[node name="ColorTimer" type="Timer" parent="."]
+wait_time = 10.0
+
 [node name="DeathAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_fjrip")
 
@@ -561,3 +564,4 @@ stream = ExtResource("4_smehm")
 [connection signal="timeout" from="SpeedTimer" to="." method="_on_speed_timer_timeout"]
 [connection signal="timeout" from="TimeTimer" to="." method="_on_time_timer_timeout"]
 [connection signal="timeout" from="ShieldTimer" to="." method="_on_shield_timer_timeout"]
+[connection signal="timeout" from="ColorTimer" to="." method="_on_color_timer_timeout"]
