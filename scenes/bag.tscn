@@ -37,22 +37,6 @@ tracks/1/keys = {
 "values": [Vector2(0, -12)]
 }
 
-[sub_resource type="Animation" id="Animation_la0sw"]
-resource_name = "open"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
-}
-
 [sub_resource type="Animation" id="Animation_6twof"]
 resource_name = "idle"
 length = 0.8
@@ -82,6 +66,22 @@ tracks/1/keys = {
 "values": [Vector2(0, -12), Vector2(0, -13), Vector2(0, -14), Vector2(0, -13), Vector2(0, -12)]
 }
 
+[sub_resource type="Animation" id="Animation_la0sw"]
+resource_name = "open"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ih7hy"]
 _data = {
 &"RESET": SubResource("Animation_6blhx"),
@@ -95,8 +95,11 @@ _data = {
 radius = 4.2426405
 
 [node name="bag" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_8dtae")
-drop_list = Array[Resource]([ExtResource("2_wtgws"), ExtResource("3_sahbl"), ExtResource("4_yd8ex"), ExtResource("5_kweeo"), ExtResource("6_qqhgj"), ExtResource("7_llpd1"), ExtResource("8_dp1xu")])
+drop_list = Array[Resource]([ExtResource("5_kweeo"), ExtResource("4_yd8ex"), ExtResource("3_sahbl"), ExtResource("2_wtgws"), ExtResource("6_qqhgj"), ExtResource("7_llpd1"), ExtResource("8_dp1xu")])
+drop_weights = Array[int]([35, 30, 25, 20, 15, 15, 30])
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -12)

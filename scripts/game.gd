@@ -27,6 +27,8 @@ extends Node2D
 @onready var player_name_edit = $EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/LineEdit
 @onready var cannot_load_label = $EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2/LeaderboardLabel
 
+@onready var bonus_container = $HUD/Control5/MarginContainer/BonusHBoxContainer
+
 ################################################################################
 
 @export var min_spawn_time := 1.0
@@ -54,6 +56,7 @@ extends Node2D
 @export var unmute_icon: Resource
 
 @export var leaderboard_label: Resource
+@export var bonus_icon_scene: Resource
 
 var score: int = 0:
 	set(value):
@@ -486,6 +489,8 @@ func _on_send_button_pressed():
 	end_primary_screen.show()
 	end_send_screen.hide()
 
+################################################################################
+
 func _on_h_slider_value_changed(value: float) -> void:
 	var bus = AudioServer.get_bus_index("Master")
 
@@ -495,6 +500,14 @@ func _on_h_slider_value_changed(value: float) -> void:
 		AudioServer.set_bus_mute(bus, false)
 		AudioServer.set_bus_volume_db(bus, linear_to_db(value))
 
+################################################################################
 
 func _on_audio_stream_player_2d_finished():
 	music_player.play()
+
+################################################################################
+
+func _on_player_bonus_gain(id):
+	var icon = bonus_icon_scene.instantiate()
+	icon.set_icon(id)
+	bonus_container.add_child(icon)

@@ -14,6 +14,10 @@ config/name="The last support"
 run/main_scene="uid://du30eipa8r2mb"
 config/features=PackedStringArray("4.5", "Forward Plus")
 
+[autoload]
+
+Global="*res://scripts/global.gd"
+
 [display]
 
 window/size/viewport_width=448
@@ -75,7 +79,7 @@ attack={
 2d_physics/layer_3="enemy"
 2d_physics/layer_4="remover"
 2d_physics/layer_5="bonus"
-2d_physics/layer_6="bullets"
+2d_physics/layer_6="bomb_explode_by_enemy"
 2d_physics/layer_7="pillar"
 
 [rendering]

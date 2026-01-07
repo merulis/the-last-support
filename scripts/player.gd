@@ -15,12 +15,14 @@ class_name Player extends CharacterBody2D
 
 @export var bonus_duration: float = 10.0
 @export var bonus_size_scale: float = 1.7
-@export var bonus_speed_scale: float = 3.0
+@export var bonus_speed_value: float = 150
 @export var bonus_time_scale: float = 0.5
 
-@export var SPEED: float = 100
+var default_speed: float = 100
+var speed: float = default_speed
 
 signal dead()
+signal bonus_gain(id: int)
 
 enum PlayerState {
 	idle,
@@ -56,8 +58,6 @@ var input_vector: = Vector2.ZERO
 var last_input_vector: = Vector2.LEFT
 
 var state: PlayerState = PlayerState.idle
-var speed: float = SPEED
-var time_multiplier: float = 1.0
 var base_color: Color = Color(1.0, 1.0, 1.0, 1.0)
 
 ################################################################################
@@ -88,7 +88,7 @@ func idle_state(_delta: float) -> void:
 
 ################################################################################
 
-func run_state(delta: float) -> void:
+func run_state(_delta: float) -> void:
 	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
 	
 	if input_vector.x != 0:
@@ -125,15 +125,19 @@ func apply_bonus(bonus_name):
 		"size": 
 			start_timer(size_timer)
 			apply_size_bonus()
+			bonus_gain.emit(0)
 		"speed":
 			start_timer(speed_timer)
 			apply_speed_bonus()
+			bonus_gain.emit(1)
 		"shield":
 			start_timer(shield_timer)
 			apply_shield_bonus()
+			bonus_gain.emit(2)
 		"time":
 			start_timer(time_timer)
 			apply_time_bonus()
+			bonus_gain.emit(3)
 
 func start_timer(timer: Timer):
 	timer.start()
@@ -165,12 +169,12 @@ func apply_speed_bonus():
 	active_bonuses[Bonuses.speed] += 1
 	
 	last_active_bonus = Bonuses.speed
-	speed *= bonus_speed_scale
+	speed = bonus_speed_value
 	update_color()
 
 func reset_speed_bonus():
 	active_bonuses[Bonuses.speed] -= 1
-	speed = SPEED
+	speed = 100
 	update_color()
 	
 func apply_shield_bonus():
@@ -193,17 +197,12 @@ func apply_time_bonus():
 	active_bonuses[Bonuses.time] += 1
 	last_active_bonus = Bonuses.time
 	
-	for c in get_tree().get_nodes_in_group("characters"):
-		if c != self and "time_scale" in c:
-			c.time_scale = bonus_time_scale
+	Global.time_scale = bonus_time_scale
 	update_color()
 	
 func reset_time_bonus():
 	active_bonuses[Bonuses.time] -= 1
-	
-	for c in get_tree().get_nodes_in_group("characters"):
-		if c != self and "time_scale" in c:
-			c.time_scale = 1.0
+	Global.time_scale = 1.0
 	
 	update_color()
 

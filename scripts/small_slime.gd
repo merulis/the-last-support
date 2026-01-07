@@ -24,10 +24,6 @@ enum SlimeState {
 var player: Player = null
 var state: SlimeState = SlimeState.idle
 var direction: Vector2 = Vector2.ZERO
-var time_scale: float = 1.0:
-	set(value):
-		time_scale = value
-		animation_player.speed_scale = value
 var sleeping = true
 
 ################################################################################
@@ -67,7 +63,7 @@ func jump_state(delta: float) -> void:
 	animation_tree.play_animation("jump")
 	
 	direction = global_position.direction_to(player.global_position).normalized()
-	velocity = direction * speed * time_scale
+	velocity = direction * speed * Global.time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()
