@@ -26,10 +26,6 @@ enum BomberState {
 
 var target: CharacterBody2D = null
 var state: BomberState = BomberState.idle
-var time_scale: float = 1.0:
-	set(value):
-		time_scale = value
-		animation_player.speed_scale = value
 
 ################################################################################
 
@@ -72,7 +68,7 @@ func run_state(delta: float) -> void:
 		
 	animation_tree.play_animation("run")
 	
-	velocity = global_position.direction_to(target.global_position).normalized() * speed * time_scale
+	velocity = global_position.direction_to(target.global_position).normalized() * speed * Global.time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()

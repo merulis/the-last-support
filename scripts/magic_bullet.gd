@@ -14,7 +14,6 @@ extends Node2D
 
 var direction	: Vector2
 var pushed: bool = false
-var time_scale: float = 1.0
 
 ################################################################################
 
@@ -30,7 +29,7 @@ func _ready() -> void:
 ################################################################################
 
 func _process(delta):
-	position += direction * speed * time_scale * delta
+	position += direction * speed * Global.time_scale * delta
 
 ################################################################################
 

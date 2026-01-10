@@ -16,12 +16,15 @@ class_name Player extends CharacterBody2D
 
 @export var bonus_duration: float = 10.0
 @export var bonus_size_scale: float = 1.7
-@export var bonus_speed_scale: float = 3.0
+@export var bonus_speed_value: float = 150
 @export var bonus_time_scale: float = 0.5
 
-@export var SPEED: float = 100
+var default_speed: float = 100
+var speed: float = default_speed
+var mob_web
 
 signal dead()
+signal bonus_gain(id: int)
 
 enum PlayerState {
 	idle,
@@ -44,22 +47,18 @@ const BONUS_COLORS := {
 	Bonuses.shield: Color(0.75, 0.78, 0.82),
 }
 
-var active_bonuses: Dictionary[Bonuses, int] = {
-	Bonuses.size: 0,
-	Bonuses.speed: 0,
-	Bonuses.time: 0,
-	Bonuses.shield: 0,
-}
-
-var last_active_bonus: Bonuses
-
 var input_vector: = Vector2.ZERO
 var last_input_vector: = Vector2.LEFT
 
 var state: PlayerState = PlayerState.idle
-var speed: float = SPEED
-var time_multiplier: float = 1.0
-var base_color: Color = Color(1.0, 1.0, 1.0, 1.0)
+
+################################################################################
+
+func _ready():
+	if is_mobile_web():
+		var events = InputMap.action_get_events("attack")
+		for e in events:
+			InputMap.action_erase_event("attack", e)
 
 ################################################################################
 
@@ -125,91 +124,56 @@ func apply_bonus(bonus_name):
 	match bonus_name:
 		"size": 
 			apply_size_bonus()
+			bonus_gain.emit(0)
 		"speed":
 			apply_speed_bonus()
+			bonus_gain.emit(1)
 		"shield":
 			apply_shield_bonus()
+			bonus_gain.emit(2)
 		"time":
 			apply_time_bonus()
+			bonus_gain.emit(3)
 	
 	start_timer(color_timer)
-	update_color()
 
 func start_timer(timer: Timer):
 	timer.start()
 
-func update_color():
-	if last_active_bonus == null:
-		return
-	if active_bonuses[last_active_bonus] > 0:
-		modulate = BONUS_COLORS[last_active_bonus]
-	else:
-		modulate = base_color
-
 func apply_size_bonus():
-	if active_bonuses[Bonuses.size] > 0:
-		reset_time_bonus()
-	active_bonuses[Bonuses.size] += 1
-	last_active_bonus = Bonuses.size
-	scale *= bonus_size_scale
+	scale = Vector2(bonus_size_scale, bonus_size_scale)
+	modulate = BONUS_COLORS[Bonuses.size]
 	
 	start_timer(size_timer)
 
 func reset_size_bonus():
-	active_bonuses[Bonuses.size] -= 1
 	scale = Vector2(1,1)
-	update_color()
 
 func apply_speed_bonus():
-	if active_bonuses[Bonuses.speed] > 0:
-		reset_time_bonus()
-	active_bonuses[Bonuses.speed] += 1
-	
-	last_active_bonus = Bonuses.speed
-	speed *= bonus_speed_scale
-	
+	speed = bonus_speed_value
+	modulate = BONUS_COLORS[Bonuses.speed]
 	start_timer(speed_timer)
 
 func reset_speed_bonus():
-	active_bonuses[Bonuses.speed] -= 1
-	speed = SPEED
-	update_color()
+	speed = 100
 
 func apply_shield_bonus():
-	if active_bonuses[Bonuses.shield] > 0:
-		reset_time_bonus()
-	active_bonuses[Bonuses.shield] += 1
-	last_active_bonus = Bonuses.shield
 	hurtbox_area.monitoring = false
+	modulate = BONUS_COLORS[Bonuses.shield]
 	
 	start_timer(shield_timer)
 
 func reset_shield_bonus():
-	active_bonuses[Bonuses.shield] -= 1
 	hurtbox_area.monitoring = true
-	update_color()
 
 func apply_time_bonus():
-	if active_bonuses[Bonuses.time] > 0:
-		reset_time_bonus()
-	
-	active_bonuses[Bonuses.time] += 1
-	last_active_bonus = Bonuses.time
-	
-	for c in get_tree().get_nodes_in_group("characters"):
-		if c != self and "time_scale" in c:
-			c.time_scale = bonus_time_scale
+	Global.time_scale = bonus_time_scale
+	modulate = BONUS_COLORS[Bonuses.time]
 	
 	start_timer(time_timer)
 	
 func reset_time_bonus():
-	active_bonuses[Bonuses.time] -= 1
-	
-	for c in get_tree().get_nodes_in_group("characters"):
-		if c != self and "time_scale" in c:
-			c.time_scale = 1.0
-			
-	update_color()
+	Global.time_scale = 1.0
 
 func _on_size_timer_timeout() -> void:
 	reset_size_bonus()
@@ -224,7 +188,7 @@ func _on_time_timer_timeout() -> void:
 	reset_time_bonus()
 	
 func _on_color_timer_timeout() -> void:
-	update_color()
+	modulate = Color.WHITE
 
 ################################################################################
 
@@ -247,3 +211,6 @@ func _on_hurt_area_entered(area: Area2D) -> void:
 func _on_pickup_area_entered(area: Area2D) -> void:
 	if area is BonusArea:
 		apply_bonus(area.bonus_type)
+
+func is_mobile_web() -> bool:
+	return OS.has_feature("web_android") or OS.has_feature("web_ios")

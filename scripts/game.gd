@@ -27,6 +27,12 @@ extends Node2D
 @onready var player_name_edit = $EndScreen/SaveResult/PanelContainer/MarginContainer/VBoxContainer2/LineEdit
 @onready var cannot_load_label = $EndScreen/Leaderboard/PanelContainer/MarginContainer/VBoxContainer2/LeaderboardLabel
 
+@onready var bonus_container = $HUD/Control5/MarginContainer/BonusHBoxContainer
+
+@onready var joystick = $CanvasLayer/Touch
+@onready var attack_button = $CanvasLayer/TouchScreenButton
+@onready var mobile_input_layer = $CanvasLayer
+
 ################################################################################
 
 @export var min_spawn_time := 1.0
@@ -54,6 +60,7 @@ extends Node2D
 @export var unmute_icon: Resource
 
 @export var leaderboard_label: Resource
+@export var bonus_icon_scene: Resource
 
 var score: int = 0:
 	set(value):
@@ -78,6 +85,15 @@ func _ready():
 	_on_bonus_spawn_timer_timeout()
 	regex.compile("^[A-Za-z]*$") # только латинские буквы
 	load_leaderboard()
+	
+	if is_mobile_web():
+		joystick.process_mode = Node.PROCESS_MODE_INHERIT
+		attack_button.process_mode = Node.PROCESS_MODE_INHERIT
+		mobile_input_layer.show()
+	else:
+		joystick.process_mode = Node.PROCESS_MODE_DISABLED
+		attack_button.process_mode = Node.PROCESS_MODE_DISABLED
+		mobile_input_layer.hide()
 
 ################################################################################
 
@@ -486,6 +502,8 @@ func _on_send_button_pressed():
 	end_primary_screen.show()
 	end_send_screen.hide()
 
+################################################################################
+
 func _on_h_slider_value_changed(value: float) -> void:
 	var bus = AudioServer.get_bus_index("Master")
 
@@ -495,6 +513,21 @@ func _on_h_slider_value_changed(value: float) -> void:
 		AudioServer.set_bus_mute(bus, false)
 		AudioServer.set_bus_volume_db(bus, linear_to_db(value))
 
+################################################################################
 
 func _on_audio_stream_player_2d_finished():
 	music_player.play()
+
+################################################################################
+
+func _on_player_bonus_gain(id):
+	for child in bonus_container.get_children():
+		if child.get_icon_id() == id:
+			child.queue_free()
+
+	var icon = bonus_icon_scene.instantiate()
+	icon.set_icon(id)
+	bonus_container.add_child(icon)
+	
+func is_mobile_web() -> bool:
+	return OS.has_feature("web_android") or OS.has_feature("web_ios")

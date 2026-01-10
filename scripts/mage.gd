@@ -26,10 +26,6 @@ enum MageState {
 
 var player: Player = null
 var state: MageState = MageState.idle
-var time_scale: float = 1.0:
-	set(value):
-		time_scale = value
-		animation_player.speed_scale = value
 var can_spawn: bool = true
 
 ################################################################################
@@ -74,7 +70,7 @@ func run_state(delta: float) -> void:
 		
 	animation_tree.play_animation("run")
 	
-	velocity = global_position.direction_to(player.global_position).normalized() * speed * time_scale
+	velocity = global_position.direction_to(player.global_position).normalized() * speed * Global.time_scale
 	animation_tree.blend_position = velocity.normalized().x
 
 	move_and_slide()

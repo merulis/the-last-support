@@ -22,10 +22,6 @@ enum BarrelState {
 var player: Player = null
 var state: BarrelState = BarrelState.stand
 var direction: Vector2 = Vector2.ZERO
-var time_scale: float = 1.0:
-	set(value):
-		time_scale = value
-		animation_player.speed_scale = value
 
 ################################################################################
 
@@ -46,7 +42,7 @@ func rolling_state(delta: float) -> void:
 		rolling_audio_player.play()
 	animation_tree.play_animation("rolling")
 	
-	velocity = direction * speed * time_scale
+	velocity = direction * speed * Global.time_scale
 	move_and_slide()
 
 ################################################################################

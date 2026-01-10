@@ -25,10 +25,6 @@ enum BombState {
 var player: Player = null
 var state: BombState = BombState.fuse
 var direction: Vector2 = Vector2.ZERO
-var time_scale: float = 1.0:
-	set(value):
-		time_scale = value
-		animation_player.speed_scale = value
 
 ################################################################################
 
@@ -47,7 +43,7 @@ func fuse_state(_delta: float) -> void:
 
 func pushed_state(delta: float) -> void:
 	animation_tree.play_animation("pushed")
-	velocity = direction * speed * time_scale
+	velocity = direction * speed * Global.time_scale
 	move_and_slide()
 
 ################################################################################
