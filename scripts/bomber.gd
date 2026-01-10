@@ -57,7 +57,7 @@ func idle_state(_delta: float) -> void:
 	
 ################################################################################
 
-func run_state(delta: float) -> void:
+func run_state(_delta: float) -> void:
 	if not target:
 		state = BomberState.idle
 		return

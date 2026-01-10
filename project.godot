@@ -27,7 +27,6 @@ window/size/window_width_override=1344
 window/size/window_height_override=576
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-window/vsync/vsync_mode=3
 
 [global_group]
 

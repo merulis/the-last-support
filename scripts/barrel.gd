@@ -37,7 +37,7 @@ func stand_state(_delta: float) -> void:
 
 ################################################################################
 
-func rolling_state(delta: float) -> void:
+func rolling_state(_delta: float) -> void:
 	if not rolling_audio_player.playing:
 		rolling_audio_player.play()
 	animation_tree.play_animation("rolling")

@@ -41,7 +41,7 @@ func fuse_state(_delta: float) -> void:
 
 ################################################################################
 
-func pushed_state(delta: float) -> void:
+func pushed_state(_delta: float) -> void:
 	animation_tree.play_animation("pushed")
 	velocity = direction * speed * Global.time_scale
 	move_and_slide()

@@ -16,6 +16,10 @@ func _ready() -> void:
 
 
 func _on_joystick_spawner_pressed() -> void:
+	var childrens = get_children()
+	for c in childrens:
+		if c is Joystick:
+			c.queue_free()
 	var joy = joystick_instance.instantiate()
 	joy.position = get_global_mouse_position()
 	add_child(joy)

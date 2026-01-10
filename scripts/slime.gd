@@ -45,7 +45,7 @@ func idle_state(_delta: float) -> void:
 
 ################################################################################
 
-func jump_state(delta: float) -> void:
+func jump_state(_delta: float) -> void:
 	if not player:
 		state = SlimeState.idle
 		return

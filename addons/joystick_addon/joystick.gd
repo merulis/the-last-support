@@ -1,4 +1,6 @@
+class_name Joystick
 extends Node2D
+
 
 @onready var touch:TouchScreenButton = %TouchBtn
 @onready var init_pos:Marker2D = %InitPos
